@@ -38,6 +38,13 @@ class Catalog {
     return flat[index + 1];
   }
 
+  Track? trackById(String id) {
+    for (final track in tracks) {
+      if (track.id == id) return track;
+    }
+    return null;
+  }
+
   LessonRef? byMarkdownBasename(String href) {
     final clean = href.split('?').first.split('#').first;
     if (!clean.endsWith('.md')) return null;
@@ -103,6 +110,14 @@ class Track {
   final List<LessonRef> lessons;
 
   bool get isReady => status == 'ready';
+
+  /// Подпись для списка маршрутов: трек может быть написан частично.
+  String get lessonStatusLabel {
+    final ready = lessons.where((lesson) => lesson.isReady).length;
+    if (ready == 0) return 'TODO';
+    if (ready == lessons.length) return 'написан';
+    return 'частично';
+  }
 
   int studiedCount(Set<String> studied) =>
       lessons.where((lesson) => studied.contains(lesson.id)).length;

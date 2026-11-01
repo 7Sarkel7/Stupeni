@@ -29,6 +29,7 @@ class HomeScreen extends StatelessWidget {
         .where((lesson) => !lesson.isReady && studied.contains(lesson.id))
         .length;
     final start = catalog.lessonById(catalog.recommendedStart);
+    final career = catalog.trackById('career');
     final theme = Theme.of(context);
 
     return Scaffold(
@@ -46,7 +47,8 @@ class HomeScreen extends StatelessWidget {
         padding: const EdgeInsets.fromLTRB(20, 8, 20, 32),
         children: [
           Text(
-            'Пульт, прошивка и облако станца. Сначала локальный HTTP, потом всё остальное.',
+            'Пульт, прошивка и облако станца — основной маршрут. '
+            'Карьерный трек отдельно: он про найм и стартует после модулей 01–03.',
             style: theme.textTheme.bodyLarge,
           ),
           const SizedBox(height: 16),
@@ -75,6 +77,30 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
             ),
+          if (career != null) ...[
+            const SizedBox(height: 12),
+            Card(
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('К найму', style: theme.textTheme.titleMedium),
+                    const SizedBox(height: 4),
+                    Text(career.title, style: theme.textTheme.titleLarge),
+                    const SizedBox(height: 4),
+                    Text(career.summary, style: theme.textTheme.bodyMedium),
+                    const SizedBox(height: 12),
+                    FilledButton.tonal(
+                      key: const Key('open-career'),
+                      onPressed: () => onOpenTrack(career),
+                      child: const Text('Открыть карьерный трек'),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
           const SizedBox(height: 12),
           Text(
             'Готовые уроки: $readyDone из ${catalog.readyTotal}',
@@ -120,7 +146,7 @@ class _TrackTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final ready = track.isReady;
+    final hasLessons = track.lessons.any((lesson) => lesson.isReady);
     return Card(
       clipBehavior: Clip.antiAlias,
       child: InkWell(
@@ -131,7 +157,7 @@ class _TrackTile extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               CircleAvatar(
-                backgroundColor: ready
+                backgroundColor: hasLessons
                     ? theme.colorScheme.primaryContainer
                     : theme.colorScheme.surfaceContainerHighest,
                 foregroundColor: theme.colorScheme.onPrimaryContainer,
@@ -150,7 +176,7 @@ class _TrackTile extends StatelessWidget {
                             style: theme.textTheme.titleMedium,
                           ),
                         ),
-                        _StatusChip(ready: ready),
+                        _StatusChip(label: track.lessonStatusLabel),
                       ],
                     ),
                     Text(track.subtitle, style: theme.textTheme.bodyMedium),
@@ -170,9 +196,9 @@ class _TrackTile extends StatelessWidget {
 }
 
 class _StatusChip extends StatelessWidget {
-  const _StatusChip({required this.ready});
+  const _StatusChip({required this.label});
 
-  final bool ready;
+  final String label;
 
   @override
   Widget build(BuildContext context) {
@@ -182,7 +208,7 @@ class _StatusChip extends StatelessWidget {
         borderRadius: BorderRadius.circular(999),
         color: Theme.of(context).colorScheme.surfaceContainerHighest,
       ),
-      child: Text(ready ? 'написан' : 'TODO'),
+      child: Text(label),
     );
   }
 }
