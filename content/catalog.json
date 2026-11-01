@@ -1,0 +1,308 @@
+{
+  "title": "Ступени",
+  "recommendedStart": "fund-git",
+  "tracks": [
+    {
+      "id": "fundamentals",
+      "order": 1,
+      "title": "Фундамент",
+      "subtitle": "Git, HTTP, JSON, отладка",
+      "status": "ready",
+      "summary": "Общий язык пульта и прошивки. Без этого станц отлаживают наугад.",
+      "lessons": [
+        {
+          "id": "fund-git",
+          "title": "Git, который переживает вечер",
+          "minutes": 25,
+          "status": "ready",
+          "path": "01-fundamentals/01-git.md",
+          "quiz": "01-fundamentals/01-git.quiz.json"
+        },
+        {
+          "id": "fund-http",
+          "title": "HTTP без тумана",
+          "minutes": 30,
+          "status": "ready",
+          "path": "01-fundamentals/02-http.md",
+          "quiz": "01-fundamentals/02-http.quiz.json"
+        },
+        {
+          "id": "fund-json",
+          "title": "JSON и текст, который JSON не является",
+          "minutes": 25,
+          "status": "ready",
+          "path": "01-fundamentals/03-json.md",
+          "quiz": "01-fundamentals/03-json.quiz.json"
+        },
+        {
+          "id": "fund-debug",
+          "title": "Отладка слоями",
+          "minutes": 25,
+          "status": "ready",
+          "path": "01-fundamentals/04-debug.md",
+          "quiz": "01-fundamentals/04-debug.quiz.json"
+        }
+      ]
+    },
+    {
+      "id": "kotlin-android",
+      "order": 2,
+      "title": "Kotlin и Android",
+      "subtitle": "Пульт станца",
+      "status": "ready",
+      "summary": "Ping, одна команда показа, понятная ошибка. Сеть не на UI-потоке.",
+      "lessons": [
+        {
+          "id": "and-coroutines",
+          "title": "Поток, корутины и Result",
+          "minutes": 30,
+          "status": "ready",
+          "path": "02-kotlin-android/01-coroutines.md",
+          "quiz": "02-kotlin-android/01-coroutines.quiz.json"
+        },
+        {
+          "id": "and-okhttp",
+          "title": "OkHttp, таймауты и cleartext",
+          "minutes": 30,
+          "status": "ready",
+          "path": "02-kotlin-android/02-okhttp.md",
+          "quiz": "02-kotlin-android/02-okhttp.quiz.json"
+        },
+        {
+          "id": "and-display",
+          "title": "Одна команда: показать файл",
+          "minutes": 30,
+          "status": "ready",
+          "path": "02-kotlin-android/03-display.md",
+          "quiz": "02-kotlin-android/03-display.quiz.json"
+        },
+        {
+          "id": "and-state",
+          "title": "Состояние пульта и ошибка человеку",
+          "minutes": 25,
+          "status": "ready",
+          "path": "02-kotlin-android/04-state.md",
+          "quiz": "02-kotlin-android/04-state.quiz.json"
+        }
+      ]
+    },
+    {
+      "id": "cpp-esp32",
+      "order": 3,
+      "title": "C++ и ESP32",
+      "subtitle": "Прошивка станца",
+      "status": "ready",
+      "summary": "loop, локальный HTTP, слой stationDo и порядок транспортов Поле.",
+      "lessons": [
+        {
+          "id": "esp-loop",
+          "title": "setup, loop и кооперация",
+          "minutes": 30,
+          "status": "ready",
+          "path": "03-cpp-esp32/01-setup-loop.md",
+          "quiz": "03-cpp-esp32/01-setup-loop.quiz.json"
+        },
+        {
+          "id": "esp-http",
+          "title": "Плата как сайт",
+          "minutes": 30,
+          "status": "ready",
+          "path": "03-cpp-esp32/02-webserver.md",
+          "quiz": "03-cpp-esp32/02-webserver.quiz.json"
+        },
+        {
+          "id": "esp-actions",
+          "title": "Слой stationDo",
+          "minutes": 35,
+          "status": "ready",
+          "path": "03-cpp-esp32/03-api-actions.md",
+          "quiz": "03-cpp-esp32/03-api-actions.quiz.json"
+        },
+        {
+          "id": "esp-ladder",
+          "title": "Лестница транспортов",
+          "minutes": 45,
+          "status": "ready",
+          "path": "03-cpp-esp32/04-ladder.md",
+          "quiz": "03-cpp-esp32/04-ladder.quiz.json"
+        }
+      ]
+    },
+    {
+      "id": "backend",
+      "order": 4,
+      "title": "Backend",
+      "subtitle": "Python и FastAPI",
+      "status": "todo",
+      "summary": "Исходящий WSS, реле команд, голос как перевод в белый список. Конспекты.",
+      "lessons": [
+        {
+          "id": "be-outbound",
+          "title": "Почему станц сам звонит наружу",
+          "minutes": 20,
+          "status": "todo",
+          "path": "04-backend-fastapi/01-outbound.md",
+          "quiz": null
+        },
+        {
+          "id": "be-relay",
+          "title": "Реле, JWT и ack",
+          "minutes": 25,
+          "status": "todo",
+          "path": "04-backend-fastapi/02-relay.md",
+          "quiz": null
+        },
+        {
+          "id": "be-voice",
+          "title": "Голос: текст в белый список",
+          "minutes": 20,
+          "status": "todo",
+          "path": "04-backend-fastapi/03-voice.md",
+          "quiz": null
+        }
+      ]
+    },
+    {
+      "id": "flutter",
+      "order": 5,
+      "title": "Flutter и Dart",
+      "subtitle": "Второй клиент, не замена пульта",
+      "status": "todo",
+      "summary": "Язык рядом с Kotlin и разбор этого приложения. Конспекты.",
+      "lessons": [
+        {
+          "id": "fl-dart",
+          "title": "Dart, если вы уже пишете Kotlin",
+          "minutes": 25,
+          "status": "todo",
+          "path": "05-flutter-dart/01-dart.md",
+          "quiz": null
+        },
+        {
+          "id": "fl-widgets",
+          "title": "Виджеты и состояние без лишней архитектуры",
+          "minutes": 25,
+          "status": "todo",
+          "path": "05-flutter-dart/02-widgets.md",
+          "quiz": null
+        },
+        {
+          "id": "fl-app",
+          "title": "Как устроено приложение «Ступени»",
+          "minutes": 20,
+          "status": "todo",
+          "path": "05-flutter-dart/03-this-app.md",
+          "quiz": null
+        }
+      ]
+    },
+    {
+      "id": "shipping",
+      "order": 6,
+      "title": "Как довозить",
+      "subtitle": "Объём и короткие вечера",
+      "status": "todo",
+      "summary": "Один жест за вечер, записка себе, когда не открывать облако. Конспекты.",
+      "lessons": [
+        {
+          "id": "ship-scope",
+          "title": "Резать объём",
+          "minutes": 15,
+          "status": "todo",
+          "path": "06-soft-skills/01-scope.md",
+          "quiz": null
+        },
+        {
+          "id": "ship-evenings",
+          "title": "Вечер после площадки",
+          "minutes": 15,
+          "status": "todo",
+          "path": "06-soft-skills/02-evenings.md",
+          "quiz": null
+        },
+        {
+          "id": "ship-stop",
+          "title": "Когда не лезть в облако",
+          "minutes": 15,
+          "status": "todo",
+          "path": "06-soft-skills/03-stop.md",
+          "quiz": null
+        }
+      ]
+    },
+    {
+      "id": "pgs",
+      "order": 7,
+      "title": "ПГС",
+      "subtitle": "Стройка отдельно от прошивки",
+      "status": "todo",
+      "summary": "Промышленное и гражданское строительство разговорным языком. Не замена нормам. Конспекты.",
+      "lessons": [
+        {
+          "id": "pgs-what",
+          "title": "ПГС — не только нарисовать дом",
+          "minutes": 15,
+          "status": "todo",
+          "path": "07-pgs/01-chto-takoe.md",
+          "quiz": null
+        },
+        {
+          "id": "pgs-concrete",
+          "title": "Бетон: смесь и арматура",
+          "minutes": 20,
+          "status": "todo",
+          "path": "07-pgs/02-beton.md",
+          "quiz": null
+        },
+        {
+          "id": "pgs-frame",
+          "title": "Каркас",
+          "minutes": 20,
+          "status": "todo",
+          "path": "07-pgs/03-karkas.md",
+          "quiz": null
+        },
+        {
+          "id": "pgs-soil",
+          "title": "Грунт и фундамент",
+          "minutes": 20,
+          "status": "todo",
+          "path": "07-pgs/04-grunt.md",
+          "quiz": null
+        },
+        {
+          "id": "pgs-stages",
+          "title": "Как растёт дом",
+          "minutes": 15,
+          "status": "todo",
+          "path": "07-pgs/05-etapy.md",
+          "quiz": null
+        },
+        {
+          "id": "pgs-drawing",
+          "title": "Чертёж как письмо на площадку",
+          "minutes": 20,
+          "status": "todo",
+          "path": "07-pgs/06-chertezh.md",
+          "quiz": null
+        },
+        {
+          "id": "pgs-loads",
+          "title": "Что давит на здание",
+          "minutes": 20,
+          "status": "todo",
+          "path": "07-pgs/07-nagruzki.md",
+          "quiz": null
+        },
+        {
+          "id": "pgs-site",
+          "title": "Площадка и люди",
+          "minutes": 15,
+          "status": "todo",
+          "path": "07-pgs/08-ploshchadka.md",
+          "quiz": null
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+.DS_Store
+*.iml
+.idea/
+.vscode/
+
+# Сгенерированные ассеты приложения. Канон — /content.
+learner/assets/content/
+
+# Flutter / Dart
+learner/.dart_tool/
+learner/.flutter-plugins
+learner/.flutter-plugins-dependencies
+learner/.packages
+learner/build/
+learner/android/.gradle/
+learner/android/local.properties
+learner/android/captures/
+learner/android/key.properties
+learner/**/GeneratedPluginRegistrant.*
+learner/ios/Pods/
+learner/ios/.symlinks/
+learner/linux/flutter/ephemeral/
+learner/macos/Flutter/ephemeral/
+learner/windows/flutter/ephemeral/
