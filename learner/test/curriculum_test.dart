@@ -25,7 +25,7 @@ void main() {
       7,
       8,
     ]);
-    expect(catalog.readyTotal, 32);
+    expect(catalog.readyTotal, 42);
     expect(catalog.lessonById('fund-git'), isNotNull);
     final career = catalog.trackById('career');
     expect(career, isNotNull);
@@ -98,5 +98,34 @@ void main() {
     expect(specText.contains('## Рубрика для самопроверки'), isTrue);
     expect(specText.contains('M0.'), isTrue);
     expect(specText.contains('M4.'), isTrue);
+    expect(specText.contains('Jetpack Compose'), isTrue);
+    expect(specText.contains('Material 3'), isTrue);
+    expect(
+      specText.contains('https://developer.android.com/develop/ui/compose/bom'),
+      isTrue,
+    );
+
+    final pedagogy = File('${contentDir.path}/../PEDAGOGY.md').readAsStringSync();
+    expect(
+      pedagogy.contains(
+        'https://developer.android.com/develop/ui/compose/documentation',
+      ),
+      isTrue,
+    );
+    expect(
+      pedagogy.contains(
+        'https://developer.android.com/develop/ui/compose/designsystems/material3',
+      ),
+      isTrue,
+    );
+
+    final composeSkeleton = File(
+      '${contentDir.path}/02-kotlin-android/homework/RemoteSkeleton.kt',
+    );
+    final skeletonText = composeSkeleton.readAsStringSync();
+    expect(skeletonText.contains('TODO('), isTrue);
+    expect(skeletonText.contains('NavDisplay'), isFalse);
+    expect(skeletonText.contains('collectAsStateWithLifecycle'), isFalse);
+    expect(skeletonText.contains('compose-bom:20'), isFalse);
   });
 }

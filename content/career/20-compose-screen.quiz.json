@@ -1,0 +1,53 @@
+{
+  "lessonId": "career-compose",
+  "questions": [
+    {
+      "id": "career-compose-1",
+      "prompt": "Какой UI у экрана DeskNode на уровне J?",
+      "options": [
+        "Один экран Jetpack Compose и Material 3, снимок во ViewModel",
+        "Обязательный XML и фрагмент",
+        "Flutter вместо Android",
+        "Compose Multiplatform как замена треку"
+      ],
+      "correctIndex": 0,
+      "explanation": "Новый экран лампы совпадает с пультом модуля 02. Второй маршрут капстоуну не нужен."
+    },
+    {
+      "id": "career-compose-2",
+      "prompt": "Как кадр подписан на снимок?",
+      "options": [
+        "collectAsStateWithLifecycle на корне, вниз уходят снимок и лямбды",
+        "ViewModel передаётся в каждую кнопку",
+        "Composable вызывает OkHttp при каждой перерисовке",
+        "Снимок лежит только в поле Activity"
+      ],
+      "correctIndex": 0,
+      "explanation": "Сбор смотрит на жизненный цикл. Листья экрана остаются функциями от данных."
+    },
+    {
+      "id": "career-compose-3",
+      "prompt": "Когда в резюме пишут Jetpack Compose?",
+      "options": [
+        "Когда свой экран открывается и вы показываете снимок, сбор потока и честный объём тестов",
+        "Сразу после чтения этого урока",
+        "Если в вакансии есть слово Compose, даже без проекта",
+        "Вместе с коммерческим стажем, которого не было"
+      ],
+      "correctIndex": 0,
+      "explanation": "Навык совпадает с тем, что завтра откроется в IDE. Урок без репозитория в шапку не кладут."
+    },
+    {
+      "id": "career-compose-4",
+      "prompt": "Где Kotlin Multiplatform на этом пути?",
+      "options": [
+        "Необязательный модуль общей логики после готового Android-экрана",
+        "Замена капстоуну",
+        "Обязательная строка junior",
+        "Способ не писать прошивку"
+      ],
+      "correctIndex": 0,
+      "explanation": "Общий reduce имеет смысл, когда Android-клиент уже есть. UI лампы остаётся на Android."
+    }
+  ]
+}

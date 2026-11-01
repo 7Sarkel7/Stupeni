@@ -1,0 +1,53 @@
+{
+  "lessonId": "and-vm-compose",
+  "questions": [
+    {
+      "id": "and-vm-compose-1",
+      "prompt": "Как экран получает снимок ViewModel?",
+      "options": [
+        "state.collectAsStateWithLifecycle()",
+        "Читает приватный MutableStateFlow напрямую из строки списка",
+        "Вызывает ping() в теле composable",
+        "Копирует поля в XML"
+      ],
+      "correctIndex": 0,
+      "explanation": "Сбор привязан к жизненному циклу: пока экран не STARTED, поток кадра не крутится."
+    },
+    {
+      "id": "and-vm-compose-2",
+      "prompt": "Куда передают экземпляр ViewModel?",
+      "options": [
+        "В корень маршрута, а вниз — снимок и лямбды",
+        "В каждую строку LazyColumn",
+        "В @Preview",
+        "В ключ навигации"
+      ],
+      "correctIndex": 0,
+      "explanation": "Строка и превью остаются функциями от данных. ViewModel им не нужна."
+    },
+    {
+      "id": "and-vm-compose-3",
+      "prompt": "Повторный onPing, пока фаза уже загрузка. Что делает ViewModel?",
+      "options": [
+        "Не открывает второй запрос",
+        "Запускает ещё один viewModelScope на каждый тап",
+        "Сбрасывает хост на диске",
+        "Пишет stack trace в Text"
+      ],
+      "correctIndex": 0,
+      "explanation": "Таблица та же, что у чистого reduce: загрузка поглощает лишний жест."
+    },
+    {
+      "id": "and-vm-compose-4",
+      "prompt": "Почему номер lifecycle-viewmodel-compose не берут «как у material3»?",
+      "options": [
+        "Эти артефакты не входят в Compose BOM, у них свои релизы",
+        "У них запрещена любая версия",
+        "Их заменяет плагин Kotlin",
+        "Их версию фиксирует ESP32"
+      ],
+      "correctIndex": 0,
+      "explanation": "BOM выравнивает библиотеки Compose UI. Lifecycle и Activity смотрят в свои страницы релизов."
+    }
+  ]
+}

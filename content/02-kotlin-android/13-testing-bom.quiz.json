@@ -1,0 +1,53 @@
+{
+  "lessonId": "and-compose-test",
+  "questions": [
+    {
+      "id": "and-compose-test-1",
+      "prompt": "Откуда берут номер Compose BOM?",
+      "options": [
+        "Со страницы документации BOM в день, когда правите проект",
+        "Из этого урока, там записан вечный номер",
+        "Из любой статьи без даты",
+        "С прошивки, поле fw"
+      ],
+      "correctIndex": 0,
+      "explanation": "Урок сознательно не фиксирует номер. Страница BOM — источник согласованного набора."
+    },
+    {
+      "id": "and-compose-test-2",
+      "prompt": "Что делает строка platform(compose-bom) сама по себе?",
+      "options": [
+        "Задаёт версии тем библиотекам Compose, которые вы указали отдельно",
+        "Кладёт в APK все библиотеки Compose, даже не указанные",
+        "Обновляет прошивку станца",
+        "Заменяет плагин Kotlin"
+      ],
+      "correctIndex": 0,
+      "explanation": "BOM выравнивает версии. Каждую библиотеку всё равно объявляют своей строкой, уже без номера."
+    },
+    {
+      "id": "and-compose-test-3",
+      "prompt": "Каким правилом поднимают кадр без своей Activity?",
+      "options": [
+        "createComposeRule и setContent со снимком",
+        "Только глазами у станца",
+        "JVM-тест редьюсера, он видит пиксели",
+        "curl /v1/reading"
+      ],
+      "correctIndex": 0,
+      "explanation": "createComposeRule строит композицию в androidTest. Чистая функция фразы остаётся отдельным тестом без устройства."
+    },
+    {
+      "id": "and-compose-test-4",
+      "prompt": "Где лежит компилятор Compose в новом проекте на Kotlin 2?",
+      "options": [
+        "В плагине org.jetbrains.kotlin.plugin.compose той же версии, что Kotlin",
+        "В отдельном артефакте, который копируют со старых статей",
+        "Внутри BOM как material3",
+        "На ESP32"
+      ],
+      "correctIndex": 0,
+      "explanation": "С Kotlin 2 компилятор Compose идёт плагином Kotlin. Старый отдельный pin в новый пульт не тащат."
+    }
+  ]
+}

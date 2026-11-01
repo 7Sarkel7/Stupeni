@@ -3,7 +3,7 @@
 **Модуль:** 02. Kotlin и Android  
 **Уровень:** к станцу, до карьерного трека  
 **Время:** один вечер, около 70 минут  
-**Дальше:** [setup, loop и кооперация](../03-cpp-esp32/01-setup-loop.md)
+**Дальше:** [Composable: экран пульта](06-composables.md)
 
 ## Цель
 
@@ -81,4 +81,4 @@ fun describePing(code: Int?, body: String?, networkFailed: Boolean): String
 
 ## Следующий урок
 
-[setup, loop и кооперация](../03-cpp-esp32/01-setup-loop.md).
+Экран пульта: [Composable](06-composables.md). Прошивку, если плата уже ждёт, можно открыть параллельно: [setup, loop и кооперация](../03-cpp-esp32/01-setup-loop.md).

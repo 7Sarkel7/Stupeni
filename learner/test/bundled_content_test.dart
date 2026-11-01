@@ -17,7 +17,7 @@ void main() {
     final raw = await rootBundle.loadString('assets/content/catalog.json');
     final catalog = Catalog.parse(raw);
     expect(catalog.tracks, hasLength(8));
-    expect(catalog.readyTotal, 32);
+    expect(catalog.readyTotal, 42);
 
     await tester.pumpWidget(
       StupeniApp(
@@ -40,11 +40,12 @@ void main() {
     expect(find.text('Фундамент'), findsOneWidget);
     await tester.scrollUntilVisible(find.text('частично'), 400);
     expect(find.text('частично'), findsOneWidget);
-    await tester.scrollUntilVisible(
-      find.byKey(const Key('start-lesson')),
-      -400,
-    );
-    await tester.tap(find.byKey(const Key('start-lesson')));
+    final startLesson = find.byKey(const Key('start-lesson'));
+    await tester.scrollUntilVisible(startLesson, -200);
+    // Длинный маршрут упирает кнопку в AppBar: сдвиг списка открывает её целиком.
+    await tester.drag(find.byType(ListView).first, const Offset(0, 160));
+    await tester.pumpAndSettle();
+    await tester.tap(startLesson);
     await tester.pumpAndSettle();
 
     expect(find.text('Git, который переживает вечер'), findsWidgets);

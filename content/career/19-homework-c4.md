@@ -5,7 +5,7 @@
 **Время:** неделя 7 карты  
 **Лаборатория:** ваш `FormatUptimeTest` без `@Disabled`  
 **Намёк:** [solutions/](solutions/README.md) — критериев, не готового PR и не готовых `assert`  
-**Дальше:** [Капстоун](13-capstone.md)
+**Дальше:** [Экран DeskNode на Compose](20-compose-screen.md)
 
 ## Цель
 
@@ -68,8 +68,8 @@ cd content/career/lab
 - [ ] `FormatUptimeTest` зелёный и не пропускается.
 - [ ] Черновики лежат у вас.
 - [ ] Рубрика без нулей.
-- [ ] Следующий шаг — M0 своего репозитория, не новый конспект.
+- [ ] Следующий шаг — урок про экран Compose, затем M0 своего репозитория.
 
 ## Следующий урок
 
-[Капстоун: взять SPEC и сделать](13-capstone.md).
+[Экран DeskNode на Compose](20-compose-screen.md), затем [капстоун](13-capstone.md).

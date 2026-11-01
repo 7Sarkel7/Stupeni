@@ -58,7 +58,7 @@
       "title": "Kotlin и Android",
       "subtitle": "Пульт станца",
       "status": "ready",
-      "summary": "Ping, одна команда показа, понятная ошибка. Сеть не на UI-потоке.",
+      "summary": "Ping, одна команда показа, понятная ошибка. Сеть не на UI-потоке. Экран пульта — Jetpack Compose и Material 3.",
       "lessons": [
         {
           "id": "and-coroutines",
@@ -99,6 +99,78 @@
           "status": "ready",
           "path": "02-kotlin-android/05-homework.md",
           "quiz": "02-kotlin-android/05-homework.quiz.json"
+        },
+        {
+          "id": "and-compose",
+          "title": "Composable: экран пульта",
+          "minutes": 30,
+          "status": "ready",
+          "path": "02-kotlin-android/06-composables.md",
+          "quiz": "02-kotlin-android/06-composables.quiz.json"
+        },
+        {
+          "id": "and-remember",
+          "title": "Состояние: remember и подъём",
+          "minutes": 30,
+          "status": "ready",
+          "path": "02-kotlin-android/07-remember.md",
+          "quiz": "02-kotlin-android/07-remember.quiz.json"
+        },
+        {
+          "id": "and-effects",
+          "title": "Побочные эффекты",
+          "minutes": 25,
+          "status": "ready",
+          "path": "02-kotlin-android/08-effects.md",
+          "quiz": "02-kotlin-android/08-effects.quiz.json"
+        },
+        {
+          "id": "and-navigation",
+          "title": "Навигация Compose",
+          "minutes": 35,
+          "status": "ready",
+          "path": "02-kotlin-android/09-navigation.md",
+          "quiz": "02-kotlin-android/09-navigation.quiz.json"
+        },
+        {
+          "id": "and-vm-compose",
+          "title": "ViewModel и экран",
+          "minutes": 35,
+          "status": "ready",
+          "path": "02-kotlin-android/10-viewmodel-compose.md",
+          "quiz": "02-kotlin-android/10-viewmodel-compose.quiz.json"
+        },
+        {
+          "id": "and-lazy",
+          "title": "Список файлов: LazyColumn",
+          "minutes": 25,
+          "status": "ready",
+          "path": "02-kotlin-android/11-lazy-column.md",
+          "quiz": "02-kotlin-android/11-lazy-column.quiz.json"
+        },
+        {
+          "id": "and-m3",
+          "title": "Тема Material 3",
+          "minutes": 25,
+          "status": "ready",
+          "path": "02-kotlin-android/12-material3.md",
+          "quiz": "02-kotlin-android/12-material3.quiz.json"
+        },
+        {
+          "id": "and-compose-test",
+          "title": "Тест UI и BOM",
+          "minutes": 30,
+          "status": "ready",
+          "path": "02-kotlin-android/13-testing-bom.md",
+          "quiz": "02-kotlin-android/13-testing-bom.quiz.json"
+        },
+        {
+          "id": "and-compose-homework",
+          "title": "Самостоятельная: пульт на Compose",
+          "minutes": 90,
+          "status": "ready",
+          "path": "02-kotlin-android/14-homework-compose.md",
+          "quiz": "02-kotlin-android/14-homework-compose.quiz.json"
         }
       ]
     },
@@ -334,7 +406,7 @@
       "title": "Карьера: Android и IoT",
       "subtitle": "После модулей 01–03, к junior",
       "status": "todo",
-      "summary": "Отдельный трек к найму. Модули C1–C4 и капстоун написаны. C5–C6 — конспект. Коммерческий стаж в текстах не выдумывается.",
+      "summary": "Отдельный трек к найму. Модули C1–C4, экран Compose и капстоун написаны. C5–C6 — конспект. Коммерческий стаж в текстах не выдумывается.",
       "lessons": [
         {
           "id": "career-collections",
@@ -463,6 +535,14 @@
           "status": "ready",
           "path": "career/19-homework-c4.md",
           "quiz": "career/19-homework-c4.quiz.json"
+        },
+        {
+          "id": "career-compose",
+          "title": "Экран DeskNode на Compose",
+          "minutes": 30,
+          "status": "ready",
+          "path": "career/20-compose-screen.md",
+          "quiz": "career/20-compose-screen.quiz.json"
         },
         {
           "id": "career-capstone",
