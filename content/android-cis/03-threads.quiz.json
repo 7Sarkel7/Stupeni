@@ -1,0 +1,53 @@
+{
+  "lessonId": "cis-threads",
+  "questions": [
+    {
+      "id": "cis-threads-1",
+      "prompt": "Чем корутина отличается от потока операционной системы?",
+      "options": [
+        "Корутина всегда создаёт новый Thread",
+        "Корутина — приостанавливаемая работа на диспетчере, поток — ресурс системы",
+        "Поток можно отменить через viewModelScope, корутину нельзя",
+        "На главном потоке корутины запрещены компилятором"
+      ],
+      "correctIndex": 1,
+      "explanation": "Диспетчер решает, на каком пуле продолжится корутина. Сама по себе она поток не выделяет."
+    },
+    {
+      "id": "cis-threads-2",
+      "prompt": "Куда ставят сжатие JPEG?",
+      "options": [
+        "На Dispatchers.Main, чтобы пиксели совпали с кадром",
+        "На Dispatchers.Default",
+        "На Dispatchers.IO, потому что файл потом запишут",
+        "На Dispatchers.Unconfined"
+      ],
+      "correctIndex": 1,
+      "explanation": "Сжатие занимает процессор. IO берегут для ожидания диска и сети."
+    },
+    {
+      "id": "cis-threads-3",
+      "prompt": "Какая функция main-safe, её можно звать с главного потока?",
+      "options": [
+        "Блокирующий OkHttp Call.execute()",
+        "Suspend-вставка Room через DAO",
+        "File.readBytes() на мегабайтном журнале",
+        "Thread.sleep в onClick"
+      ],
+      "correctIndex": 1,
+      "explanation": "Официальные suspend API Room не блокируют главный поток. Ручной сокет и чтение файла — блокируют, их уводят на IO."
+    },
+    {
+      "id": "cis-threads-4",
+      "prompt": "Чем заменить паузу на главном потоке?",
+      "options": [
+        "Thread.sleep внутри корутины на Main",
+        "runBlocking в onClick",
+        "delay в корутине",
+        "while с пустым телом до нужного времени"
+      ],
+      "correctIndex": 2,
+      "explanation": "delay приостанавливает корутину и отпускает поток. sleep и runBlocking держат тот поток, на котором их вызвали."
+    }
+  ]
+}

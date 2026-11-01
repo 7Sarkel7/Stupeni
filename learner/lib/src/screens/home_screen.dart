@@ -30,6 +30,7 @@ class HomeScreen extends StatelessWidget {
         .length;
     final start = catalog.lessonById(catalog.recommendedStart);
     final career = catalog.trackById('career');
+    final androidCis = catalog.trackById('android-cis');
     final theme = Theme.of(context);
 
     return Scaffold(
@@ -48,7 +49,8 @@ class HomeScreen extends StatelessWidget {
         children: [
           Text(
             'Пульт, прошивка и облако станца — основной маршрут. '
-            'Карьерный трек отдельно: он про найм и стартует после модулей 01–03.',
+            'Карьерный трек отдельно: он про найм и стартует после модулей 01–03. '
+            'Стек найма Android для СНГ идёт после уроков Compose и не заменяет лампу DeskNode.',
             style: theme.textTheme.bodyLarge,
           ),
           const SizedBox(height: 16),
@@ -95,6 +97,30 @@ class HomeScreen extends StatelessWidget {
                       key: const Key('open-career'),
                       onPressed: () => onOpenTrack(career),
                       child: const Text('Открыть карьерный трек'),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+          if (androidCis != null) ...[
+            const SizedBox(height: 12),
+            Card(
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('После Compose', style: theme.textTheme.titleMedium),
+                    const SizedBox(height: 4),
+                    Text(androidCis.title, style: theme.textTheme.titleLarge),
+                    const SizedBox(height: 4),
+                    Text(androidCis.summary, style: theme.textTheme.bodyMedium),
+                    const SizedBox(height: 12),
+                    FilledButton.tonal(
+                      key: const Key('open-android-cis'),
+                      onPressed: () => onOpenTrack(androidCis),
+                      child: const Text('Открыть стек найма Android'),
                     ),
                   ],
                 ),

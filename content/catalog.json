@@ -569,6 +569,152 @@
           "quiz": null
         }
       ]
+    },
+    {
+      "id": "android-cis",
+      "order": 9,
+      "title": "Найм Android: стек СНГ",
+      "subtitle": "После Compose, не вместо DeskNode",
+      "status": "ready",
+      "summary": "Корутины и Flow, потоки, Hilt, Retrofit, Room, DataStore, тесты, CI, пуши FCM и RuStore, WorkManager. Свой капстоун — журнал смены «Смена».",
+      "lessons": [
+        {
+          "id": "cis-flow",
+          "title": "Корутины, Flow и StateFlow",
+          "minutes": 45,
+          "status": "ready",
+          "path": "android-cis/01-flow.md",
+          "quiz": "android-cis/01-flow.quiz.json"
+        },
+        {
+          "id": "cis-hw-flow",
+          "title": "Самостоятельная: StateFlow экрана",
+          "minutes": 50,
+          "status": "ready",
+          "path": "android-cis/02-homework-flow.md",
+          "quiz": "android-cis/02-homework-flow.quiz.json"
+        },
+        {
+          "id": "cis-threads",
+          "title": "Потоки, Dispatchers, main-safety",
+          "minutes": 40,
+          "status": "ready",
+          "path": "android-cis/03-threads.md",
+          "quiz": "android-cis/03-threads.quiz.json"
+        },
+        {
+          "id": "cis-hw-threads",
+          "title": "Самостоятельная: три диспетчера",
+          "minutes": 45,
+          "status": "ready",
+          "path": "android-cis/04-homework-threads.md",
+          "quiz": "android-cis/04-homework-threads.quiz.json"
+        },
+        {
+          "id": "cis-hilt",
+          "title": "Hilt и коротко Koin",
+          "minutes": 40,
+          "status": "ready",
+          "path": "android-cis/05-hilt.md",
+          "quiz": "android-cis/05-hilt.quiz.json"
+        },
+        {
+          "id": "cis-hw-hilt",
+          "title": "Самостоятельная: граф Hilt",
+          "minutes": 50,
+          "status": "ready",
+          "path": "android-cis/06-homework-hilt.md",
+          "quiz": "android-cis/06-homework-hilt.quiz.json"
+        },
+        {
+          "id": "cis-data",
+          "title": "Retrofit, OkHttp, Room, DataStore",
+          "minutes": 50,
+          "status": "ready",
+          "path": "android-cis/07-data.md",
+          "quiz": "android-cis/07-data.quiz.json"
+        },
+        {
+          "id": "cis-hw-data",
+          "title": "Самостоятельная: офлайн-заметка",
+          "minutes": 70,
+          "status": "ready",
+          "path": "android-cis/08-homework-data.md",
+          "quiz": "android-cis/08-homework-data.quiz.json"
+        },
+        {
+          "id": "cis-tests",
+          "title": "MockK, Turbine, тесты Compose",
+          "minutes": 45,
+          "status": "ready",
+          "path": "android-cis/09-tests.md",
+          "quiz": "android-cis/09-tests.quiz.json"
+        },
+        {
+          "id": "cis-hw-tests",
+          "title": "Самостоятельная: три вида теста",
+          "minutes": 60,
+          "status": "ready",
+          "path": "android-cis/10-homework-tests.md",
+          "quiz": "android-cis/10-homework-tests.quiz.json"
+        },
+        {
+          "id": "cis-ci",
+          "title": "CI на GitHub Actions",
+          "minutes": 35,
+          "status": "ready",
+          "path": "android-cis/11-ci.md",
+          "quiz": "android-cis/11-ci.quiz.json"
+        },
+        {
+          "id": "cis-hw-ci",
+          "title": "Самостоятельная: зелёный workflow",
+          "minutes": 40,
+          "status": "ready",
+          "path": "android-cis/12-homework-ci.md",
+          "quiz": "android-cis/12-homework-ci.quiz.json"
+        },
+        {
+          "id": "cis-push",
+          "title": "Push: FCM и RuStore",
+          "minutes": 40,
+          "status": "ready",
+          "path": "android-cis/13-push.md",
+          "quiz": "android-cis/13-push.quiz.json"
+        },
+        {
+          "id": "cis-hw-push",
+          "title": "Самостоятельная: канал и data-пуш",
+          "minutes": 50,
+          "status": "ready",
+          "path": "android-cis/14-homework-push.md",
+          "quiz": "android-cis/14-homework-push.quiz.json"
+        },
+        {
+          "id": "cis-work",
+          "title": "WorkManager",
+          "minutes": 40,
+          "status": "ready",
+          "path": "android-cis/15-work.md",
+          "quiz": "android-cis/15-work.quiz.json"
+        },
+        {
+          "id": "cis-hw-work",
+          "title": "Самостоятельная: уникальная синхронизация",
+          "minutes": 50,
+          "status": "ready",
+          "path": "android-cis/16-homework-work.md",
+          "quiz": "android-cis/16-homework-work.quiz.json"
+        },
+        {
+          "id": "cis-capstone",
+          "title": "Капстоун: журнал «Смена»",
+          "minutes": 35,
+          "status": "ready",
+          "path": "android-cis/17-capstone.md",
+          "quiz": "android-cis/17-capstone.quiz.json"
+        }
+      ]
     }
   ]
 }

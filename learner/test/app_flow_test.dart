@@ -93,6 +93,7 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('Фундамент'), findsOneWidget);
+    await tester.scrollUntilVisible(find.text('Backend'), 200);
     expect(find.text('Backend'), findsOneWidget);
     expect(find.text('TODO'), findsOneWidget);
 

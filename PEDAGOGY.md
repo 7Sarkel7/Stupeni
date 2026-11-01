@@ -27,7 +27,22 @@
 
 Kotlin Multiplatform — необязательный следующий шаг: вынести чистые функции вроде перехода состояния в общий модуль, когда Android-экран уже собран. Трек пульта и капстоун он не заменяет, UI остаётся на Android. Точка входа: [документация Kotlin Multiplatform](https://kotlinlang.org/docs/multiplatform.html).
 
-Платные курсы в тексты не переносились. Примеры привязаны к станцу Поле и к лампе DeskNode.
+## Найм Android в СНГ
+
+Трек [content/android-cis](content/android-cis/README.md) идёт после уроков Compose модуля 02. Он готовит к разговору на junior Android там, где спрашивают корутины, Flow, диспетчеры, Hilt, Retrofit, Room, DataStore, тесты, GitHub Actions, пуши и WorkManager. Капстоун этого трека — журнал «Смена» по [спеке](content/android-cis/capstone/SPEC.md). Капстоун DeskNode остаётся в карьерном треке.
+
+Номера библиотек и версий GitHub Actions в уроки не замораживают. В день проекта их копируют со страницы, на которую ссылается урок. Если абзац и страница разошлись в имени API, сдаётся страница.
+
+- [Корутины Kotlin](https://kotlinlang.org/docs/coroutines-overview.html), [Flow](https://kotlinlang.org/docs/flow.html), [диспетчеры](https://kotlinlang.org/docs/coroutine-context-and-dispatchers.html)
+- [Корутины на Android](https://developer.android.com/kotlin/coroutines), [Flow на Android](https://developer.android.com/kotlin/flow), [рекомендации](https://developer.android.com/kotlin/coroutines/coroutines-best-practices)
+- [Hilt](https://developer.android.com/training/dependency-injection/hilt-android). Koin в треке только читают: [ViewModel в Koin](https://insert-koin.io/docs/reference/koin-android/viewmodel)
+- [Retrofit](https://square.github.io/retrofit/), [OkHttp](https://square.github.io/okhttp/), [Room](https://developer.android.com/training/data-storage/room), [DataStore](https://developer.android.com/topic/libraries/architecture/datastore)
+- [Локальные тесты](https://developer.android.com/training/testing/local-tests), [MockK](https://mockk.io/), [Turbine](https://cashapp.github.io/turbine/)
+- [GitHub Actions](https://docs.github.com/en/actions)
+- [FCM на Android](https://firebase.google.com/docs/cloud-messaging/android/client), [каналы уведомлений](https://developer.android.com/develop/ui/views/notifications/channels), [RuStore Push](https://www.rustore.ru/help/sdk/push-notifications)
+- [WorkManager](https://developer.android.com/develop/background-work/background-tasks/persistent/getting-started)
+
+Платные курсы в тексты не переносились. Примеры привязаны к станцу Поле, к лампе DeskNode и к журналу смены, который ученик собирает сам.
 
 ## Что у кого взято
 
