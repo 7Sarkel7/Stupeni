@@ -22,6 +22,8 @@
 
 Отдельно от станца, после модулей 01–03: [трек к найму](content/career/README.md) — junior Android или IoT/mobile. Уроки C1–C4 с лабораторией, самостоятельные работы с рубрикой, экран DeskNode на Compose и Material 3, капстоун по [спеке](content/career/capstone/SPEC.md). Готовой реализации капстоуна и тел лабораторных функций в репозитории нет. Это не шаг 8 маршрута выше и не замена прошивке.
 
+После уроков Compose модуля 02, отдельно от DeskNode: [стек найма Android для СНГ](content/android-cis/README.md). Корутины и Flow, потоки, Hilt и короткий разбор Koin, Retrofit, Room, DataStore, MockK, Turbine, тесты Compose, GitHub Actions, FCM и RuStore Push, WorkManager. У каждой темы своя домашняя работа с рубрикой. Капстоун — журнал смены [«Смена»](content/android-cis/capstone/SPEC.md): запись и фото без сети, очередь, фон и напоминание. Исходников журнала в репозитории нет. Прошивка и лампа DeskNode этим треком не заменяются.
+
 Уроки про Android UI сверяют с актуальными доками, а не с застывшим номером библиотеки. Ссылки собраны в [PEDAGOGY.md](PEDAGOGY.md): [Jetpack Compose](https://developer.android.com/develop/ui/compose/documentation), [Material 3](https://developer.android.com/develop/ui/compose/designsystems/material3), [Compose BOM](https://developer.android.com/develop/ui/compose/bom). Kotlin Multiplatform в маршруте — необязательный шаг для общей логики после готового Android-экрана.
 
 Модули 01–03 можно читать прямо на GitHub. В приложении тот же текст, кнопка «Я изучил» и короткая проверка. Конспекты TODO открываются, чтобы было видно место в маршруте; полной теории и проверки там ещё нет.

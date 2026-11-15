@@ -10,6 +10,9 @@ learner/assets/content/
 content/career/lab/.gradle/
 content/career/lab/.kotlin/
 content/career/lab/build/
+content/android-cis/lab/.gradle/
+content/android-cis/lab/.kotlin/
+content/android-cis/lab/build/
 
 # Flutter / Dart
 learner/.dart_tool/

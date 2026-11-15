@@ -16,8 +16,8 @@ void main() {
     final progress = ProgressStore(await SharedPreferences.getInstance());
     final raw = await rootBundle.loadString('assets/content/catalog.json');
     final catalog = Catalog.parse(raw);
-    expect(catalog.tracks, hasLength(8));
-    expect(catalog.readyTotal, 42);
+    expect(catalog.tracks, hasLength(9));
+    expect(catalog.readyTotal, 59);
 
     await tester.pumpWidget(
       StupeniApp(
@@ -34,6 +34,13 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('Коллекции и цена операции'), findsOneWidget);
     Navigator.of(tester.element(find.text('Коллекции и цена операции'))).pop();
+    await tester.pumpAndSettle();
+
+    await tester.ensureVisible(find.byKey(const Key('open-android-cis')));
+    await tester.tap(find.byKey(const Key('open-android-cis')));
+    await tester.pumpAndSettle();
+    expect(find.text('Корутины, Flow и StateFlow'), findsOneWidget);
+    Navigator.of(tester.element(find.text('Корутины, Flow и StateFlow'))).pop();
     await tester.pumpAndSettle();
 
     await tester.scrollUntilVisible(find.text('Фундамент'), 400);
