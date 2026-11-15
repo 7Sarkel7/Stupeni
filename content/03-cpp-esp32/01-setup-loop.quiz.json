@@ -1,0 +1,53 @@
+{
+  "lessonId": "esp-loop",
+  "questions": [
+    {
+      "id": "esp-loop-1",
+      "prompt": "Какой loop не морозит HTTP на плате?",
+      "options": [
+        "void loop() { delay(10000); server.handleClient(); }",
+        "void loop() { server.handleClient(); cloudRelayLoop(); }",
+        "void Loop() { server.handleClient(); }",
+        "void loop() { while (true) { digitalWrite(2, HIGH); } }"
+      ],
+      "correctIndex": 1,
+      "explanation": "Цикл должен часто возвращаться к handleClient. delay на секунды, вечный while и неверное имя Loop этот вызов отбирают."
+    },
+    {
+      "id": "esp-loop-2",
+      "prompt": "Где один раз поднимают Serial и server.begin?",
+      "options": [
+        "В setup",
+        "В каждом проходе loop",
+        "В своём main, который вы пишете вместо каркаса Arduino",
+        "В колбэке BLE"
+      ],
+      "correctIndex": 0,
+      "explanation": "setup — однократный старт. Повторный begin в loop не нужен и путает. Свой main каркас не подхватит как замену."
+    },
+    {
+      "id": "esp-loop-3",
+      "prompt": "Зачем volatile у флага, который пишет колбэк, а читает loop?",
+      "options": [
+        "Чтобы строка стала длиннее",
+        "Чтобы компилятор не закэшировал чтение и не пропустил изменение из другого контекста",
+        "Это аналог suspend в Kotlin",
+        "Без volatile нельзя объявить WebServer"
+      ],
+      "correctIndex": 1,
+      "explanation": "Флаг меняется не в том потоке исполнения, который его крутит в цикле. Иначе цикл может никогда не увидеть true."
+    },
+    {
+      "id": "esp-loop-4",
+      "prompt": "Куда деть приём Wi-Fi из колбэка BLE?",
+      "options": [
+        "WiFi.begin и ждать в onWrite, пока не подключится",
+        "Запомнить SSID и пароль, выставить флаг, WiFi.begin вызвать из loop",
+        "Перезагрузить чип из колбэка",
+        "Открыть OkHttp на плате"
+      ],
+      "correctIndex": 1,
+      "explanation": "Колбэк короткий. Соединение и ожидание — работа цикла, иначе встанет и HTTP."
+    }
+  ]
+}
