@@ -22,3 +22,5 @@ flutter run
 cd learner
 flutter test
 ```
+
+APK для телефона без локального Flutter собирает GitHub Actions. Как скачать `stupeni-learner.apk` и поставить его: [docs/apk-pipeline.md](../docs/apk-pipeline.md).

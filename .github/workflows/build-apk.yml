@@ -1,0 +1,99 @@
+# Собирает learner APK и кладёт его в GitHub Artifacts.
+# Подпись — debug-ключ из learner/android/app/build.gradle.kts, без секретов.
+# Как скачать и поставить: docs/apk-pipeline.md
+
+name: Build learner APK
+
+on:
+  push:
+    paths:
+      - .github/workflows/build-apk.yml
+      - learner/**
+      - content/**
+      - tool/**
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  # Кэш Flutter SDK (actions/cache внутри flutter-action) требует запись в Actions.
+  actions: write
+
+concurrency:
+  group: build-apk-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  apk:
+    name: Test and release APK
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Set up Java
+        uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          # pubspec: sdk: ^3.13.7. Первая stable с Dart 3.13.7 — Flutter 3.47.8.
+          # 3.47.9 — текущий stable-хотфикс с тем же Dart.
+          flutter-version: "3.47.9"
+          cache: true
+
+      # Flutter 3.47 ждёт NDK 28.2.13676358. На hosted-образах стоят 27, 29 и 30,
+      # поэтому нужную версию ставим до сборки.
+      - name: Install Flutter NDK
+        run: |
+          set -euo pipefail
+          sdk_root="${ANDROID_SDK_ROOT:-${ANDROID_HOME:-/usr/local/lib/android/sdk}}"
+          ndk_dir="$sdk_root/ndk/28.2.13676358"
+          if [[ -f "$ndk_dir/source.properties" ]]; then
+            echo "NDK already present at $ndk_dir"
+            exit 0
+          fi
+          mapfile -t managers < <(find "$sdk_root/cmdline-tools" -type f -path '*/bin/sdkmanager' | sort)
+          if [[ ${#managers[@]} -eq 0 ]]; then
+            echo "sdkmanager not found under $sdk_root/cmdline-tools" >&2
+            exit 1
+          fi
+          sdkmanager="${managers[-1]}"
+          echo "Using $sdkmanager"
+          set +o pipefail
+          yes | "$sdkmanager" --sdk_root="$sdk_root" "ndk;28.2.13676358"
+          status=${PIPESTATUS[1]}
+          set -o pipefail
+          if [[ "$status" -ne 0 ]]; then
+            exit "$status"
+          fi
+          test -f "$ndk_dir/source.properties"
+
+      - name: Sync lesson content into app assets
+        run: ./tool/sync_content.sh
+
+      - name: Dependencies and tests
+        working-directory: learner
+        run: |
+          flutter pub get
+          flutter test
+
+      - name: Build release APK
+        working-directory: learner
+        run: flutter build apk --release
+
+      - name: Name the APK
+        run: cp learner/build/app/outputs/flutter-apk/app-release.apk stupeni-learner.apk
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v7
+        with:
+          path: stupeni-learner.apk
+          if-no-files-found: error
+          # Один файл без zip: в Artifacts имя артефакта совпадает с именем файла.
+          archive: false
+          compression-level: 0

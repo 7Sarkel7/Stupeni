@@ -41,7 +41,7 @@
 
 ## Как запустить приложение
 
-Нужны [Flutter](https://docs.flutter.dev/get-started/install) 3.16+ (проверено на 3.47) и устройство, эмулятор или Chrome.
+Нужны [Flutter](https://docs.flutter.dev/get-started/install) 3.47.8+ (Dart 3.13.7, как в `learner/pubspec.yaml`; проверено на 3.47.9) и устройство, эмулятор или Chrome.
 
 ```bash
 ./tool/sync_content.sh
@@ -68,6 +68,8 @@ flutter run -d web-server --web-port 8080
 ```
 
 Прогресс (прочитанные уроки, лучший процент проверки, спокойная серия дней) лежит в `SharedPreferences` на устройстве. Сеть приложению не нужна.
+
+Готовый APK без Flutter на своём компьютере: [docs/apk-pipeline.md](docs/apk-pipeline.md). GitHub Actions собирает release и кладёт `stupeni-learner.apk` в Artifacts. Подпись debug-ключом, для своего телефона; магазин приложений этим файлом не закрывается.
 
 ## Что сознательно не сделано
 
