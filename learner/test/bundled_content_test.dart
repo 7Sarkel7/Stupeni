@@ -16,8 +16,8 @@ void main() {
     final progress = ProgressStore(await SharedPreferences.getInstance());
     final raw = await rootBundle.loadString('assets/content/catalog.json');
     final catalog = Catalog.parse(raw);
-    expect(catalog.tracks, hasLength(7));
-    expect(catalog.readyTotal, 12);
+    expect(catalog.tracks, hasLength(8));
+    expect(catalog.readyTotal, 32);
 
     await tester.pumpWidget(
       StupeniApp(
@@ -28,9 +28,22 @@ void main() {
     );
     await tester.pumpAndSettle();
 
-    expect(find.text('Фундамент'), findsOneWidget);
     expect(find.text('Открыть первый урок'), findsOneWidget);
+    await tester.ensureVisible(find.byKey(const Key('open-career')));
+    await tester.tap(find.byKey(const Key('open-career')));
+    await tester.pumpAndSettle();
+    expect(find.text('Коллекции и цена операции'), findsOneWidget);
+    Navigator.of(tester.element(find.text('Коллекции и цена операции'))).pop();
+    await tester.pumpAndSettle();
 
+    await tester.scrollUntilVisible(find.text('Фундамент'), 400);
+    expect(find.text('Фундамент'), findsOneWidget);
+    await tester.scrollUntilVisible(find.text('частично'), 400);
+    expect(find.text('частично'), findsOneWidget);
+    await tester.scrollUntilVisible(
+      find.byKey(const Key('start-lesson')),
+      -400,
+    );
     await tester.tap(find.byKey(const Key('start-lesson')));
     await tester.pumpAndSettle();
 
@@ -45,10 +58,7 @@ void main() {
     expect(find.textContaining('Секрет облака'), findsOneWidget);
     await tester.tap(find.textContaining('считать утёкшим'));
     await tester.pumpAndSettle();
-    expect(
-      find.textContaining('влияет на будущие добавления'),
-      findsOneWidget,
-    );
+    expect(find.textContaining('влияет на будущие добавления'), findsOneWidget);
     expect(progress.isStudied('fund-git'), isTrue);
   });
 }

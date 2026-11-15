@@ -68,6 +68,7 @@ flutter:
     - assets/content/05-flutter-dart/
     - assets/content/06-soft-skills/
     - assets/content/07-pgs/
+    - assets/content/career/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

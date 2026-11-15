@@ -41,6 +41,14 @@
           "status": "ready",
           "path": "01-fundamentals/04-debug.md",
           "quiz": "01-fundamentals/04-debug.quiz.json"
+        },
+        {
+          "id": "fund-homework",
+          "title": "Самостоятельная: протокол вечера",
+          "minutes": 60,
+          "status": "ready",
+          "path": "01-fundamentals/05-homework.md",
+          "quiz": "01-fundamentals/05-homework.quiz.json"
         }
       ]
     },
@@ -83,6 +91,14 @@
           "status": "ready",
           "path": "02-kotlin-android/04-state.md",
           "quiz": "02-kotlin-android/04-state.quiz.json"
+        },
+        {
+          "id": "and-homework",
+          "title": "Самостоятельная: фраза вместо трассы",
+          "minutes": 70,
+          "status": "ready",
+          "path": "02-kotlin-android/05-homework.md",
+          "quiz": "02-kotlin-android/05-homework.quiz.json"
         }
       ]
     },
@@ -125,6 +141,14 @@
           "status": "ready",
           "path": "03-cpp-esp32/04-ladder.md",
           "quiz": "03-cpp-esp32/04-ladder.quiz.json"
+        },
+        {
+          "id": "esp-homework",
+          "title": "Самостоятельная: второй маршрут",
+          "minutes": 90,
+          "status": "ready",
+          "path": "03-cpp-esp32/05-homework.md",
+          "quiz": "03-cpp-esp32/05-homework.quiz.json"
         }
       ]
     },
@@ -300,6 +324,168 @@
           "minutes": 15,
           "status": "todo",
           "path": "07-pgs/08-ploshchadka.md",
+          "quiz": null
+        }
+      ]
+    },
+    {
+      "id": "career",
+      "order": 8,
+      "title": "Карьера: Android и IoT",
+      "subtitle": "После модулей 01–03, к junior",
+      "status": "todo",
+      "summary": "Отдельный трек к найму. Модули C1–C4 и капстоун написаны. C5–C6 — конспект. Коммерческий стаж в текстах не выдумывается.",
+      "lessons": [
+        {
+          "id": "career-collections",
+          "title": "Коллекции и цена операции",
+          "minutes": 40,
+          "status": "ready",
+          "path": "career/01-collections.md",
+          "quiz": "career/01-collections.quiz.json"
+        },
+        {
+          "id": "career-models",
+          "title": "Модели, которые не врут",
+          "minutes": 35,
+          "status": "ready",
+          "path": "career/02-models.md",
+          "quiz": "career/02-models.quiz.json"
+        },
+        {
+          "id": "career-algorithms",
+          "title": "Поиск и дубликаты руками",
+          "minutes": 45,
+          "status": "ready",
+          "path": "career/03-algorithms.md",
+          "quiz": "career/03-algorithms.quiz.json"
+        },
+        {
+          "id": "career-hw-c1",
+          "title": "Самостоятельная работа C1",
+          "minutes": 40,
+          "status": "ready",
+          "path": "career/16-homework-c1.md",
+          "quiz": "career/16-homework-c1.quiz.json"
+        },
+        {
+          "id": "career-http",
+          "title": "Контракт HTTP",
+          "minutes": 40,
+          "status": "ready",
+          "path": "career/04-http-contracts.md",
+          "quiz": "career/04-http-contracts.quiz.json"
+        },
+        {
+          "id": "career-retry",
+          "title": "Повтор и идемпотентность",
+          "minutes": 40,
+          "status": "ready",
+          "path": "career/05-retries.md",
+          "quiz": "career/05-retries.quiz.json"
+        },
+        {
+          "id": "career-iot",
+          "title": "Телефон и плата",
+          "minutes": 35,
+          "status": "ready",
+          "path": "career/06-phone-and-device.md",
+          "quiz": "career/06-phone-and-device.quiz.json"
+        },
+        {
+          "id": "career-hw-c2",
+          "title": "Самостоятельная работа C2",
+          "minutes": 40,
+          "status": "ready",
+          "path": "career/17-homework-c2.md",
+          "quiz": "career/17-homework-c2.quiz.json"
+        },
+        {
+          "id": "career-mvvm",
+          "title": "MVVM: одно состояние экрана",
+          "minutes": 40,
+          "status": "ready",
+          "path": "career/07-mvvm.md",
+          "quiz": "career/07-mvvm.quiz.json"
+        },
+        {
+          "id": "career-clean",
+          "title": "Clean lite: три слоя",
+          "minutes": 40,
+          "status": "ready",
+          "path": "career/08-clean-lite.md",
+          "quiz": "career/08-clean-lite.quiz.json"
+        },
+        {
+          "id": "career-coroutines",
+          "title": "Корутины так, как на ревью",
+          "minutes": 40,
+          "status": "ready",
+          "path": "career/09-coroutines-work.md",
+          "quiz": "career/09-coroutines-work.quiz.json"
+        },
+        {
+          "id": "career-hw-c3",
+          "title": "Самостоятельная работа C3",
+          "minutes": 40,
+          "status": "ready",
+          "path": "career/18-homework-c3.md",
+          "quiz": "career/18-homework-c3.quiz.json"
+        },
+        {
+          "id": "career-tests",
+          "title": "Тест, который ловит регресс",
+          "minutes": 40,
+          "status": "ready",
+          "path": "career/10-unit-tests.md",
+          "quiz": "career/10-unit-tests.quiz.json"
+        },
+        {
+          "id": "career-git",
+          "title": "Ветка и PR, которые читают",
+          "minutes": 35,
+          "status": "ready",
+          "path": "career/11-git-pr.md",
+          "quiz": "career/11-git-pr.quiz.json"
+        },
+        {
+          "id": "career-resume",
+          "title": "Резюме, LinkedIn, вопросы junior",
+          "minutes": 45,
+          "status": "ready",
+          "path": "career/12-resume-interview.md",
+          "quiz": "career/12-resume-interview.quiz.json"
+        },
+        {
+          "id": "career-hw-c4",
+          "title": "Самостоятельная работа C4",
+          "minutes": 45,
+          "status": "ready",
+          "path": "career/19-homework-c4.md",
+          "quiz": "career/19-homework-c4.quiz.json"
+        },
+        {
+          "id": "career-capstone",
+          "title": "Капстоун: взять SPEC и сделать",
+          "minutes": 30,
+          "status": "ready",
+          "path": "career/13-capstone.md",
+          "quiz": "career/13-capstone.quiz.json"
+        },
+        {
+          "id": "career-sysdesign",
+          "title": "System design lite",
+          "minutes": 25,
+          "status": "todo",
+          "path": "career/14-system-design.md",
+          "quiz": null
+        },
+        {
+          "id": "career-middle",
+          "title": "Middle: интервью и оффер",
+          "minutes": 25,
+          "status": "todo",
+          "path": "career/15-middle-interview.md",
           "quiz": null
         }
       ]

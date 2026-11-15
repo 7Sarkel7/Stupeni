@@ -123,6 +123,8 @@ void main() {
     Navigator.of(tester.element(find.byKey(const Key('open-quiz')))).pop();
     await tester.pumpAndSettle();
 
+    await tester.ensureVisible(find.text('Backend'));
+    await tester.pumpAndSettle();
     await tester.tap(find.text('Backend'));
     await tester.pumpAndSettle();
     await tester.tap(find.text('Конспект NAT'));
