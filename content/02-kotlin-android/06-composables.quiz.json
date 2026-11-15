@@ -1,0 +1,53 @@
+{
+  "lessonId": "and-compose",
+  "questions": [
+    {
+      "id": "and-compose-1",
+      "prompt": "Откуда на новом экране пульта берут Button и TextField?",
+      "options": [
+        "androidx.compose.material3",
+        "androidx.compose.material",
+        "android.widget",
+        "пакет виджетов Flutter"
+      ],
+      "correctIndex": 0,
+      "explanation": "Material 3 — текущие компоненты Compose. Пакет material без тройки — Material 2. Flutter к этому экрану не относится."
+    },
+    {
+      "id": "and-compose-2",
+      "prompt": "Что делает Activity нового пульта?",
+      "options": [
+        "Хранит клиент OkHttp и ветки кода ответа",
+        "Вызывает setContent и показывает тему с экраном",
+        "Описывает кнопки в XML",
+        "Парсит GIF с карты"
+      ],
+      "correctIndex": 1,
+      "explanation": "Activity остаётся окном. Сценарий ping и разбор ответа живут дальше, не в полях Activity."
+    },
+    {
+      "id": "and-compose-3",
+      "prompt": "Какой шаблон Studio подходит для старта этого пульта?",
+      "options": [
+        "Empty Views Activity",
+        "Empty Activity",
+        "No Activity",
+        "Native C++"
+      ],
+      "correctIndex": 1,
+      "explanation": "Empty Activity сразу ведёт к Compose. Empty Views Activity открывает XML, для нового экрана это лишний путь."
+    },
+    {
+      "id": "and-compose-4",
+      "prompt": "Что можно честно показать в @Preview пульта?",
+      "options": [
+        "Живой ping на 192.168.10.1",
+        "Кадр с уже готовой фразой, без сокета",
+        "Запись хоста в SharedPreferences",
+        "Прошивку ESP32"
+      ],
+      "correctIndex": 1,
+      "explanation": "Превью рисует функцию от переданных данных. Сеть и диск в превью превращают его в зависимость от стола."
+    }
+  ]
+}

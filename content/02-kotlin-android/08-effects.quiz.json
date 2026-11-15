@@ -1,0 +1,53 @@
+{
+  "lessonId": "and-effects",
+  "questions": [
+    {
+      "id": "and-effects-1",
+      "prompt": "Куда ставить client.ping()?",
+      "options": [
+        "В тело composable рядом с Text",
+        "В viewModelScope на Dispatchers.IO, по событию",
+        "В @Preview",
+        "В конструктор Modifier"
+      ],
+      "correctIndex": 1,
+      "explanation": "Тело composable описывает кадр и может выполниться много раз. Запрос живёт в скоупе ViewModel."
+    },
+    {
+      "id": "and-effects-2",
+      "prompt": "Когда уместен LaunchedEffect(Unit) на экране статуса?",
+      "options": [
+        "Чтобы заново пинговать на каждый символ в поле",
+        "Чтобы один раз при появлении кадра попросить загрузку, если ещё покой",
+        "Чтобы заменить viewModelScope на всё время жизни процесса",
+        "Чтобы записать секрет облака"
+      ],
+      "correctIndex": 1,
+      "explanation": "Ключ Unit не скачет вместе с черновиком. Повтор на каждый символ даёт ключ, в котором есть сам черновик."
+    },
+    {
+      "id": "and-effects-3",
+      "prompt": "Для какой работы хватает rememberCoroutineScope?",
+      "options": [
+        "Показать Snackbar, который должен отмениться вместе с кадром",
+        "Держать таймаут SoftAP через поворот экрана",
+        "Скачать карту целиком",
+        "Пережить смерть ViewModel"
+      ],
+      "correctIndex": 0,
+      "explanation": "Скоуп кадра умирает вместе с композицией. Длинный запрос к плате держат во ViewModel."
+    },
+    {
+      "id": "and-effects-4",
+      "prompt": "Что делает DisposableEffect, чего не делает обычный вызов в теле функции?",
+      "options": [
+        "Даёт снять подписку в onDispose, когда ключ сменился или кадр ушёл",
+        "Рисует кнопку Material 3",
+        "Фиксирует номер BOM",
+        "Отменяет GlobalScope"
+      ],
+      "correctIndex": 0,
+      "explanation": "Подписку без снятия экран оставляет после себя. Для ping на пульте чаще хватает ViewModel, чем DisposableEffect."
+    }
+  ]
+}

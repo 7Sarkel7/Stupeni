@@ -11,7 +11,7 @@
 | Шаг | Модуль | Зачем в станце | Статус |
 | --- | --- | --- | --- |
 | 1 | [01. Фундамент](content/01-fundamentals/README.md) | Git, HTTP, JSON, отладка — общий язык пульта и прошивки | написан |
-| 2 | [02. Kotlin и Android](content/02-kotlin-android/README.md) | Пульт: ping, одна команда, ошибки человеку | написан |
+| 2 | [02. Kotlin и Android](content/02-kotlin-android/README.md) | Пульт: ping, одна команда, ошибки человеку, экран на Compose и Material 3 | написан |
 | 3 | [03. C++ и ESP32](content/03-cpp-esp32/README.md) | Прошивка: `loop`, `/v1/reading`, `stationDo*`, транспорты | написан |
 | 4 | [04. Backend](content/04-backend-fastapi/README.md) | Станц сам звонит в облако, реле команд, голос | TODO |
 | 5 | [05. Flutter и Dart](content/05-flutter-dart/README.md) | Второй клиент и привычка к Dart | TODO |
@@ -20,7 +20,9 @@
 
 Первый урок: [Git, который переживает вечер](content/01-fundamentals/01-git.md).
 
-Отдельно от станца, после модулей 01–03: [трек к найму](content/career/README.md) — junior Android или IoT/mobile. Уроки C1–C4 с лабораторией, самостоятельные работы с рубрикой, капстоун DeskNode по [спеке](content/career/capstone/SPEC.md). Готовой реализации капстоуна и тел лабораторных функций в репозитории нет. Это не шаг 8 маршрута выше и не замена прошивке.
+Отдельно от станца, после модулей 01–03: [трек к найму](content/career/README.md) — junior Android или IoT/mobile. Уроки C1–C4 с лабораторией, самостоятельные работы с рубрикой, экран DeskNode на Compose и Material 3, капстоун по [спеке](content/career/capstone/SPEC.md). Готовой реализации капстоуна и тел лабораторных функций в репозитории нет. Это не шаг 8 маршрута выше и не замена прошивке.
+
+Уроки про Android UI сверяют с актуальными доками, а не с застывшим номером библиотеки. Ссылки собраны в [PEDAGOGY.md](PEDAGOGY.md): [Jetpack Compose](https://developer.android.com/develop/ui/compose/documentation), [Material 3](https://developer.android.com/develop/ui/compose/designsystems/material3), [Compose BOM](https://developer.android.com/develop/ui/compose/bom). Kotlin Multiplatform в маршруте — необязательный шаг для общей логики после готового Android-экрана.
 
 Модули 01–03 можно читать прямо на GitHub. В приложении тот же текст, кнопка «Я изучил» и короткая проверка. Конспекты TODO открываются, чтобы было видно место в маршруте; полной теории и проверки там ещё нет.
 

@@ -14,6 +14,21 @@
 
 Модули 04–07 ещё конспекты. У них нет самостоятельной работы специально: конспект не должен выглядеть как задание, которого нельзя сдать.
 
+## Android UI по текущим докам
+
+Экран пульта в модуле 02 и экран DeskNode в капстоуне учат Jetpack Compose и Material 3. Это текущий стек Android UI. Номер Compose BOM в уроки не замораживают: его копируют со страницы документации в день, когда создают проект. Если абзац урока и официальная страница разошлись в имени API или в номере, сдаётся страница. Урок после этого поправляют.
+
+- [Документация Jetpack Compose](https://developer.android.com/develop/ui/compose/documentation)
+- [Material 3 в Compose](https://developer.android.com/develop/ui/compose/designsystems/material3)
+- [Compose BOM](https://developer.android.com/develop/ui/compose/bom) и [таблица соответствия](https://developer.android.com/develop/ui/compose/bom/bom-mapping)
+- [Navigation 3](https://developer.android.com/guide/navigation/navigation-3) — навигация нового кода
+- [Navigation Compose](https://developer.android.com/develop/ui/compose/navigation) — что ещё читают в старых проектах с `NavHost`
+- [Тест кадра Compose](https://developer.android.com/develop/ui/compose/testing)
+
+Kotlin Multiplatform — необязательный следующий шаг: вынести чистые функции вроде перехода состояния в общий модуль, когда Android-экран уже собран. Трек пульта и капстоун он не заменяет, UI остаётся на Android. Точка входа: [документация Kotlin Multiplatform](https://kotlinlang.org/docs/multiplatform.html).
+
+Платные курсы в тексты не переносились. Примеры привязаны к станцу Поле и к лампе DeskNode.
+
 ## Что у кого взято
 
 Форма, не содержание.
