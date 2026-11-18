@@ -25,6 +25,34 @@ void main() {
     expect(nextStreak(current: 0, lastDay: 10, today: 10), 1);
   });
 
+  test('ссылка на ключ остаётся внутри content', () {
+    expect(
+      resolveContentHref('01-fundamentals/01-git.md', '../hints/01-git.md'),
+      'hints/01-git.md',
+    );
+    expect(
+      resolveContentHref('01-fundamentals/01-git.md', '02-http.md'),
+      '01-fundamentals/02-http.md',
+    );
+    expect(
+      resolveContentHref(
+        '01-fundamentals/01-git.md',
+        'https://git-scm.com/docs',
+      ),
+      isNull,
+    );
+    expect(
+      resolveContentHref(
+        '01-fundamentals/01-git.md',
+        '../hints/../../etc/passwd.md',
+      ),
+      isNull,
+    );
+    expect(isHintMarkdown('hints/01-git-02-setup.md'), isTrue);
+    expect(isHintMarkdown('01-fundamentals/01-git.md'), isFalse);
+    expect(isHintMarkdown('hints/nested/01-git.md'), isFalse);
+  });
+
   test('местный день один и тот же утром и вечером', () {
     final morning = DateTime(2026, 11, 1, 8, 30);
     final evening = DateTime(2026, 11, 1, 23, 10);

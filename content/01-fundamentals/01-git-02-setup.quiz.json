@@ -1,0 +1,53 @@
+{
+  "lessonId": "fund-git-setup",
+  "questions": [
+    {
+      "id": "fund-git-setup-1",
+      "prompt": "Куда попадает git config --global user.email?",
+      "options": [
+        "В каждый коммит на GitHub задним числом, локального файла нет",
+        "В ~/.gitconfig этого пользователя на этой машине",
+        "В .gitignore репозитория, чтобы почту не запушили",
+        "Только в Git Bash, PowerShell читает другой файл"
+      ],
+      "correctIndex": 1,
+      "explanation": "Глобальный уровень — файл в домашнем каталоге. Git Bash и другие оболочки вызывают один и тот же Git и читают его."
+    },
+    {
+      "id": "fund-git-setup-2",
+      "prompt": "Репозиторий Android собирается на Linux в CI, вы работаете в Git Bash на Windows. Какая пара про переводы строк подходит курсу?",
+      "options": [
+        "core.autocrlf false и коммит файлов с CRLF как есть",
+        "В коммите LF: autocrlf true или input, при споре редактора ещё eol=lf в .gitattributes",
+        "core.autocrlf true на Linux-раннере, чтобы CI совпал с блокнотом",
+        "Переводы строк хранят в сообщении коммита"
+      ],
+      "correctIndex": 1,
+      "explanation": "В истории нужен LF. На Windows true при чекауте даёт CRLF и при коммите возвращает LF. Файл .gitattributes закрепляет правило для всей команды."
+    },
+    {
+      "id": "fund-git-setup-3",
+      "prompt": "Чем git clone отличается от git init в пустой папке?",
+      "options": [
+        "clone создаёт .git с уже скачанной историей и remote origin, init только начинает пустую историю",
+        "init сразу пушит на GitHub, clone только читает",
+        "clone не копирует коммиты, только последний файл README",
+        "Разницы нет: обе команды создают ветку origin"
+      ],
+      "correctIndex": 0,
+      "explanation": "init готовит пустой репозиторий. clone копирует объекты, ставит origin и выписывает рабочее дерево."
+    },
+    {
+      "id": "fund-git-setup-4",
+      "prompt": "Почему core.editor для VS Code или Cursor обычно заканчивается на --wait?",
+      "options": [
+        "Без --wait Git удаляет индекс",
+        "Git ждёт, пока редактор закроет файл сообщения; без ожидания сообщение пустое и коммит отменяется",
+        "Флаг переводит репозиторий на SSH",
+        "Так включают autocrlf"
+      ],
+      "correctIndex": 1,
+      "explanation": "Сообщение коммита — временный файл. Редактор должен не возвращать управление, пока вы его не сохраните и не закроете."
+    }
+  ]
+}

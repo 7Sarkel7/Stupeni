@@ -1,0 +1,53 @@
+{
+  "lessonId": "fund-git-branches",
+  "questions": [
+    {
+      "id": "fund-git-branches-1",
+      "prompt": "Когда git merge делает fast-forward?",
+      "options": [
+        "Когда у коммита уже два родителя",
+        "Когда кончик текущей ветки — прямой предок вливаемой, и указатель можно просто передвинуть",
+        "Когда в файле есть маркеры <<<<<<<",
+        "Всегда, если передать --no-ff"
+      ],
+      "correctIndex": 1,
+      "explanation": "Fast-forward двигает указатель вперёд по прямой истории. --no-ff как раз запрещает такой переезд и создаёт коммит слияния."
+    },
+    {
+      "id": "fund-git-branches-2",
+      "prompt": "Вы на main и выполняете git merge feature. В конфликтном файле блок между <<<<<<< HEAD и ======= — это чья версия?",
+      "options": [
+        "Версия main, текущая ветка, её же называют ours",
+        "Всегда версия сервера origin/main, даже если вы на другой ветке",
+        "Версия feature, её называют ours",
+        "Общий предок обеих веток"
+      ],
+      "correctIndex": 0,
+      "explanation": "При merge HEAD — ветка, на которой вы стоите. Верхний блок — она. Нижний блок до >>>>>>> — входящая ветка, theirs."
+    },
+    {
+      "id": "fund-git-branches-3",
+      "prompt": "Какой diff совпадает с тем, что обычно показывает pull request: изменения feature с общего предка?",
+      "options": [
+        "git diff main..feature",
+        "git diff main...feature",
+        "git blame main",
+        "git diff --staged"
+      ],
+      "correctIndex": 1,
+      "explanation": "Три точки сравнивают feature с базой ответвления. Две точки сравнивают кончики и захватывают чужие коммиты main, если он ушёл вперёд."
+    },
+    {
+      "id": "fund-git-branches-4",
+      "prompt": "Слияние остановилось на конфликте, коммита слияния ещё нет. Как вернуться к состоянию до git merge?",
+      "options": [
+        "git merge --abort",
+        "Удалить .git",
+        "git revert --abort",
+        "git push --force"
+      ],
+      "correctIndex": 0,
+      "explanation": "abort незавершённого merge возвращает ветку и индекс к моменту до команды. Уже созданный коммит слияния так не отменяется."
+    }
+  ]
+}

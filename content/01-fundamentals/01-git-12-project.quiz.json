@@ -1,0 +1,53 @@
+{
+  "lessonId": "fund-git-project",
+  "questions": [
+    {
+      "id": "fund-git-project-1",
+      "prompt": "Во время git rebase origin/main в status.txt конфликт. Какой файл стоит собрать?",
+      "options": [
+        "Только timeout_ms:3000 коллеги, строку model удалить",
+        "timeout_ms:800 вашей задачи и строку model со свежего main, без маркеров",
+        "Оставить маркеры <<<<<<<, Git сам уберёт их на continue",
+        "Вернуть timeout_ms:1500 из первого коммита и выбросить обе правки"
+      ],
+      "correctIndex": 1,
+      "explanation": "Верхний блок rebase — база main. Нижний — ваш патч. Смысл выпуска — оба факта: опыт 800 мс и поле model."
+    },
+    {
+      "id": "fund-git-project-2",
+      "prompt": "Когда в этом сюжете делают интерактивный rebase со squash и fixup?",
+      "options": [
+        "После замечания ревью, чтобы стереть обсуждение",
+        "До первого push ветки, пока новые SHA никому не мешают",
+        "На защищённом main через git push --force",
+        "Вместо тега v0.1.0"
+      ],
+      "correctIndex": 1,
+      "explanation": "Черновики склеивают, пока ветку не смотрели. Замечание ревью закрывают новым коммитом, не переписыванием уже обсуждённого SHA."
+    },
+    {
+      "id": "fund-git-project-3",
+      "prompt": "Ревью просит объяснить 800 мс. Ветка уже на сервере. Какой следующий коммит?",
+      "options": [
+        "git commit --amend и git push --force в main",
+        "Новый коммит docs и обычный git push в feature-ветку",
+        "git revert HEAD на main без правки README",
+        "git stash clear"
+      ],
+      "correctIndex": 1,
+      "explanation": "Новый коммит оставляет комментарий ревью на старом SHA и добавляет ответ. Amend оторвал бы обсуждение."
+    },
+    {
+      "id": "fund-git-project-4",
+      "prompt": "Где живёт эта практика и куда ставят тег v0.1.0?",
+      "options": [
+        "В pull request репозитория Ступеней, тег на учебнике",
+        "В ~/sandbox/team-station, аннотированный тег на выпуске main и отдельно git push origin v0.1.0",
+        "Только в Android Studio, без remote",
+        "В файле .env, чтобы тег не попал в git"
+      ],
+      "correctIndex": 1,
+      "explanation": "Песочница отдельная. Тег не уезжает обычным push ветки. В Ступени этот вечер не присылают."
+    }
+  ]
+}
