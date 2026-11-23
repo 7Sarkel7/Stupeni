@@ -1,0 +1,53 @@
+{
+  "lessonId": "ac-serialization",
+  "questions": [
+    {
+      "id": "ac-serialization-1",
+      "prompt": "Что делает Json { ignoreUnknownKeys = true }?",
+      "options": [
+        "Игнорирует неизвестные поля в JSON, сервер может добавлять новые",
+        "Игнорирует обязательные поля",
+        "Включает рефлексию",
+        "Отключает кавычки"
+      ],
+      "correctIndex": 0,
+      "explanation": "Клиент переживает обновление сервера."
+    },
+    {
+      "id": "ac-serialization-2",
+      "prompt": "Поле val firmware: String? без значения по умолчанию. Что при JSON без него?",
+      "options": [
+        "Подставится null",
+        "MissingFieldException: поле обязательно присутствовать",
+        "Игнорируется",
+        "Подставится пустая строка"
+      ],
+      "correctIndex": 1,
+      "explanation": "Для необязательного поля нужно = null."
+    },
+    {
+      "id": "ac-serialization-3",
+      "prompt": "Зачем нужен плагин kotlin(\"plugin.serialization\")?",
+      "options": [
+        "Для Retrofit",
+        "Без него @Serializable ничего не генерирует",
+        "Для корутин",
+        "Для ViewBinding"
+      ],
+      "correctIndex": 1,
+      "explanation": "Плагин генерирует сериализаторы при сборке."
+    },
+    {
+      "id": "ac-serialization-4",
+      "prompt": "Чем Gson опаснее для Kotlin-моделей?",
+      "options": [
+        "Он медленнее",
+        "Может молча записать null в non-null поле",
+        "Он не умеет List",
+        "Он требует Hilt"
+      ],
+      "correctIndex": 1,
+      "explanation": "Ошибка проявится позже и в другом месте."
+    }
+  ]
+}

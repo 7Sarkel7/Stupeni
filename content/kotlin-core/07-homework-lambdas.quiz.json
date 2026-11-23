@@ -1,0 +1,53 @@
+{
+  "lessonId": "kc-hw-lambdas",
+  "questions": [
+    {
+      "id": "kc-hw-lambdas-1",
+      "prompt": "makeCounter(5) вызвали три раза подряд. Что вернут вызовы, если сначала отдаётся текущее значение?",
+      "options": [
+        "5, 6, 7",
+        "6, 7, 8",
+        "5, 5, 5",
+        "0, 1, 2"
+      ],
+      "correctIndex": 0,
+      "explanation": "Счётчик живёт в захваченной переменной и растёт на каждом вызове."
+    },
+    {
+      "id": "kc-hw-lambdas-2",
+      "prompt": "PendingLink уже подключён. Что делает runWhenReady(action)?",
+      "options": [
+        "Запоминает action и зовёт connect()",
+        "Сразу выполняет action, connect() не зовёт",
+        "Бросает исключение",
+        "Ставит action в очередь"
+      ],
+      "correctIndex": 1,
+      "explanation": "При готовой связи откладывать нечего."
+    },
+    {
+      "id": "kc-hw-lambdas-3",
+      "prompt": "После onDisconnected() пришёл onConnected(). Запомненное до обрыва действие...",
+      "options": [
+        "Выполнится",
+        "Не выполнится: оно сброшено при разрыве",
+        "Выполнится дважды",
+        "Вызовет connect()"
+      ],
+      "correctIndex": 1,
+      "explanation": "Устаревшее действие после обрыва выполнять нельзя."
+    },
+    {
+      "id": "kc-hw-lambdas-4",
+      "prompt": "Что вернёт compose(f, g)?",
+      "options": [
+        "Результат f(g(x))",
+        "Функцию, которая сначала применяет f, потом g",
+        "Список функций",
+        "Unit"
+      ],
+      "correctIndex": 1,
+      "explanation": "В нашем задании first выполняется первым, second — вторым."
+    }
+  ]
+}

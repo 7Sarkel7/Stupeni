@@ -1,0 +1,53 @@
+{
+  "lessonId": "ac-permissions",
+  "questions": [
+    {
+      "id": "ac-permissions-1",
+      "prompt": "Когда лучше запрашивать опасное разрешение?",
+      "options": [
+        "При запуске приложения",
+        "В момент действия, которому оно нужно",
+        "В Application.onCreate",
+        "Никогда"
+      ],
+      "correctIndex": 1,
+      "explanation": "Пользователь понимает, зачем."
+    },
+    {
+      "id": "ac-permissions-2",
+      "prompt": "Как запросить разрешение современным способом?",
+      "options": [
+        "onRequestPermissionsResult",
+        "registerForActivityResult(RequestPermission)",
+        "startActivityForResult",
+        "Через манифест одним"
+      ],
+      "correctIndex": 1,
+      "explanation": "Контракт регистрируют как поле или в onCreate."
+    },
+    {
+      "id": "ac-permissions-3",
+      "prompt": "Что делать после отказа «больше не спрашивать»?",
+      "options": [
+        "Повторять launch",
+        "Объяснить и отправить в настройки приложения",
+        "Упасть",
+        "Игнорировать"
+      ],
+      "correctIndex": 1,
+      "explanation": "Диалог больше не покажется; единственный путь — ACTION_APPLICATION_DETAILS_SETTINGS."
+    },
+    {
+      "id": "ac-permissions-4",
+      "prompt": "Какое разрешение нужно для уведомлений на Android 13+?",
+      "options": [
+        "INTERNET",
+        "POST_NOTIFICATIONS",
+        "VIBRATE",
+        "WAKE_LOCK"
+      ],
+      "correctIndex": 1,
+      "explanation": "Без него пуши и напоминания не показываются."
+    }
+  ]
+}

@@ -16,8 +16,8 @@ void main() {
     final progress = ProgressStore(await SharedPreferences.getInstance());
     final raw = await rootBundle.loadString('assets/content/catalog.json');
     final catalog = Catalog.parse(raw);
-    expect(catalog.tracks, hasLength(9));
-    expect(catalog.readyTotal, 59);
+    expect(catalog.tracks, hasLength(11));
+    expect(catalog.readyTotal, 78);
 
     await tester.pumpWidget(
       StupeniApp(

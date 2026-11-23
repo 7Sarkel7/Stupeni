@@ -1,0 +1,53 @@
+{
+  "lessonId": "kc-extensions",
+  "questions": [
+    {
+      "id": "kc-extensions-1",
+      "prompt": "Во что превращается extension-функция на JVM?",
+      "options": [
+        "В метод класса",
+        "В статическую функцию с получателем первым параметром",
+        "В наследника",
+        "В интерфейс"
+      ],
+      "correctIndex": 1,
+      "explanation": "Поэтому extension не видит private и не переопределяется."
+    },
+    {
+      "id": "kc-extensions-2",
+      "prompt": "Что победит, если у класса есть член с тем же именем, что у extension?",
+      "options": [
+        "Extension",
+        "Член класса",
+        "Выбирается по случайности",
+        "Ошибка компиляции всегда"
+      ],
+      "correctIndex": 1,
+      "explanation": "Члены класса приоритетнее, компилятор предупредит."
+    },
+    {
+      "id": "kc-extensions-3",
+      "prompt": "Что означает тип Report.() -> Unit?",
+      "options": [
+        "Функция, принимающая Report",
+        "Лямбда, внутри которой this равен Report",
+        "Функция, возвращающая Report",
+        "Suspend-функция"
+      ],
+      "correctIndex": 1,
+      "explanation": "Так устроены apply, buildString и DSL."
+    },
+    {
+      "id": "kc-extensions-4",
+      "prompt": "Какой вызов безопасен для fun String?.orDash()?",
+      "options": [
+        "name.orDash() даже когда name == null",
+        "Только name?.orDash()",
+        "Только name!!.orDash()",
+        "Никакой"
+      ],
+      "correctIndex": 0,
+      "explanation": "Получатель nullable, внутри this может быть null."
+    }
+  ]
+}

@@ -1,0 +1,53 @@
+{
+  "lessonId": "ac-gradle-release",
+  "questions": [
+    {
+      "id": "ac-gradle-release-1",
+      "prompt": "Зачем version catalog?",
+      "options": [
+        "Для ускорения сборки",
+        "Одно место для версий и безопасные имена вместо строк",
+        "Для подписи",
+        "Для R8"
+      ],
+      "correctIndex": 1,
+      "explanation": "Правка версии в одном месте."
+    },
+    {
+      "id": "ac-gradle-release-2",
+      "prompt": "Где хранить ключ и пароли подписи?",
+      "options": [
+        "В репозитории",
+        "Вне git: переменные окружения, секреты CI",
+        "В README",
+        "В strings.xml"
+      ],
+      "correctIndex": 1,
+      "explanation": "Скомпрометированный ключ придётся менять."
+    },
+    {
+      "id": "ac-gradle-release-3",
+      "prompt": "Чем AAB отличается от APK?",
+      "options": [
+        "Ничем",
+        "AAB — формат для магазина, из него делают APK под устройство; APK ставится напрямую",
+        "AAB старее",
+        "APK только для debug"
+      ],
+      "correctIndex": 1,
+      "explanation": "Google Play требует AAB для новых приложений."
+    },
+    {
+      "id": "ac-gradle-release-4",
+      "prompt": "Что обязательно сделать после включения R8 в release?",
+      "options": [
+        "Ничего",
+        "Пройти release-сборку руками: ошибки видны только там",
+        "Отключить подпись",
+        "Поднять minSdk"
+      ],
+      "correctIndex": 1,
+      "explanation": "R8 может удалить классы, нужные рефлексией."
+    }
+  ]
+}

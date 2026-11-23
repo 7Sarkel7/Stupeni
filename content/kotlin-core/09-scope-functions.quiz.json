@@ -1,0 +1,53 @@
+{
+  "lessonId": "kc-scope",
+  "questions": [
+    {
+      "id": "kc-scope-1",
+      "prompt": "Какая scope-функция вернёт сам объект и внутри даёт this?",
+      "options": [
+        "let",
+        "apply",
+        "run",
+        "also"
+      ],
+      "correctIndex": 1,
+      "explanation": "apply: this и результат — объект. also: it и результат — объект."
+    },
+    {
+      "id": "kc-scope-2",
+      "prompt": "Что обычно делает ip?.let { connect(it) }?",
+      "options": [
+        "Вызывает connect, только если ip не null",
+        "Всегда вызывает connect",
+        "Меняет ip",
+        "Возвращает ip"
+      ],
+      "correctIndex": 0,
+      "explanation": "Внутри блока it уже не null."
+    },
+    {
+      "id": "kc-scope-3",
+      "prompt": "Какая функция подходит для побочного лога в середине цепочки?",
+      "options": [
+        "also",
+        "apply",
+        "with",
+        "takeIf"
+      ],
+      "correctIndex": 0,
+      "explanation": "also возвращает тот же объект, цепочка не меняется."
+    },
+    {
+      "id": "kc-scope-4",
+      "prompt": "Что возвращает takeIf { it in 1..65535 }, если условие ложно?",
+      "options": [
+        "false",
+        "null",
+        "Исходное значение",
+        "Исключение"
+      ],
+      "correctIndex": 1,
+      "explanation": "takeIf даёт значение или null."
+    }
+  ]
+}

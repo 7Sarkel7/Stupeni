@@ -25,8 +25,10 @@ void main() {
       7,
       8,
       9,
+      10,
+      11,
     ]);
-    expect(catalog.readyTotal, 59);
+    expect(catalog.readyTotal, 78);
     expect(catalog.lessonById('fund-git'), isNotNull);
     final career = catalog.trackById('career');
     expect(career, isNotNull);
@@ -37,6 +39,15 @@ void main() {
     expect(androidCis, isNotNull);
     expect(androidCis!.lessonStatusLabel, 'написан');
     expect(androidCis.lessons, hasLength(17));
+    final kotlinCore = catalog.trackById('kotlin-core');
+    expect(kotlinCore, isNotNull);
+    expect(kotlinCore!.lessonStatusLabel, 'написан');
+    expect(kotlinCore.lessons, hasLength(13));
+    expect(catalog.lessonById('kc-nullable-lambdas'), isNotNull);
+    final androidCore = catalog.trackById('android-core');
+    expect(androidCore, isNotNull);
+    expect(androidCore!.lessonStatusLabel, 'написан');
+    expect(androidCore.lessons, hasLength(6));
 
     const readySections = [
       '## Цель',
@@ -65,7 +76,10 @@ void main() {
             );
           }
           expect(text.contains('**TODO:**'), isFalse, reason: lesson.id);
-          if (lesson.id.startsWith('career-') || lesson.id.startsWith('cis-')) {
+          if (lesson.id.startsWith('career-') ||
+              lesson.id.startsWith('cis-') ||
+              lesson.id.startsWith('kc-') ||
+              lesson.id.startsWith('ac-')) {
             expect(text.contains('**Уровень:**'), isTrue, reason: lesson.id);
           }
           if (lesson.id.startsWith('career-')) {
@@ -88,6 +102,21 @@ void main() {
         }
       }
     }
+  });
+
+  test('лаборатория модуля K без готового решения', () {
+    final lab = Directory('${contentDir.path}/kotlin-core/lab/src/main/kotlin');
+    final sources = lab
+        .listSync(recursive: true)
+        .whereType<File>()
+        .where((f) => f.path.endsWith('.kt'))
+        .toList();
+    expect(sources, isNotEmpty);
+    for (final file in sources) {
+      expect(file.readAsStringSync().contains('TODO('), isTrue, reason: file.path);
+    }
+    final hint = File('${contentDir.path}/kotlin-core/solutions/hint-pending.md');
+    expect(hint.readAsStringSync().contains('fun runWhenReady'), isFalse);
   });
 
   test('лаборатория без готового решения, спека капстоуна на месте', () {
