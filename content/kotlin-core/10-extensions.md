@@ -20,7 +20,7 @@
 ```kotlin
 fun String.lastChar(): Char = this[length - 1]
 
-"станц".lastChar()   // 'б'
+"станция".lastChar()   // 'я'
 ```
 
 `String.` перед именем — **получатель** (receiver). Внутри `this` — строка, на которой вызвали. `this.` можно опустить.

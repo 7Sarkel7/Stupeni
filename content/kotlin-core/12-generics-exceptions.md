@@ -26,7 +26,7 @@ class Box<T>(val value: T)
 
 fun <T> firstOr(list: List<T>, default: T): T = list.firstOrNull() ?: default
 
-val b = Box("станц")      // Box<String>
+val b = Box("станция")      // Box<String>
 val n = firstOr(emptyList<Int>(), 0)
 ```
 
@@ -72,7 +72,7 @@ suspend fun load(): Result<Status> = try {
 
 ## Разбор на примере
 
-Загрузка статуса станца. Сеть может упасть, ответ может быть мусором:
+Загрузка статуса станции. Сеть может упасть, ответ может быть мусором:
 
 ```kotlin
 sealed interface StatusResult {

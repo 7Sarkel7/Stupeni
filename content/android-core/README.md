@@ -1,6 +1,6 @@
 # A. Android: что ещё спрашивают
 
-Шесть уроков про то, что в других треках только упомянуто или отсутствует: жизненный цикл и `ViewBinding`, `kotlinx.serialization`, разрешения, основы BLE и Wi-Fi, foreground service и ограничения фона, Gradle, version catalog, подпись и публикация. Примеры идут от станца и лампы, но приёмы общие.
+Шесть уроков про то, что в других треках только упомянуто или отсутствует: жизненный цикл и `ViewBinding`, `kotlinx.serialization`, разрешения, основы BLE и Wi-Fi, foreground service и ограничения фона, Gradle, version catalog, подпись и публикация. Примеры идут от станции и лампы, но приёмы общие.
 
 Читают после [модуля 02](../02-kotlin-android/README.md) и желательно после [Kotlin: основа и лямбды](../kotlin-core/README.md): уроки по BLE и сервисам опираются на колбэки и корутины. Рядом, не вместо: [стек найма для СНГ](../android-cis/README.md) (Flow, Hilt, Retrofit, Room, DataStore, тесты, CI, пуши, WorkManager) и [карьера](../career/README.md).
 
