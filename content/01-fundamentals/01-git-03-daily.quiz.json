@@ -18,7 +18,7 @@
       "prompt": "Какой заголовок полезен через неделю?",
       "options": [
         "фикс",
-        "update Esp32WifiClient.kt",
+        "update StationWifiClient.kt",
         "fix: ping повторяется, пока SoftAP не ответит на /v1/reading",
         "правки вечера"
       ],

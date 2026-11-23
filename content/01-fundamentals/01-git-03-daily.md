@@ -23,7 +23,7 @@
 ```text
 $ git status -sb
 ## main
- M app/src/main/kotlin/dev/station/Esp32WifiClient.kt
+ M app/src/main/kotlin/dev/station/StationWifiClient.kt
 ?? local.properties
 ```
 
@@ -48,7 +48,7 @@ $ git status -sb
 
 ```text
 $ git add -p
-diff --git a/Esp32WifiClient.kt b/Esp32WifiClient.kt
+diff --git a/StationWifiClient.kt b/StationWifiClient.kt
 @@ -20,3 +20,7 @@
 +        repeat(8) { attempt ->
 +            if (ping()) return
