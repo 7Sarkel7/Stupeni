@@ -6,7 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'logic.dart';
 
 /// Локальный прогресс: прочитанные уроки, лучший процент, серия дней.
-/// Сеть не используется. Тот же приём, что последний IP пульта станца.
+/// Сеть не используется. Тот же приём, что последний IP пульта станции.
 class ProgressStore extends ChangeNotifier {
   ProgressStore(this._prefs, {DateTime Function()? now})
     : _now = now ?? DateTime.now;

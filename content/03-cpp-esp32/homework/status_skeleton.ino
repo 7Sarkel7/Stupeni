@@ -11,7 +11,7 @@ bool sdReady = false;
 
 void handleApiStatus() {
   // GET /v1/reading
-  // 200, text/plain, строка содержит OK, fw: и model:
+  // 200, text/plain, строка содержит OK, fw: и board:
 }
 
 void handleApiHealth() {

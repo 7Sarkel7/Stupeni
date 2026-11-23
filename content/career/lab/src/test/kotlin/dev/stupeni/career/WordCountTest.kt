@@ -7,7 +7,7 @@ import kotlin.test.assertTrue
 class WordCountTest {
     @Test
     fun countsCaseAndPunctuation() {
-        assertEquals(mapOf("станц" to 2, "led" to 1), wordCount("Станц станц, LED"))
+        assertEquals(mapOf("дождь" to 2, "датчик" to 1), wordCount("Дождь дождь, датчик"))
     }
 
     @Test
