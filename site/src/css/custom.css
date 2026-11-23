@@ -1,0 +1,8 @@
+:root {
+  --ifm-font-size-base: 106%;
+  --ifm-line-height-base: 1.7;
+  --ifm-color-primary: #2e6ad6;
+}
+.markdown {
+  max-width: 46rem;
+}
