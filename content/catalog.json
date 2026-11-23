@@ -8,7 +8,7 @@
       "title": "Фундамент",
       "subtitle": "Git, HTTP, JSON, отладка",
       "status": "ready",
-      "summary": "Общий язык пульта и прошивки. Без этого станц отлаживают наугад.",
+      "summary": "Общий язык пульта и прошивки. Без этого станцию отлаживают наугад.",
       "lessons": [
         {
           "id": "fund-git",
@@ -56,7 +56,7 @@
       "id": "kotlin-android",
       "order": 2,
       "title": "Kotlin и Android",
-      "subtitle": "Пульт станца",
+      "subtitle": "Пульт станции",
       "status": "ready",
       "summary": "Ping, одна команда показа, понятная ошибка. Сеть не на UI-потоке. Экран пульта — Jetpack Compose и Material 3.",
       "lessons": [
@@ -78,7 +78,7 @@
         },
         {
           "id": "and-display",
-          "title": "Одна команда: показать файл",
+          "title": "Одна команда: вывести журнал",
           "minutes": 30,
           "status": "ready",
           "path": "02-kotlin-android/03-display.md",
@@ -178,9 +178,9 @@
       "id": "cpp-esp32",
       "order": 3,
       "title": "C++ и ESP32",
-      "subtitle": "Прошивка станца",
+      "subtitle": "Прошивка станции",
       "status": "ready",
-      "summary": "loop, локальный HTTP, слой stationDo и порядок транспортов Поле.",
+      "summary": "loop, локальный HTTP, слой stationDo и порядок транспортов метеостанции «Поле».",
       "lessons": [
         {
           "id": "esp-loop",
@@ -234,7 +234,7 @@
       "lessons": [
         {
           "id": "be-outbound",
-          "title": "Почему станц сам звонит наружу",
+          "title": "Почему станция сама звонит наружу",
           "minutes": 20,
           "status": "todo",
           "path": "04-backend-fastapi/01-outbound.md",

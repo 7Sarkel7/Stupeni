@@ -13,7 +13,7 @@
 
 ## Зачем это вам
 
-Пульт станца ходил в локальный HTTP через OkHttp и держал адрес на диске. Продуктовый экран почти всегда добавляет три вещи: описание API отдельным интерфейсом, локальную таблицу как источник правды и маленький ключ настроек. На собеседовании это называют одним вопросом «как у вас устроен офлайн».
+Пульт станции ходил в локальный HTTP через OkHttp и держал адрес на диске. Продуктовый экран почти всегда добавляет три вещи: описание API отдельным интерфейсом, локальную таблицу как источник правды и маленький ключ настроек. На собеседовании это называют одним вопросом «как у вас устроен офлайн».
 
 Страницы: [Retrofit](https://square.github.io/retrofit/), [OkHttp](https://square.github.io/okhttp/), [Room](https://developer.android.com/training/data-storage/room), [DataStore](https://developer.android.com/topic/libraries/architecture/datastore), [слой данных](https://developer.android.com/topic/architecture/data-layer).
 
