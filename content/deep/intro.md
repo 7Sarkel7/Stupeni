@@ -10,4 +10,4 @@ sidebar_position: 0
 
 **Прогресс** на этом сайте хранится только в вашем браузере и не связан с приложением на телефоне.
 
-Первый трек — [Найм Android: стек СНГ](android-cis/placeholder.md).
+Первый трек — [Найм Android: стек СНГ](android-cis/01-flow/index.md).
