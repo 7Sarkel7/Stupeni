@@ -6,7 +6,7 @@
       "prompt": "Какой loop не морозит HTTP на плате?",
       "options": [
         "void loop() { delay(10000); server.handleClient(); }",
-        "void loop() { server.handleClient(); cloudRelayLoop(); }",
+        "void loop() { server.handleClient(); stationCloudLoop(); }",
         "void Loop() { server.handleClient(); }",
         "void loop() { while (true) { digitalWrite(2, HIGH); } }"
       ],

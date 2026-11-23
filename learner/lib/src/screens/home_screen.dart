@@ -48,7 +48,7 @@ class HomeScreen extends StatelessWidget {
         padding: const EdgeInsets.fromLTRB(20, 8, 20, 32),
         children: [
           Text(
-            'Пульт, прошивка и облако станца — основной маршрут. '
+            'Пульт, прошивка и облако метеостанции «Поле» — основной маршрут. '
             'Карьерный трек отдельно: он про найм и стартует после модулей 01–03. '
             'Стек найма Android для СНГ идёт после уроков Compose и не заменяет лампу DeskNode.',
             style: theme.textTheme.bodyLarge,
