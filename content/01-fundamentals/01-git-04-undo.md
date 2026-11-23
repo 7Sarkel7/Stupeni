@@ -105,7 +105,7 @@
 
 ```text
 $ git add status.txt
-$ git commit --amend -m "feat: первая строка status станца" -m "timeout_ms — черновик для пульта."
+$ git commit --amend -m "feat: первая строка status станции" -m "timeout_ms — черновик для пульта."
 ```
 
 `--amend` после push требует потом `--force-with-lease`. На `main`, который защищён, force всё равно отвергнут. Там забытый файл догоняют новым коммитом, а кривой уже общий снимок — через `revert`.
@@ -116,8 +116,8 @@ Reflog — локальный журнал, куда двигались `HEAD` �
 
 ```text
 $ git reflog
-a1b2c3d HEAD@{0}: commit (amend): feat: первая строка status станца
-9f8e7d6 HEAD@{1}: commit: feat: первая строка status станца
+a1b2c3d HEAD@{0}: commit (amend): feat: первая строка status станции
+9f8e7d6 HEAD@{1}: commit: feat: первая строка status станции
 0c11aa2 HEAD@{2}: reset: moving to HEAD~1
 ```
 
@@ -159,7 +159,7 @@ $ git switch main
 $ git log --oneline
 b7c6d5e (HEAD -> main) chore: println для отладки
 e4f5a6b fix: повторять ping, пока SoftAP не ответит
-a1b2c3d feat: первая строка status станца
+a1b2c3d feat: первая строка status станции
 
 $ git reset --mixed HEAD~1
 $ git status -sb

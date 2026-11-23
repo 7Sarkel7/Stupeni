@@ -42,7 +42,7 @@ $ git stash push -u -m "черновик вместе с новым Client.kt"
 ```text
 $ git stash list
 stash@{0}: On feature/status-fields: черновик полей status, ещё не коммит
-stash@{1}: On main: WIP on main: a1b2c3d feat: первая строка status станца
+stash@{1}: On main: WIP on main: a1b2c3d feat: первая строка status станции
 
 $ git stash show -p stash@{0}
 ```
@@ -194,4 +194,4 @@ $ git stash show -p stash@{0}
 
 ## Следующий урок
 
-[Удалённые репозитории, теги, релизы](01-git-08-remotes.md) — откуда `git pull` вообще берёт чужие коммиты, чем fetch отличается от pull и как пометить снимок, с которого станц прошивали.
+[Удалённые репозитории, теги, релизы](01-git-08-remotes.md) — откуда `git pull` вообще берёт чужие коммиты, чем fetch отличается от pull и как пометить снимок, с которого станция прошивали.
