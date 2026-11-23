@@ -23,7 +23,7 @@
         "Без ветки нельзя вызвать /v1/reading"
       ],
       "correctIndex": 1,
-      "explanation": "Ветка — линия снимков. Откат исходников к тому, с чем станц уже отвечал, не должен требовать вспоминать правки."
+      "explanation": "Ветка — линия снимков. Откат исходников к тому, с чем станция уже отвечал, не должен требовать вспоминать правки."
     },
     {
       "id": "fund-git-3",
@@ -31,15 +31,15 @@
       "options": [
         "фикс",
         "правки",
-        "fix: ping станца повторяется, пока SoftAP не ответит на /v1/reading",
-        "update Esp32WifiClient.kt, MainActivity.kt, build.gradle"
+        "fix: ping станции повторяется, пока SoftAP не ответит на /v1/reading",
+        "update StationWifiClient.kt, MainActivity.kt, build.gradle"
       ],
       "correctIndex": 2,
       "explanation": "Нужны поведение и контракт. Список файлов и слово «фикс» не объясняют, что проверить на столе."
     },
     {
       "id": "fund-git-4",
-      "prompt": "Что не кладут в git репозитория станца?",
+      "prompt": "Что не кладут в git репозитория станции?",
       "options": [
         "Исходник хендлера /v1/reading",
         "station_key и пароль Wi-Fi",
