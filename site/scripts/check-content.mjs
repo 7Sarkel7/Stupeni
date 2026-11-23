@@ -12,6 +12,7 @@ const fail = (file, msg) => errors.push(`${relative(root, file)}: ${msg}`);
 function walk(dir) {
   const out = [];
   for (const name of readdirSync(dir)) {
+    if (name.startsWith('_')) continue;
     const p = join(dir, name);
     if (statSync(p).isDirectory()) out.push(...walk(p));
     else out.push(p);

@@ -1,0 +1,12 @@
+{
+  "kotlin-flow": {"title": "Kotlin: Asynchronous Flow", "url": "https://kotlinlang.org/docs/flow.html"},
+  "kotlin-coroutines-overview": {"title": "Kotlin: Coroutines overview", "url": "https://kotlinlang.org/docs/coroutines-overview.html"},
+  "kotlin-cancellation": {"title": "Kotlin: Cancellation and timeouts", "url": "https://kotlinlang.org/docs/cancellation-and-timeouts.html"},
+  "kotlin-tour-collections": {"title": "Kotlin tour: Collections", "url": "https://kotlinlang.org/docs/kotlin-tour-collections.html"},
+  "android-flow": {"title": "Android: Kotlin flows on Android", "url": "https://developer.android.com/kotlin/flow"},
+  "android-stateflow": {"title": "Android: StateFlow and SharedFlow", "url": "https://developer.android.com/kotlin/flow/stateflow-and-sharedflow"},
+  "android-coroutines": {"title": "Android: Kotlin coroutines on Android", "url": "https://developer.android.com/kotlin/coroutines"},
+  "compose-docs": {"title": "Android: Jetpack Compose documentation", "url": "https://developer.android.com/develop/ui/compose/documentation"},
+  "git-docs": {"title": "Git: справочник команд", "url": "https://git-scm.com/docs"},
+  "git-book": {"title": "Pro Git (git-scm.com)", "url": "https://git-scm.com/book/ru/v2"}
+}
