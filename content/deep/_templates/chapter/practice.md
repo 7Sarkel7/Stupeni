@@ -40,3 +40,7 @@ minutesPerEvening: 90
 ## Если застряли
 
 Куда смотреть до просьбы о помощи.
+
+## Отметка о выполнении
+
+<ProgressCheck id="ID_УРОКА_ИЗ_catalog.json/practice">Практика сделана и принята ревьюером</ProgressCheck>

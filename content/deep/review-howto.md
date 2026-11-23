@@ -47,3 +47,5 @@ sidebar_position: 91
 ## Если запутались в Git
 
 Справочник команд: <Doc k="git-docs" />. Книга: <Doc k="git-book" />.
+
+<ProgressCheck id="howto/review">Я прочитал(а) эту инструкцию</ProgressCheck>
