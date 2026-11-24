@@ -66,3 +66,13 @@ Kotlin Multiplatform — необязательный следующий шаг:
 База та же, что у пульта и прошивки учебной метеостанции: Kotlin уже не с нуля, C++ — на уровне «читал и немного писал», вечер короче смены. Модули 01–03 доводят локальный контракт. Карьера берёт этот контракт и доращивает его до разговора о найме: коллекции, сеть, MVVM, тесты, честное резюме, свой узел DeskNode. Облако, голос и Flutter не идут раньше живого `GET /v1/reading`.
 
 Если правило работы и пример в уроке расходятся, сдаёте правило работы. Пример в уроке объясняет механизм на другом маленьком куске, его не сдают как свою работу.
+
+## Kotlin и Android: что ещё спрашивают
+
+Треки [content/kotlin-core](content/kotlin-core/README.md) и [content/android-core](content/android-core/README.md) закрывают пробелы, найденные при сверке курса со списком тем junior Android. Форма та же: короткий разбор, упражнения, лаборатория с красным тестом там, где поведение проверяется без телефона, намёки без кода. Номера библиотек в уроки не замораживают.
+
+- [Лямбды Kotlin](https://kotlinlang.org/docs/lambdas.html), [функции высшего порядка](https://kotlinlang.org/docs/lambdas.html#higher-order-functions), [inline](https://kotlinlang.org/docs/inline-functions.html), [scope-функции](https://kotlinlang.org/docs/scope-functions.html), [extension](https://kotlinlang.org/docs/extensions.html)
+- [Коллекции: операции](https://kotlinlang.org/docs/collection-operations.html), [sealed](https://kotlinlang.org/docs/sealed-classes.html), [исключения](https://kotlinlang.org/docs/exceptions.html), [generics](https://kotlinlang.org/docs/generics.html)
+- [Корутины: отмена и таймауты](https://kotlinlang.org/docs/cancellation-and-timeouts.html), [жизненный цикл Activity](https://developer.android.com/guide/components/activities/activity-lifecycle), [ViewBinding](https://developer.android.com/topic/libraries/view-binding)
+- [kotlinx.serialization](https://github.com/Kotlin/kotlinx.serialization), [разрешения](https://developer.android.com/guide/topics/permissions/overview), [BLE](https://developer.android.com/develop/connectivity/bluetooth/ble/ble-overview), [NSD](https://developer.android.com/develop/connectivity/wifi/use-nsd), [foreground service](https://developer.android.com/develop/background-work/services/fgs)
+- [Version catalog](https://docs.gradle.org/current/userguide/version_catalogs.html), [подпись приложения](https://developer.android.com/studio/publish/app-signing), [Play Console](https://support.google.com/googleplay/android-developer), [RuStore для разработчиков](https://www.rustore.ru/help/developers/)

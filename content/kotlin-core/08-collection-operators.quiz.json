@@ -1,0 +1,53 @@
+{
+  "lessonId": "kc-collection-ops",
+  "questions": [
+    {
+      "id": "kc-collection-ops-1",
+      "prompt": "Какой оператор и преобразует элементы, и выбрасывает null?",
+      "options": [
+        "map",
+        "mapNotNull",
+        "filterNot",
+        "flatMap"
+      ],
+      "correctIndex": 1,
+      "explanation": "mapNotNull заодно сужает тип до non-null."
+    },
+    {
+      "id": "kc-collection-ops-2",
+      "prompt": "В чём разница groupBy и associateBy при повторяющихся ключах?",
+      "options": [
+        "Нет разницы",
+        "groupBy собирает списки по ключу, associateBy оставляет последний элемент",
+        "associateBy собирает списки",
+        "groupBy теряет порядок"
+      ],
+      "correctIndex": 1,
+      "explanation": "groupBy — Map<K, List<V>>, associateBy — Map<K, V>."
+    },
+    {
+      "id": "kc-collection-ops-3",
+      "prompt": "Чем безопаснее firstOrNull(), чем first()?",
+      "options": [
+        "Он быстрее",
+        "Возвращает null на пустой коллекции, first() бросит исключение",
+        "Он сортирует",
+        "Ничем"
+      ],
+      "correctIndex": 1,
+      "explanation": "Пустая коллекция — отдельный случай для проверки."
+    },
+    {
+      "id": "kc-collection-ops-4",
+      "prompt": "Когда стоит использовать asSequence()?",
+      "options": [
+        "Всегда",
+        "Для больших данных или длинной цепочки, когда нужен ленивый проход без промежуточных списков",
+        "Чтобы изменить исходный список",
+        "Для Map"
+      ],
+      "correctIndex": 1,
+      "explanation": "Для коротких списков на экране List проще и быстрее."
+    }
+  ]
+}

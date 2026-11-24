@@ -1,0 +1,53 @@
+{
+  "lessonId": "ac-lifecycle",
+  "questions": [
+    {
+      "id": "ac-lifecycle-1",
+      "prompt": "Какой порядок вызовов у Activity при запуске?",
+      "options": [
+        "onStart, onCreate, onResume",
+        "onCreate, onStart, onResume",
+        "onResume, onStart, onCreate",
+        "onCreate, onResume, onStart"
+      ],
+      "correctIndex": 1,
+      "explanation": "На выходе: onPause, onStop, onDestroy."
+    },
+    {
+      "id": "ac-lifecycle-2",
+      "prompt": "Что переживёт и поворот экрана, и смерть процесса?",
+      "options": [
+        "Поле Activity",
+        "ViewModel",
+        "Данные в SavedStateHandle или базе",
+        "Лямбда в поле"
+      ],
+      "correctIndex": 2,
+      "explanation": "ViewModel переживает поворот, но не смерть процесса."
+    },
+    {
+      "id": "ac-lifecycle-3",
+      "prompt": "Почему binding фрагмента обнуляют в onDestroyView?",
+      "options": [
+        "Так быстрее",
+        "Иначе утечёт view: фрагмент может жить в back stack без view",
+        "Это требует ViewBinding",
+        "Иначе не соберётся"
+      ],
+      "correctIndex": 1,
+      "explanation": "У фрагмента два цикла: сам фрагмент и его view."
+    },
+    {
+      "id": "ac-lifecycle-4",
+      "prompt": "Как правильно собирать Flow в Fragment на Views?",
+      "options": [
+        "lifecycleScope.launch без условий",
+        "repeatOnLifecycle(STARTED) в viewLifecycleOwner.lifecycleScope",
+        "GlobalScope",
+        "В onCreate через runBlocking"
+      ],
+      "correctIndex": 1,
+      "explanation": "Сбор останавливается, когда экран не виден."
+    }
+  ]
+}

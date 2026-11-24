@@ -1,0 +1,53 @@
+{
+  "lessonId": "kc-control",
+  "questions": [
+    {
+      "id": "kc-control-1",
+      "prompt": "Зачем when по sealed-иерархии без else?",
+      "options": [
+        "Так быстрее",
+        "Компилятор проверит полноту и сломает сборку при новом варианте",
+        "else запрещён синтаксисом",
+        "Так работает умное приведение"
+      ],
+      "correctIndex": 1,
+      "explanation": "Забытый вариант станет ошибкой компиляции."
+    },
+    {
+      "id": "kc-control-2",
+      "prompt": "Какие числа обойдёт for (i in 0 until 3)?",
+      "options": [
+        "0, 1, 2, 3",
+        "1, 2, 3",
+        "0, 1, 2",
+        "0, 1"
+      ],
+      "correctIndex": 2,
+      "explanation": "until не включает правую границу."
+    },
+    {
+      "id": "kc-control-3",
+      "prompt": "Как вызвать connect(host, port = 80, timeoutMs = 3000), поменяв только таймаут?",
+      "options": [
+        "connect(host, 500)",
+        "connect(host, timeoutMs = 500)",
+        "connect(timeoutMs = 500)",
+        "connect(host, , 500)"
+      ],
+      "correctIndex": 1,
+      "explanation": "Именованный аргумент пропускает port, у которого есть значение по умолчанию."
+    },
+    {
+      "id": "kc-control-4",
+      "prompt": "Что вернёт if (online) \"да\" else \"нет\", если записать его в val?",
+      "options": [
+        "Unit",
+        "Строку, if — выражение",
+        "Ошибку: if не выражение",
+        "Boolean"
+      ],
+      "correctIndex": 1,
+      "explanation": "В Kotlin if и when — выражения."
+    }
+  ]
+}

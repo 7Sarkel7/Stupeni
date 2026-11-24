@@ -24,6 +24,10 @@
 
 После уроков Compose модуля 02, отдельно от DeskNode: [стек найма Android для СНГ](content/android-cis/README.md). Корутины и Flow, потоки, Hilt и короткий разбор Koin, Retrofit, Room, DataStore, MockK, Turbine, тесты Compose, GitHub Actions, FCM и RuStore Push, WorkManager. У каждой темы своя домашняя работа с рубрикой. Капстоун — журнал смены [«Смена»](content/android-cis/capstone/SPEC.md): запись и фото без сети, очередь, фон и напоминание. Исходников журнала в репозитории нет. Прошивка и лампа DeskNode этим треком не заменяются.
 
+Отдельно, можно параллельно с модулем 02: [Kotlin: основа и лямбды](content/kotlin-core/README.md). Null-safety, `when`, **лямбды и функции высшего порядка** (синтаксис, `it`, функциональные типы, nullable-колбэки и `?.invoke()`, отложенное действие, захват, `inline`), операторы коллекций, scope-функции, extension, `sealed` и `data`, исключения, `Job` и `scope`. Лаборатория с тестами, как в карьерном треке.
+
+Что в Android ещё спрашивают: [Android: что ещё спрашивают](content/android-core/README.md). Lifecycle и `ViewBinding`, `kotlinx.serialization`, разрешения, основы BLE и Wi-Fi, foreground service, Gradle, version catalog, подпись и публикация.
+
 Уроки про Android UI сверяют с актуальными доками, а не с застывшим номером библиотеки. Ссылки собраны в [PEDAGOGY.md](PEDAGOGY.md): [Jetpack Compose](https://developer.android.com/develop/ui/compose/documentation), [Material 3](https://developer.android.com/develop/ui/compose/designsystems/material3), [Compose BOM](https://developer.android.com/develop/ui/compose/bom). Kotlin Multiplatform в маршруте — необязательный шаг для общей логики после готового Android-экрана.
 
 Модули 01–03 можно читать прямо на GitHub. В приложении тот же текст, кнопка «Я изучил» и короткая проверка. Конспекты TODO открываются, чтобы было видно место в маршруте; полной теории и проверки там ещё нет.

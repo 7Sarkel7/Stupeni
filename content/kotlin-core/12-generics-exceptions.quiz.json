@@ -1,0 +1,53 @@
+{
+  "lessonId": "kc-generics-errors",
+  "questions": [
+    {
+      "id": "kc-generics-errors-1",
+      "prompt": "Что значит fun <T : Comparable<T>> largest(list: List<T>)?",
+      "options": [
+        "T — любой тип",
+        "T обязан уметь сравниваться",
+        "T — только Int",
+        "T — nullable"
+      ],
+      "correctIndex": 1,
+      "explanation": "Верхняя граница ограничивает допустимые типы."
+    },
+    {
+      "id": "kc-generics-errors-2",
+      "prompt": "Почему runCatching в suspend-коде может быть опасен?",
+      "options": [
+        "Он медленный",
+        "Он ловит и CancellationException, ломая отмену корутины",
+        "Он не ловит IOException",
+        "Он блокирует поток"
+      ],
+      "correctIndex": 1,
+      "explanation": "Отмену нужно пробросить: catch (e: CancellationException) { throw e }."
+    },
+    {
+      "id": "kc-generics-errors-3",
+      "prompt": "Чем require отличается от check?",
+      "options": [
+        "Ничем",
+        "require проверяет аргументы (IllegalArgumentException), check — состояние (IllegalStateException)",
+        "require для null",
+        "check только в тестах"
+      ],
+      "correctIndex": 1,
+      "explanation": "Два разных смысла нарушения контракта."
+    },
+    {
+      "id": "kc-generics-errors-4",
+      "prompt": "Какое исключение лучше ловить вокруг сетевого вызова?",
+      "options": [
+        "Throwable",
+        "Конкретное: IOException и подобные",
+        "Любое Exception без логов",
+        "Никакое"
+      ],
+      "correctIndex": 1,
+      "explanation": "Широкий catch скрывает баги и ломает отмену."
+    }
+  ]
+}

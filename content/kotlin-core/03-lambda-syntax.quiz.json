@@ -1,0 +1,65 @@
+{
+  "lessonId": "kc-lambda-syntax",
+  "questions": [
+    {
+      "id": "kc-lambda-syntax-1",
+      "prompt": "Чему равна лямбда { x: Int -> x * 2 }, положенная в val double?",
+      "options": [
+        "Числу",
+        "Функции (Int) -> Int, её ещё нужно вызвать",
+        "Ошибке: нужен return",
+        "Unit"
+      ],
+      "correctIndex": 1,
+      "explanation": "Это значение-функция. Результат появится после double(21)."
+    },
+    {
+      "id": "kc-lambda-syntax-2",
+      "prompt": "Что такое it?",
+      "options": [
+        "Ключевое слово для return",
+        "Неявное имя единственного параметра лямбды",
+        "Ссылка на внешний класс",
+        "Тип Unit"
+      ],
+      "correctIndex": 1,
+      "explanation": "Если параметр один и тип известен из контекста, его можно не называть."
+    },
+    {
+      "id": "kc-lambda-syntax-3",
+      "prompt": "Какая запись идиоматична для list.filter({ it > 1 })?",
+      "options": [
+        "list.filter { it > 1 }",
+        "list.filter() -> { it > 1 }",
+        "list.filter return it > 1",
+        "list filter it > 1"
+      ],
+      "correctIndex": 0,
+      "explanation": "Если лямбда — последний (единственный) аргумент, её выносят за скобки."
+    },
+    {
+      "id": "kc-lambda-syntax-4",
+      "prompt": "Что делает return внутри лямбды forEach без метки?",
+      "options": [
+        "Выходит из лямбды",
+        "Выходит из внешней функции",
+        "Ничего",
+        "Не компилируется"
+      ],
+      "correctIndex": 1,
+      "explanation": "forEach inline, поэтому return возвращает из внешней функции. Выйти из лямбды можно через return@forEach."
+    },
+    {
+      "id": "kc-lambda-syntax-5",
+      "prompt": "val say = { println(\"a\") }. Что напечатается сразу после этой строки?",
+      "options": [
+        "a",
+        "Ничего: лямбда не вызвана",
+        "Ошибка",
+        "Unit"
+      ],
+      "correctIndex": 1,
+      "explanation": "Лямбда — значение. Пока нет say(), код внутри не выполняется."
+    }
+  ]
+}

@@ -1,0 +1,53 @@
+{
+  "lessonId": "ac-services",
+  "questions": [
+    {
+      "id": "ac-services-1",
+      "prompt": "Когда выбирать foreground service, а не WorkManager?",
+      "options": [
+        "Всегда",
+        "Когда пользователь ждёт сейчас, работа длинная и видимая",
+        "Для отложенной синхронизации",
+        "Для периодических задач"
+      ],
+      "correctIndex": 1,
+      "explanation": "Для отложенного и гарантированного — WorkManager."
+    },
+    {
+      "id": "ac-services-2",
+      "prompt": "Что обязательно на Android 14 для foreground service?",
+      "options": [
+        "Ничего",
+        "Тип foregroundServiceType и соответствующее разрешение",
+        "Только уведомление",
+        "Bound-режим"
+      ],
+      "correctIndex": 1,
+      "explanation": "Типы: dataSync, connectedDevice, mediaPlayback и другие."
+    },
+    {
+      "id": "ac-services-3",
+      "prompt": "Что должен сделать сервис после startForegroundService?",
+      "options": [
+        "Ничего",
+        "Быстро вызвать startForeground, иначе исключение",
+        "Остановиться",
+        "Создать Activity"
+      ],
+      "correctIndex": 1,
+      "explanation": "Нужно показать уведомление."
+    },
+    {
+      "id": "ac-services-4",
+      "prompt": "Зачем отменять свой CoroutineScope в onDestroy сервиса?",
+      "options": [
+        "Не нужно",
+        "Чтобы работа не пережила сервис",
+        "Для ускорения",
+        "Для Hilt"
+      ],
+      "correctIndex": 1,
+      "explanation": "У корутины должен быть владелец."
+    }
+  ]
+}

@@ -1,0 +1,65 @@
+{
+  "lessonId": "kc-function-types",
+  "questions": [
+    {
+      "id": "kc-function-types-1",
+      "prompt": "Что за тип у val f = { a: Int, b: Int -> a + b }?",
+      "options": [
+        "(Int, Int) -> Int",
+        "Int",
+        "(Int) -> Int",
+        "() -> Int"
+      ],
+      "correctIndex": 0,
+      "explanation": "Два параметра Int и результат Int."
+    },
+    {
+      "id": "kc-function-types-2",
+      "prompt": "Что означает (Int) -> (Int) -> Int?",
+      "options": [
+        "Функция, принимающая две Int",
+        "Функция, принимающая Int и возвращающая функцию (Int) -> Int",
+        "Функция, возвращающая два Int",
+        "Ошибка синтаксиса"
+      ],
+      "correctIndex": 1,
+      "explanation": "Стрелки группируются вправо: результат — функция."
+    },
+    {
+      "id": "kc-function-types-3",
+      "prompt": "Что даёт ссылка String::length в list.map(String::length)?",
+      "options": [
+        "Вызывает length у каждой строки",
+        "Строку \"length\"",
+        "Число для списка",
+        "Ничего"
+      ],
+      "correctIndex": 0,
+      "explanation": "Это функция (String) -> Int; map применит её к каждому элементу."
+    },
+    {
+      "id": "kc-function-types-4",
+      "prompt": "Что такое функция высшего порядка?",
+      "options": [
+        "Функция с большим числом параметров",
+        "Функция, принимающая или возвращающая функцию",
+        "Функция верхнего уровня файла",
+        "inline-функция"
+      ],
+      "correctIndex": 1,
+      "explanation": "filter, map, retry и compose — примеры."
+    },
+    {
+      "id": "kc-function-types-5",
+      "prompt": "Зачем fun interface, если есть функциональные типы?",
+      "options": [
+        "Чтобы дать функции именованный тип и документацию, сохранив запись лямбдой",
+        "Он быстрее",
+        "Лямбды без него не работают",
+        "Он заменяет data class"
+      ],
+      "correctIndex": 0,
+      "explanation": "fun interface Clock { fun now(): Long } можно создать лямбдой и подставить в тесте."
+    }
+  ]
+}

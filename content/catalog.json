@@ -803,6 +803,178 @@
           "quiz": "android-cis/17-capstone.quiz.json"
         }
       ]
+    },
+    {
+      "id": "kotlin-core",
+      "order": 10,
+      "title": "Kotlin: основа и лямбды",
+      "subtitle": "Лямбды, коллекции, scope-функции, классы",
+      "status": "ready",
+      "summary": "Null-safety, when, лямбды и функции высшего порядка, nullable-колбэки и отложенное действие, операторы коллекций, scope-функции, extension, sealed и data, исключения, Job и scope корутин. Лаборатория с тестами.",
+      "lessons": [
+        {
+          "id": "kc-basics",
+          "title": "val, var, типы и null",
+          "minutes": 35,
+          "status": "ready",
+          "path": "kotlin-core/01-basics.md",
+          "quiz": "kotlin-core/01-basics.quiz.json"
+        },
+        {
+          "id": "kc-control",
+          "title": "if, when, циклы и функции",
+          "minutes": 40,
+          "status": "ready",
+          "path": "kotlin-core/02-control-functions.md",
+          "quiz": "kotlin-core/02-control-functions.quiz.json"
+        },
+        {
+          "id": "kc-lambda-syntax",
+          "title": "Лямбды: синтаксис, it, trailing lambda",
+          "minutes": 45,
+          "status": "ready",
+          "path": "kotlin-core/03-lambda-syntax.md",
+          "quiz": "kotlin-core/03-lambda-syntax.quiz.json"
+        },
+        {
+          "id": "kc-function-types",
+          "title": "Функциональные типы и функции высшего порядка",
+          "minutes": 45,
+          "status": "ready",
+          "path": "kotlin-core/04-function-types.md",
+          "quiz": "kotlin-core/04-function-types.quiz.json"
+        },
+        {
+          "id": "kc-nullable-lambdas",
+          "title": "Nullable-лямбды и отложенное действие",
+          "minutes": 50,
+          "status": "ready",
+          "path": "kotlin-core/05-nullable-lambdas.md",
+          "quiz": "kotlin-core/05-nullable-lambdas.quiz.json"
+        },
+        {
+          "id": "kc-capture-inline",
+          "title": "Захват переменных и inline",
+          "minutes": 40,
+          "status": "ready",
+          "path": "kotlin-core/06-capture-inline.md",
+          "quiz": "kotlin-core/06-capture-inline.quiz.json"
+        },
+        {
+          "id": "kc-hw-lambdas",
+          "title": "Самостоятельная: лямбды и отложенное действие",
+          "minutes": 90,
+          "status": "ready",
+          "path": "kotlin-core/07-homework-lambdas.md",
+          "quiz": "kotlin-core/07-homework-lambdas.quiz.json"
+        },
+        {
+          "id": "kc-collection-ops",
+          "title": "Операторы коллекций",
+          "minutes": 45,
+          "status": "ready",
+          "path": "kotlin-core/08-collection-operators.md",
+          "quiz": "kotlin-core/08-collection-operators.quiz.json"
+        },
+        {
+          "id": "kc-scope",
+          "title": "Scope-функции: let, run, apply, also, with",
+          "minutes": 40,
+          "status": "ready",
+          "path": "kotlin-core/09-scope-functions.md",
+          "quiz": "kotlin-core/09-scope-functions.quiz.json"
+        },
+        {
+          "id": "kc-extensions",
+          "title": "Extension-функции",
+          "minutes": 35,
+          "status": "ready",
+          "path": "kotlin-core/10-extensions.md",
+          "quiz": "kotlin-core/10-extensions.quiz.json"
+        },
+        {
+          "id": "kc-classes",
+          "title": "Классы: data, sealed, enum, object, companion",
+          "minutes": 50,
+          "status": "ready",
+          "path": "kotlin-core/11-classes-objects.md",
+          "quiz": "kotlin-core/11-classes-objects.quiz.json"
+        },
+        {
+          "id": "kc-generics-errors",
+          "title": "Generics и исключения",
+          "minutes": 45,
+          "status": "ready",
+          "path": "kotlin-core/12-generics-exceptions.md",
+          "quiz": "kotlin-core/12-generics-exceptions.quiz.json"
+        },
+        {
+          "id": "kc-job-scope",
+          "title": "Job, scope и отмена корутин",
+          "minutes": 50,
+          "status": "ready",
+          "path": "kotlin-core/13-job-scope.md",
+          "quiz": "kotlin-core/13-job-scope.quiz.json"
+        }
+      ]
+    },
+    {
+      "id": "android-core",
+      "order": 11,
+      "title": "Android: что ещё спрашивают",
+      "subtitle": "Lifecycle, JSON, разрешения, BLE, сервисы, релиз",
+      "status": "ready",
+      "summary": "Жизненный цикл и ViewBinding, kotlinx.serialization, разрешения, основы BLE и Wi-Fi, foreground service, Gradle version catalog, подпись и публикация.",
+      "lessons": [
+        {
+          "id": "ac-lifecycle",
+          "title": "Activity, Fragment, lifecycle и ViewBinding",
+          "minutes": 50,
+          "status": "ready",
+          "path": "android-core/01-lifecycle.md",
+          "quiz": "android-core/01-lifecycle.quiz.json"
+        },
+        {
+          "id": "ac-serialization",
+          "title": "kotlinx.serialization: JSON в типы",
+          "minutes": 45,
+          "status": "ready",
+          "path": "android-core/02-serialization.md",
+          "quiz": "android-core/02-serialization.quiz.json"
+        },
+        {
+          "id": "ac-permissions",
+          "title": "Разрешения: манифест и runtime",
+          "minutes": 40,
+          "status": "ready",
+          "path": "android-core/03-permissions.md",
+          "quiz": "android-core/03-permissions.quiz.json"
+        },
+        {
+          "id": "ac-ble-wifi",
+          "title": "BLE и Wi-Fi: основы API",
+          "minutes": 55,
+          "status": "ready",
+          "path": "android-core/04-ble-wifi.md",
+          "quiz": "android-core/04-ble-wifi.quiz.json"
+        },
+        {
+          "id": "ac-services",
+          "title": "Service, foreground service и ограничения фона",
+          "minutes": 45,
+          "status": "ready",
+          "path": "android-core/05-services.md",
+          "quiz": "android-core/05-services.quiz.json"
+        },
+        {
+          "id": "ac-gradle-release",
+          "title": "Gradle, version catalog, подпись и публикация",
+          "minutes": 50,
+          "status": "ready",
+          "path": "android-core/06-gradle-release.md",
+          "quiz": "android-core/06-gradle-release.quiz.json"
+        }
+      ]
     }
   ]
 }

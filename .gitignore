@@ -13,6 +13,9 @@ content/career/lab/build/
 content/android-cis/lab/.gradle/
 content/android-cis/lab/.kotlin/
 content/android-cis/lab/build/
+content/kotlin-core/lab/.gradle/
+content/kotlin-core/lab/.kotlin/
+content/kotlin-core/lab/build/
 
 # Flutter / Dart
 learner/.dart_tool/

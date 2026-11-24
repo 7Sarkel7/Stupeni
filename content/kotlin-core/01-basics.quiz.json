@@ -1,0 +1,53 @@
+{
+  "lessonId": "kc-basics",
+  "questions": [
+    {
+      "id": "kc-basics-1",
+      "prompt": "Что делает выражение name?.length ?: -1, если name равно null?",
+      "options": [
+        "Бросает NullPointerException",
+        "Возвращает -1",
+        "Возвращает 0",
+        "Не компилируется"
+      ],
+      "correctIndex": 1,
+      "explanation": "?. даёт null, Элвис подставляет значение справа."
+    },
+    {
+      "id": "kc-basics-2",
+      "prompt": "Чем by lazy отличается от lateinit var?",
+      "options": [
+        "lazy — var, lateinit — val",
+        "lazy вычисляет значение сам при первом чтении, lateinit заполняет код снаружи",
+        "Они одинаковы",
+        "lateinit работает только с Int"
+      ],
+      "correctIndex": 1,
+      "explanation": "lazy — val с лямбдой-инициализатором; lateinit — var, который вы обязаны заполнить до чтения."
+    },
+    {
+      "id": "kc-basics-3",
+      "prompt": "Почему !! в коде приложения считается запахом?",
+      "options": [
+        "Он медленный",
+        "Он превращает null в исключение в рантайме",
+        "Он запрещён компилятором",
+        "Он меняет тип на Any"
+      ],
+      "correctIndex": 1,
+      "explanation": "!! — клятва, что null нет; при ошибке приложение падает. Есть ?., ?:, requireNotNull."
+    },
+    {
+      "id": "kc-basics-4",
+      "prompt": "val list = mutableListOf(1). Что разрешено?",
+      "options": [
+        "list = mutableListOf(2)",
+        "list.add(2)",
+        "Ничего, val запрещает любые изменения",
+        "list = null"
+      ],
+      "correctIndex": 1,
+      "explanation": "val запрещает переназначить ссылку, но содержимое изменяемого списка менять можно."
+    }
+  ]
+}
