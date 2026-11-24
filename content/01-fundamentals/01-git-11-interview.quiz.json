@@ -1,0 +1,53 @@
+{
+  "lessonId": "fund-git-interview",
+  "questions": [
+    {
+      "id": "fund-git-interview-1",
+      "prompt": "Какой ответ про merge и rebase принимают на собеседовании?",
+      "options": [
+        "Rebase всегда правильнее, merge устарел",
+        "Merge сохраняет SHA и может завести коммит с двумя родителями. Rebase заново кладёт коммиты ветки на новую базу и меняет их SHA, им переписывают свою неразделённую ветку",
+        "Они делают одно и то же, отличаются только флагом -m",
+        "Merge удаляет ветку, rebase создаёт тег"
+      ],
+      "correctIndex": 1,
+      "explanation": "Разница в истории и в том, чьи SHA меняются. Общую ветку, от которой уже живут другие, rebase не переписывают."
+    },
+    {
+      "id": "fund-git-interview-2",
+      "prompt": "Коммит уже на origin/main. Как отменить его поведение для команды?",
+      "options": [
+        "git revert SHA и обычный git push нового коммита",
+        "git reset --hard HEAD~1 и git push --force origin main",
+        "git stash drop",
+        "Удалить тег v1"
+      ],
+      "correctIndex": 0,
+      "explanation": "Revert добавляет отменяющий коммит, чужие SHA остаются на месте. Force на main снимает коммит у тех, кто от него оттолкнулся, и на защищённой ветке запрещён."
+    },
+    {
+      "id": "fund-git-interview-3",
+      "prompt": "Что такое detached HEAD?",
+      "options": [
+        "Сломанный репозиторий, помогает только новый clone",
+        "HEAD указывает на коммит напрямую, а не на имя ветки. Новые коммиты не двигают ветку, пока вы не сделаете git switch -c",
+        "Состояние после git push --force-with-lease",
+        "Синоним origin/main"
+      ],
+      "correctIndex": 1,
+      "explanation": "Снимок открыт без движущейся ветки. Имя новой ветки сохраняет коммиты, сделанные в этом состоянии."
+    },
+    {
+      "id": "fund-git-interview-4",
+      "prompt": "На диске незакоммиченные правки, на сервере три новых коммита. Какая команда их скачает и не тронет ваши файлы?",
+      "options": [
+        "git fetch",
+        "git pull",
+        "git reset --hard origin/main",
+        "git push --force"
+      ],
+      "correctIndex": 0,
+      "explanation": "Fetch обновляет закладки origin/*. Pull следом вливает их в текущую ветку и на грязных файлах может отказаться или, после stash, перемешать правки."
+    }
+  ]
+}

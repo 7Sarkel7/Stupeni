@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
+import 'package:markdown/markdown.dart' as md;
 
+import '../logic.dart';
 import '../models.dart';
 import '../progress_store.dart';
 
@@ -48,6 +50,31 @@ class _LessonScreenState extends State<LessonScreen> {
     setState(() => _busy = true);
     await widget.progress.markStudied(widget.lesson.id);
     if (mounted) setState(() => _busy = false);
+  }
+
+  void _openHref(String text, String? href) {
+    if (href == null) return;
+    final resolved = resolveContentHref(widget.lesson.path, href);
+    if (resolved != null && isHintMarkdown(resolved)) {
+      Navigator.of(context).push(
+        MaterialPageRoute<void>(
+          builder: (context) => HintScreen(
+            title: text.trim().isEmpty ? 'Ключ' : text.trim(),
+            path: resolved,
+            load: widget.load,
+          ),
+        ),
+      );
+      return;
+    }
+    final target = widget.catalog.byMarkdownBasename(href);
+    if (target != null) {
+      widget.onOpenLesson(target);
+      return;
+    }
+    if (href.contains('://')) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(href)));
+    }
   }
 
   Future<void> _openQuiz() async {
@@ -120,11 +147,7 @@ class _LessonScreenState extends State<LessonScreen> {
                   data: snapshot.data!,
                   selectable: true,
                   padding: const EdgeInsets.fromLTRB(20, 12, 20, 24),
-                  onTapLink: (text, href, title) {
-                    if (href == null) return;
-                    final target = widget.catalog.byMarkdownBasename(href);
-                    if (target != null) widget.onOpenLesson(target);
-                  },
+                  builders: {'a': _MarkdownLinkBuilder(onTap: _openHref)},
                   styleSheet: MarkdownStyleSheet.fromTheme(theme).copyWith(
                     codeblockDecoration: BoxDecoration(
                       color: theme.colorScheme.surfaceContainerHighest,
@@ -174,6 +197,100 @@ class _LessonScreenState extends State<LessonScreen> {
                     ),
                 ],
               ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _MarkdownLinkBuilder extends MarkdownElementBuilder {
+  _MarkdownLinkBuilder({required this.onTap});
+
+  final void Function(String text, String? href) onTap;
+
+  @override
+  Widget? visitElementAfterWithContext(
+    BuildContext context,
+    md.Element element,
+    TextStyle? preferredStyle,
+    TextStyle? parentStyle,
+  ) {
+    final label = element.textContent;
+    final href = element.attributes['href'];
+    final style = (parentStyle ?? const TextStyle())
+        .merge(preferredStyle)
+        .copyWith(
+          color: Theme.of(context).colorScheme.primary,
+          decoration: TextDecoration.underline,
+        );
+    return Listener(
+      behavior: HitTestBehavior.opaque,
+      onPointerUp: (_) => onTap(label, href),
+      child: Text(label, style: style),
+    );
+  }
+}
+
+class HintScreen extends StatelessWidget {
+  const HintScreen({
+    super.key,
+    required this.title,
+    required this.path,
+    required this.load,
+  });
+
+  final String title;
+  final String path;
+  final LoadText load;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Scaffold(
+      appBar: AppBar(title: Text(title)),
+      body: Column(
+        children: [
+          Container(
+            width: double.infinity,
+            color: theme.colorScheme.secondaryContainer,
+            padding: const EdgeInsets.all(12),
+            child: Text(
+              'Ключ к упражнениям. Сверьтесь после своей попытки. Отметку «изучил» этот экран не ставит.',
+              style: theme.textTheme.bodyMedium?.copyWith(
+                color: theme.colorScheme.onSecondaryContainer,
+              ),
+            ),
+          ),
+          Expanded(
+            child: FutureBuilder<String>(
+              future: load(path),
+              builder: (context, snapshot) {
+                if (snapshot.hasError) {
+                  return Padding(
+                    padding: const EdgeInsets.all(20),
+                    child: Text(
+                      'Ключ не прочитан: ${snapshot.error}\n\n'
+                      'Из корня репозитория выполните ./tool/sync_content.sh',
+                    ),
+                  );
+                }
+                if (!snapshot.hasData) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+                return Markdown(
+                  data: snapshot.data!,
+                  selectable: true,
+                  padding: const EdgeInsets.fromLTRB(20, 12, 20, 24),
+                  styleSheet: MarkdownStyleSheet.fromTheme(theme).copyWith(
+                    codeblockDecoration: BoxDecoration(
+                      color: theme.colorScheme.surfaceContainerHighest,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                );
+              },
             ),
           ),
         ],

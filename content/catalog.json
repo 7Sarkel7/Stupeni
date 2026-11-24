@@ -6,17 +6,105 @@
       "id": "fundamentals",
       "order": 1,
       "title": "Фундамент",
-      "subtitle": "Git, HTTP, JSON, отладка",
+      "subtitle": "Git до PR, HTTP, JSON, отладка",
       "status": "ready",
-      "summary": "Общий язык пульта и прошивки. Без этого станцию отлаживают наугад.",
+      "summary": "Git до уровня рабочей команды, затем общий язык пульта и прошивки метеостанции.",
       "lessons": [
         {
           "id": "fund-git",
-          "title": "Git, который переживает вечер",
-          "minutes": 25,
+          "title": "Как Git помнит работу",
+          "minutes": 40,
           "status": "ready",
           "path": "01-fundamentals/01-git.md",
           "quiz": "01-fundamentals/01-git.quiz.json"
+        },
+        {
+          "id": "fund-git-setup",
+          "title": "Установка, настройка, init и clone",
+          "minutes": 35,
+          "status": "ready",
+          "path": "01-fundamentals/01-git-02-setup.md",
+          "quiz": "01-fundamentals/01-git-02-setup.quiz.json"
+        },
+        {
+          "id": "fund-git-daily",
+          "title": "Снимок дня: status, add, commit",
+          "minutes": 45,
+          "status": "ready",
+          "path": "01-fundamentals/01-git-03-daily.md",
+          "quiz": "01-fundamentals/01-git-03-daily.quiz.json"
+        },
+        {
+          "id": "fund-git-undo",
+          "title": "Откат и спасение",
+          "minutes": 45,
+          "status": "ready",
+          "path": "01-fundamentals/01-git-04-undo.md",
+          "quiz": "01-fundamentals/01-git-04-undo.quiz.json"
+        },
+        {
+          "id": "fund-git-branches",
+          "title": "Ветки, слияние и конфликты",
+          "minutes": 45,
+          "status": "ready",
+          "path": "01-fundamentals/01-git-05-branches.md",
+          "quiz": "01-fundamentals/01-git-05-branches.quiz.json"
+        },
+        {
+          "id": "fund-git-rebase",
+          "title": "Rebase и cherry-pick",
+          "minutes": 45,
+          "status": "ready",
+          "path": "01-fundamentals/01-git-06-rebase.md",
+          "quiz": "01-fundamentals/01-git-06-rebase.quiz.json"
+        },
+        {
+          "id": "fund-git-stash",
+          "title": "Stash и чужие правки",
+          "minutes": 35,
+          "status": "ready",
+          "path": "01-fundamentals/01-git-07-stash.md",
+          "quiz": "01-fundamentals/01-git-07-stash.quiz.json"
+        },
+        {
+          "id": "fund-git-remotes",
+          "title": "Удалённые, теги, релизы",
+          "minutes": 45,
+          "status": "ready",
+          "path": "01-fundamentals/01-git-08-remotes.md",
+          "quiz": "01-fundamentals/01-git-08-remotes.quiz.json"
+        },
+        {
+          "id": "fund-git-github",
+          "title": "GitHub: PR, ревью, CI",
+          "minutes": 50,
+          "status": "ready",
+          "path": "01-fundamentals/01-git-09-github.md",
+          "quiz": "01-fundamentals/01-git-09-github.quiz.json"
+        },
+        {
+          "id": "fund-git-secrets",
+          "title": "Ключи, секреты, IDE",
+          "minutes": 40,
+          "status": "ready",
+          "path": "01-fundamentals/01-git-10-secrets.md",
+          "quiz": "01-fundamentals/01-git-10-secrets.quiz.json"
+        },
+        {
+          "id": "fund-git-interview",
+          "title": "Вопросы с собеседования",
+          "minutes": 35,
+          "status": "ready",
+          "path": "01-fundamentals/01-git-11-interview.md",
+          "quiz": "01-fundamentals/01-git-11-interview.quiz.json"
+        },
+        {
+          "id": "fund-git-project",
+          "title": "Практика: командный вечер",
+          "minutes": 90,
+          "status": "ready",
+          "path": "01-fundamentals/01-git-12-project.md",
+          "quiz": "01-fundamentals/01-git-12-project.quiz.json"
         },
         {
           "id": "fund-http",

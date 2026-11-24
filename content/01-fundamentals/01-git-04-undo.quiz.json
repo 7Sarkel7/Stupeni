@@ -1,0 +1,65 @@
+{
+  "lessonId": "fund-git-undo",
+  "questions": [
+    {
+      "id": "fund-git-undo-1",
+      "prompt": "Коммит ещё не push. Хотите снять его с ветки и оставить правки в индексе, как будто вы уже сделали git add. Какой режим reset?",
+      "options": [
+        "git reset --soft HEAD~1",
+        "git reset --hard HEAD~1",
+        "git revert HEAD",
+        "git restore --staged ."
+      ],
+      "correctIndex": 0,
+      "explanation": "--soft двигает ветку назад и оставляет индекс в состоянии снятого коммита. --hard перепишет и диск. revert добавит новый коммит."
+    },
+    {
+      "id": "fund-git-undo-2",
+      "prompt": "Коммит уже на origin/main, его забрали коллеги. Чем отменить его поведение?",
+      "options": [
+        "git reset --hard HEAD~1 и ничего не пушить",
+        "git revert этого SHA: новый коммит с обратным diff, история коллег остаётся совместимой",
+        "Удалить каталог .git",
+        "git commit --amend на том же SHA"
+      ],
+      "correctIndex": 1,
+      "explanation": "revert не переписывает уже опубликованные SHA. reset двигает только вашу ветку, у коллег старый коммит останется, а push разойдётся с сервером."
+    },
+    {
+      "id": "fund-git-undo-3",
+      "prompt": "Случайно сделали git reset --hard и не закоммиченные мысли пропали с диска, но коммит до reset существовал. Где искать его SHA?",
+      "options": [
+        "В .gitignore",
+        "В локальном git reflog, затем можно повесить ветку на HEAD@{n}",
+        "Только на GitHub, reflog туда пушится сам",
+        "В core.editor"
+      ],
+      "correctIndex": 1,
+      "explanation": "Reflog помнит движения HEAD в этом клоне. Запись не уходит на remote. Ветка на старый SHA возвращает имя снимку."
+    },
+    {
+      "id": "fund-git-undo-4",
+      "prompt": "Вы в detached HEAD и сделали коммит. Как не потерять его при уходе на main?",
+      "options": [
+        "git switch -c experiment/keep до переключения на main",
+        "git push --force origin main",
+        "git restore --staged HEAD",
+        "Закрыть терминал: detached коммит пишется в текущую ветку сам"
+      ],
+      "correctIndex": 0,
+      "explanation": "Новая ветка начинает указывать на текущий коммит. После этого HEAD снова смотрит на ветку, и переключение на main имя не стирает."
+    },
+    {
+      "id": "fund-git-undo-5",
+      "prompt": "Файл изменён на диске, в индекс не добавлялся. Какая команда забирает эту правку, не двигая ветку?",
+      "options": [
+        "git revert HEAD",
+        "git restore путь/к/файлу",
+        "git reset --soft HEAD",
+        "git commit --amend"
+      ],
+      "correctIndex": 1,
+      "explanation": "restore без --staged копирует в рабочее дерево версию из индекса. Коммиты остаются. Если мусор уже в индексе, одной этой команды мало: индекс тоже приводят к HEAD."
+    }
+  ]
+}
