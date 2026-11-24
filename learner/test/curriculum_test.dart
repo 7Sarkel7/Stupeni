@@ -34,6 +34,22 @@ void main() {
     expect(career, isNotNull);
     expect(career!.lessonStatusLabel, 'частично');
     expect(catalog.trackById('fundamentals')!.lessonStatusLabel, 'написан');
+    final fundamentals = catalog.trackById('fundamentals')!;
+    expect(fundamentals.lessons.map((lesson) => lesson.id).take(13).toList(), [
+      'fund-git',
+      'fund-git-setup',
+      'fund-git-daily',
+      'fund-git-undo',
+      'fund-git-branches',
+      'fund-git-rebase',
+      'fund-git-stash',
+      'fund-git-remotes',
+      'fund-git-github',
+      'fund-git-secrets',
+      'fund-git-interview',
+      'fund-git-project',
+      'fund-http',
+    ]);
     expect(catalog.trackById('backend')!.lessonStatusLabel, 'TODO');
     final androidCis = catalog.trackById('android-cis');
     expect(androidCis, isNotNull);
@@ -89,7 +105,22 @@ void main() {
             expect(text.contains('### Рубрика'), isTrue, reason: lesson.id);
           }
           if (lesson.id == 'cis-capstone') {
-            expect(text.contains('capstone/SPEC.md'), isTrue, reason: lesson.id);
+            expect(
+              text.contains('capstone/SPEC.md'),
+              isTrue,
+              reason: lesson.id,
+            );
+          }
+          if (lesson.id.startsWith('fund-git')) {
+            final hintName = lesson.path.split('/').last;
+            final hint = File('${contentDir.path}/hints/$hintName');
+            expect(hint.existsSync(), isTrue, reason: lesson.id);
+            expect(
+              text.contains('../hints/$hintName'),
+              isTrue,
+              reason: lesson.id,
+            );
+            expect(hint.readAsStringSync().trim().isNotEmpty, isTrue);
           }
           final quizFile = File('${contentDir.path}/${lesson.quiz}');
           expect(quizFile.existsSync(), isTrue, reason: lesson.quiz);
@@ -147,7 +178,8 @@ void main() {
       isTrue,
     );
 
-    final pedagogy = File('${contentDir.path}/../PEDAGOGY.md').readAsStringSync();
+    final pedagogy = File('${contentDir.path}/../PEDAGOGY.md')
+        .readAsStringSync();
     expect(
       pedagogy.contains(
         'https://developer.android.com/develop/ui/compose/documentation',
@@ -193,9 +225,14 @@ void main() {
     final outboxHint = File(
       '${contentDir.path}/android-cis/solutions/hint-outbox.md',
     );
-    expect(outboxHint.readAsStringSync().contains('fun collapseOutbox'), isFalse);
     expect(
-      pedagogy.contains('https://developer.android.com/training/dependency-injection/hilt-android'),
+      outboxHint.readAsStringSync().contains('fun collapseOutbox'),
+      isFalse,
+    );
+    expect(
+      pedagogy.contains(
+        'https://developer.android.com/training/dependency-injection/hilt-android',
+      ),
       isTrue,
     );
     expect(

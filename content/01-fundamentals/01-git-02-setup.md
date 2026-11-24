@@ -1,0 +1,224 @@
+# Установка, настройка, init и clone
+
+**Модуль:** 01. Фундамент  
+**Время:** около 35 минут  
+**Дальше:** [Снимок дня: status, add, commit, история](01-git-03-daily.md)
+
+## Цель
+
+Поставить Git, подписать коммиты своим именем и почтой, выбрать редактор сообщений и поведение переводов строк. Создать новый репозиторий и снять копию существующего.
+
+## Зачем это вам
+
+Чужое имя в коммите на работе выглядит так, будто патч прислал предыдущий хозяин ноутбука. CRLF, тихо попавший в Kotlin-файл, даёт дифф на весь файл в пул-реквесте, хотя вы поменяли одну строку. `git init` и `git clone` — два входа в репозиторий: «история начинается здесь» и «история уже есть, я беру копию».
+
+Команды те же в Git Bash на Windows, в терминале macOS и в Linux. Меняется установка и настройка переводов строк.
+
+## Теория
+
+### Установка и проверка
+
+Скачайте установщик с [git-scm.com/downloads](https://git-scm.com/downloads) или поставьте пакет системы. На Windows берите Git for Windows: вместе с ним ставится Git Bash, терминал, в котором пути и команды выглядят как в уроке. В Android Studio и в Cursor Git тоже нужен в `PATH`, иначе IDE пишет «git not found» и предлагает свой диалог установки.
+
+Проверка:
+
+```text
+$ git --version
+git version 2.47.0
+```
+
+Номер может быть новее. Для `git switch` и `git restore` нужен Git 2.23 или новее, это сборки с 2019 года. Если версия старше, в уроках рядом указана форма через `git checkout`.
+
+В установщике Windows есть вопрос про переводы строк. Его можно пройти и потом поправить конфигом, об этом ниже. Ветку по умолчанию выберите `main`, если спросят.
+
+### Три уровня настроек
+
+| Уровень | Куда пишется | Когда |
+| --- | --- | --- |
+| `--system` | общий файл машины | редко, обычно не трогаете |
+| `--global` | `~/.gitconfig` в домашнем каталоге | ваше имя, редактор, алиасы |
+| `--local` | `.git/config` этого репозитория | только этот проект |
+
+Ближний уровень перекрывает дальний. Локальная почта репозитория важнее глобальной. Посмотреть, откуда взялось значение:
+
+```text
+$ git config --show-origin --get user.email
+file:/home/you/.gitconfig	you@example.com
+```
+
+### Имя, почта, редактор
+
+```text
+$ git config --global user.name "Имя Фамилия"
+$ git config --global user.email "you@example.com"
+$ git config --global core.editor "nano"
+$ git config --global init.defaultBranch main
+```
+
+`user.name` — строка автора в коммите, не логин GitHub. `user.email` попадает в историю и остаётся в каждом клоне. Для публичного репозитория GitHub умеет адрес вида `ID+login@users.noreply.github.com`: его копируют из настроек GitHub (Settings → Emails), если не хотят светить личную почту. На работе почта обычно корпоративная: её и ставят, иначе коммиты не привяжутся к вам в ревью.
+
+`core.editor` открывается на `git commit` без `-m`, на интерактивном rebase и на конфликтах, если их правят через mergetool-сообщение. Редактор должен ждать, пока вы закроете файл. Для VS Code и Cursor это `code --wait` или `cursor --wait`, если команда есть в `PATH`. Для Git Bash на Windows подойдут `nano` или `"C:/Program Files/Notepad++/notepad++.exe" -multiInst -notabbar -nosession -noPlugin`. Если редактор закрывается сразу, Git видит пустое сообщение и отменяет коммит.
+
+### Переводы строк: Windows и Git Bash
+
+В репозитории для Android и прошивки, которую собирает Linux на GitHub Actions, в истории хранят LF (`\n`). Рабочая копия на Windows часто хочет CRLF (`\r\n`).
+
+`core.autocrlf` решает перевод при чекауте и при коммите:
+
+| Значение | На чекауте | На коммите | Куда ставить |
+| --- | --- | --- | --- |
+| `true` | LF становится CRLF | CRLF становится LF | Windows |
+| `input` | как в репозитории | CRLF становится LF | macOS, Linux; иногда и Windows |
+| `false` | без перевода | без перевода | когда перевод задаёт сам репозиторий |
+
+Git Bash пользуется тем же `~/.gitconfig`, что и Git из PowerShell. Отдельной «настройки Git Bash» нет: вы ставите конфиг один раз.
+
+На Windows для этого курса:
+
+```text
+$ git config --global core.autocrlf true
+```
+
+Так в коммит уходит LF, а блокнот видит привычные концы строк. Если Android Studio помечает весь файл изменённым сразу после клона, перейдите на `input` и добавьте в репозиторий `.gitattributes`:
+
+```text
+* text=auto eol=lf
+*.png binary
+*.jpg binary
+```
+
+`eol=lf` фиксирует правило в самом проекте, его получат все клоны. На macOS и Linux `true` не ставят: чекаут начнёт подмешивать CRLF там, где их не ждут.
+
+Проверка, что Git видит файл как текст с LF в индексе:
+
+```text
+$ git ls-files --eol status.txt
+i/lf    w/crlf  attr/                 	status.txt
+```
+
+`i/lf` — в индексе LF. `w/crlf` — в рабочем дереве Windows CRLF. Это нормальная пара при `autocrlf=true`.
+
+### Алиасы
+
+Короткое имя разворачивается в команду. Алиас не меняет модель, он бережёт пальцы.
+
+```text
+$ git config --global alias.st status
+$ git config --global alias.sw switch
+$ git config --global alias.lg "log --oneline --graph --all --decorate"
+```
+
+Дальше `git st` и `git lg` работают как длинные формы. Чужой алиас на код-ревью не рассчитывайте: в инструкции пишут полную команду.
+
+### init
+
+`git init` создаёт `.git` в текущем каталоге. Файлы проекта сами в историю не попадают.
+
+```text
+$ git init -b main
+Initialized empty Git repository in /home/you/sandbox/git-course/.git/
+```
+
+На старом Git без `-b`: `git init`, затем `git branch -M main` после первого коммита или `git checkout -b main` до него. `init.defaultBranch main` делает то же для новых репозиториев.
+
+Повторный `git init` в существующем репозитории безопасен: он не стирает коммиты. Он не нужен «для очистки».
+
+### clone
+
+`git clone` копирует историю, создаёт каталог, настраивает remote с именем `origin`, скачивает объекты и выписывает рабочее дерево последней ветки по умолчанию.
+
+```text
+$ git clone https://github.com/7Sarkel7/Stupeni.git ~/sandbox/stupeni-readonly
+Cloning into '/home/you/sandbox/stupeni-readonly'...
+remote: Enumerating objects: ...
+```
+
+HTTPS спросит логин, когда вы пойдёте пушить. SSH (`git@github.com:org/repo.git`) спросит ключ. Оба способа дают один и тот же набор коммитов. Ключи и токены — отдельный урок; для чтения публичного репозитория хватает HTTPS без пароля.
+
+Полезные флаги, когда они нужны, а не «на всякий случай»:
+
+- `--branch experiment/ping-retry` — сразу встать на эту ветку;
+- `--depth 1` — только кончик истории. Так клонируют огромный репозиторий, чтобы собрать проект. Для учёбы история нужна целиком, depth не используйте: rebase и blame потом упрутся в обрезанный клон.
+
+Клон Ступеней в песочнице — для чтения. Учебные коммиты туда не кладите и pull request с ними не открывайте.
+
+## Разбор на примере
+
+Ноутбук после переустановки, вечер, станция на столе. Сначала подпись, потом песочница, потом проверка, что клон живой.
+
+```text
+$ git config --global user.name "Имя Фамилия"
+$ git config --global user.email "you@example.com"
+$ git config --global core.editor "nano"
+$ git config --global init.defaultBranch main
+$ git config --global alias.lg "log --oneline --graph --all --decorate"
+$ git config --global --list
+user.name=Имя Фамилия
+user.email=you@example.com
+core.editor=nano
+init.defaultbranch=main
+alias.lg=log --oneline --graph --all --decorate
+```
+
+На Windows в этот список добавьте `core.autocrlf=true`.
+
+```text
+$ mkdir -p ~/sandbox/git-course
+$ cd ~/sandbox/git-course
+$ git init -b main
+$ printf 'fw:1.0.0\ntimeout_ms:1500\n' > status.txt
+$ git add status.txt
+$ git commit -m "feat: первая строка status станции"
+$ git lg
+* a1b2c3d (HEAD -> main) feat: первая строка status станции
+```
+
+Алиас `lg` сработал, потому что вы записали его в глобальный конфиг. В чужом аккаунте на той же машине его не будет.
+
+Рядом, не внутри `git-course`:
+
+```text
+$ git clone https://github.com/7Sarkel7/Stupeni.git ~/sandbox/stupeni-readonly
+$ cd ~/sandbox/stupeni-readonly
+$ git remote -v
+origin	https://github.com/7Sarkel7/Stupeni.git (fetch)
+origin	https://github.com/7Sarkel7/Stupeni.git (push)
+$ git status
+On branch main
+Your branch is up to date with 'origin/main'.
+nothing to commit, working tree clean
+```
+
+`up to date with 'origin/main'` значит: локальная ветка `main` следит за удалённой веткой. Как устроена слежка — в уроке про remote. Сейчас видно результат clone: история на месте, рабочее дерево чистое.
+
+## Упражнения
+
+1. Выполните `git config --show-origin --get user.name` и то же для `user.email`. Запишите путь файла. Если почта пустая, поставьте глобальную и повторите. Почему пустая почта на работе всплывёт не сразу, а в первом же ревью.
+2. На Windows в Git Bash поставьте `core.autocrlf` так, чтобы в коммит уходил LF. На macOS или Linux поставьте `input`. Командой `git config --show-origin --get core.autocrlf` подтвердите уровень. Зачем в общем Android-репозитории ещё и `.gitattributes` с `eol=lf`.
+3. В `~/sandbox/git-course` сделайте коммит, если его ещё нет. Добавьте алиас `st` на `status`. Вызовите `git st`. Где алиас хранится и почему его нет у коллеги после вашего push.
+4. Склонируйте публичный репозиторий в `~/sandbox/stupeni-readonly` (или любой другой учебный, если этот недоступен). Выполните `git log --oneline -3` и `git status`. Чем этот каталог отличается от результата `git init`.
+
+### Ориентир для самопроверки
+
+Сначала запишите ответы своими словами. Короткий ключ — [01-git-02-setup.md](../hints/01-git-02-setup.md). В приложении нажмите на эту ссылку: откроется ключ, без отметки «изучил». Откройте его после своей попытки. Дословно в тетрадь ключ не переписывайте.
+
+## Типичные ошибки
+
+- Оставить `user.name` от предыдущего владельца ноутбука.
+- Вписать токен или пароль в `user.email` или в URL remote.
+- Поставить `core.autocrlf true` на Linux-сервере и получить CRLF в рабочей копии CI.
+- Выбрать редактор без `--wait`: коммит отменяется с пустым сообщением, и кажется, что «Git сломался».
+- Сделать `git init` внутри уже клонированных Ступеней.
+- Учиться на `--depth 1` и потом не понимать, почему нет родителей у «первого» видимого коммита.
+
+## Чеклист
+
+- [ ] `git --version` печатает 2.23 или новее.
+- [ ] Глобальные `user.name` и `user.email` мои, происхождение проверено `--show-origin`.
+- [ ] Редактор сообщений открывается и ждёт закрытия.
+- [ ] На Windows `core.autocrlf` равен `true` или осознанному `input`.
+- [ ] Есть свой `git init -b main` и отдельный `git clone`, не вложенные друг в друга.
+
+## Следующий урок
+
+[Снимок дня: status, add, commit, история](01-git-03-daily.md) — ежедневный цикл, сообщение, которое через неделю читается, и `.gitignore`, без которого в историю едут сборки.

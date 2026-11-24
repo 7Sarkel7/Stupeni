@@ -26,7 +26,7 @@ const config = {
           routeBasePath: '/',
           sidebarPath: './sidebars.js',
           editUrl: `https://github.com/${owner}/${repo}/edit/main/content/deep/`,
-          exclude: ['**/_*.md'],
+          exclude: ['**/_*.md', '**/_*/**'],
         },
         blog: false,
         theme: {customCss: './src/css/custom.css'},

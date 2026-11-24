@@ -32,3 +32,33 @@ int localEpochDay(DateTime now) {
   final asUtcMidnight = DateTime.utc(local.year, local.month, local.day);
   return asUtcMidnight.millisecondsSinceEpoch ~/ Duration.millisecondsPerDay;
 }
+
+/// Ссылка из урока на другой файл внутри content/.
+/// Внешние адреса и путь, который выходит из каталога, возвращают null.
+String? resolveContentHref(String lessonPath, String href) {
+  final clean = href.split('?').first.split('#').first.trim();
+  if (clean.isEmpty || clean.contains('://') || !clean.endsWith('.md')) {
+    return null;
+  }
+  if (clean.startsWith('/')) return null;
+  final base = lessonPath.contains('/')
+      ? lessonPath.substring(0, lessonPath.lastIndexOf('/') + 1)
+      : '';
+  final parts = <String>[];
+  for (final segment in '$base$clean'.split('/')) {
+    if (segment.isEmpty || segment == '.') continue;
+    if (segment == '..') {
+      if (parts.isEmpty) return null;
+      parts.removeLast();
+      continue;
+    }
+    parts.add(segment);
+  }
+  if (parts.isEmpty) return null;
+  return parts.join('/');
+}
+
+/// Ключ к упражнениям лежит отдельным файлом и не является уроком каталога.
+bool isHintMarkdown(String contentPath) {
+  return RegExp(r'^hints/[A-Za-z0-9._-]+\.md$').hasMatch(contentPath);
+}

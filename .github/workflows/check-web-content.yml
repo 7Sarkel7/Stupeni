@@ -1,0 +1,29 @@
+# Проверяет связность глубокого контента (site/scripts/check-content.mjs).
+
+name: Check web content
+
+on:
+  pull_request:
+    paths:
+      - content/deep/**
+      - content/catalog.json
+      - site/scripts/**
+      - learner/pubspec.yaml
+      - .github/workflows/check-web-content.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: "22"
+      - name: Check deep content
+        working-directory: site
+        run: npm run check

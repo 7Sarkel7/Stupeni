@@ -137,4 +137,58 @@ void main() {
     expect(find.textContaining('Проверка появится'), findsOneWidget);
     expect(progress.isStudied('b'), isTrue);
   });
+
+  testWidgets('ссылка на ключ открывает текст и не ставит отметку', (
+    tester,
+  ) async {
+    final hintCatalog = Catalog(
+      title: 'Ступени',
+      recommendedStart: 'a',
+      tracks: [
+        Track(
+          id: 'fund',
+          order: 1,
+          title: 'Фундамент',
+          subtitle: 'база',
+          status: 'ready',
+          summary: 'общий язык',
+          lessons: [
+            LessonRef(
+              id: 'a',
+              title: 'Первый урок',
+              minutes: 10,
+              status: 'ready',
+              path: '01-fundamentals/01-git.md',
+              quiz: 'a.quiz.json',
+            ),
+          ],
+        ),
+      ],
+    );
+
+    Future<String> hintLoad(String path) async {
+      if (path == '01-fundamentals/01-git.md') {
+        return '# Первый урок\n\nТекст.\n\n[Ключ к вопросам](../hints/01-git.md)\n';
+      }
+      if (path == 'hints/01-git.md') {
+        return '# Ключ\n\nКороткий ключ песочницы.';
+      }
+      throw StateError('нет $path');
+    }
+
+    await tester.pumpWidget(
+      StupeniApp(catalog: hintCatalog, progress: progress, load: hintLoad),
+    );
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const Key('start-lesson')));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Ключ к вопросам'));
+    await tester.pumpAndSettle();
+    expect(find.textContaining('Короткий ключ песочницы'), findsOneWidget);
+    expect(
+      find.textContaining('Отметку «изучил» этот экран не ставит'),
+      findsOneWidget,
+    );
+    expect(progress.isStudied('a'), isFalse);
+  });
 }

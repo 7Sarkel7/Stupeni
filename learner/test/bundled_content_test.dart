@@ -55,7 +55,7 @@ void main() {
     await tester.tap(startLesson);
     await tester.pumpAndSettle();
 
-    expect(find.text('Git, который переживает вечер'), findsWidgets);
+    expect(find.text('Как Git помнит работу'), findsWidgets);
     expect(find.text('Я изучил'), findsOneWidget);
 
     await tester.tap(find.text('Я изучил'));
@@ -63,10 +63,10 @@ void main() {
     await tester.tap(find.byKey(const Key('open-quiz')));
     await tester.pumpAndSettle();
 
-    expect(find.textContaining('Секрет облака'), findsOneWidget);
-    await tester.tap(find.textContaining('считать утёкшим'));
+    expect(find.textContaining('следующий коммит'), findsOneWidget);
+    await tester.tap(find.text('В индексе, это уже отмеченный снимок'));
     await tester.pumpAndSettle();
-    expect(find.textContaining('влияет на будущие добавления'), findsOneWidget);
+    expect(find.textContaining('подготовленный снимок'), findsOneWidget);
     expect(progress.isStudied('fund-git'), isTrue);
   });
 }
