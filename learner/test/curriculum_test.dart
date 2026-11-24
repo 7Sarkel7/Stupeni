@@ -28,7 +28,7 @@ void main() {
       10,
       11,
     ]);
-    expect(catalog.readyTotal, 78);
+    expect(catalog.readyTotal, 89);
     expect(catalog.lessonById('fund-git'), isNotNull);
     final career = catalog.trackById('career');
     expect(career, isNotNull);

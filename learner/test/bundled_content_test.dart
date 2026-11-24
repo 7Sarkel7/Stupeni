@@ -17,7 +17,7 @@ void main() {
     final raw = await rootBundle.loadString('assets/content/catalog.json');
     final catalog = Catalog.parse(raw);
     expect(catalog.tracks, hasLength(11));
-    expect(catalog.readyTotal, 78);
+    expect(catalog.readyTotal, 89);
 
     await tester.pumpWidget(
       StupeniApp(
