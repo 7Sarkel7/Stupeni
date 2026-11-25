@@ -375,7 +375,7 @@ class _QuizScreenState extends State<QuizScreen> {
           for (var i = 0; i < question.options.length; i++)
             Padding(
               padding: const EdgeInsets.only(bottom: 8),
-              child: _OptionButton(
+              child: QuizOptionButton(
                 text: question.options[i],
                 picked: _picked == i,
                 reveal: _picked != null,
@@ -434,8 +434,9 @@ class _QuizScreenState extends State<QuizScreen> {
   }
 }
 
-class _OptionButton extends StatelessWidget {
-  const _OptionButton({
+class QuizOptionButton extends StatelessWidget {
+  const QuizOptionButton({
+    super.key,
     required this.text,
     required this.picked,
     required this.reveal,

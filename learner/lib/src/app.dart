@@ -1,9 +1,13 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 import 'models.dart';
+import 'practice.dart';
 import 'progress_store.dart';
 import 'screens/home_screen.dart';
 import 'screens/lesson_screen.dart';
+import 'screens/practice_screen.dart';
 import 'screens/track_screen.dart';
 
 class StupeniApp extends StatefulWidget {
@@ -88,6 +92,46 @@ class _StupeniAppState extends State<StupeniApp> {
     );
   }
 
+  void _openPracticeTopics(BuildContext context) {
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(
+        builder: (context) => PracticeTopicsScreen(
+          topics: availableTopics(widget.catalog),
+          onOpenTopic: (topic) => _openTopicPractice(context, topic),
+        ),
+      ),
+    );
+  }
+
+  void _openTopicPractice(BuildContext context, PracticeTopic topic) {
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(
+        builder: (context) => PracticeSessionScreen(
+          title: topic.title,
+          buildSession: () async => buildTopicSession(
+            await loadTopicItems(widget.catalog, topic, widget.load),
+            Random(),
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _openMixPractice(BuildContext context) {
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(
+        builder: (context) => PracticeSessionScreen(
+          title: 'Микс',
+          showTopic: true,
+          buildSession: () async => buildMixSession(
+            await loadAllTopicItems(widget.catalog, widget.load),
+            Random(),
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final scheme = ColorScheme.fromSeed(
@@ -111,6 +155,8 @@ class _StupeniAppState extends State<StupeniApp> {
           progress: widget.progress,
           onOpenLesson: (lesson) => _openLesson(context, lesson),
           onOpenTrack: (track) => _openTrack(context, track),
+          onOpenPracticeTopics: () => _openPracticeTopics(context),
+          onOpenPracticeMix: () => _openMixPractice(context),
           onReset: () => _confirmReset(context),
         ),
       ),

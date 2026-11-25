@@ -30,6 +30,7 @@ void main() {
 
     expect(find.text('Открыть первый урок'), findsOneWidget);
     await tester.ensureVisible(find.byKey(const Key('open-career')));
+    await tester.pumpAndSettle();
     await tester.tap(find.byKey(const Key('open-career')));
     await tester.pumpAndSettle();
     expect(find.text('Коллекции и цена операции'), findsOneWidget);
@@ -37,6 +38,7 @@ void main() {
     await tester.pumpAndSettle();
 
     await tester.ensureVisible(find.byKey(const Key('open-android-cis')));
+    await tester.pumpAndSettle();
     await tester.tap(find.byKey(const Key('open-android-cis')));
     await tester.pumpAndSettle();
     expect(find.text('Корутины, Flow и StateFlow'), findsOneWidget);

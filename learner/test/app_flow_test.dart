@@ -92,12 +92,16 @@ void main() {
     );
     await tester.pumpAndSettle();
 
+    await tester.scrollUntilVisible(find.text('Фундамент'), 200);
     expect(find.text('Фундамент'), findsOneWidget);
     await tester.scrollUntilVisible(find.text('Backend'), 200);
     expect(find.text('Backend'), findsOneWidget);
     expect(find.text('TODO'), findsOneWidget);
 
-    await tester.tap(find.byKey(const Key('start-lesson')));
+    final startLesson = find.byKey(const Key('start-lesson'));
+    await tester.scrollUntilVisible(startLesson, -200);
+    await tester.pumpAndSettle();
+    await tester.tap(startLesson);
     await tester.pumpAndSettle();
     expect(find.textContaining('Короткий текст'), findsOneWidget);
 
