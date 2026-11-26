@@ -24,7 +24,7 @@ Gradle-проект без Android. Здесь функции, которые в
 | Контракт HTTP | `dev.stupeni.career.HttpMappingTest` |
 | Повтор | `dev.stupeni.career.RetryTest` |
 | Телефон и плата | `dev.stupeni.career.TransportTest` |
-| MVVM | `dev.stupeni.career.ReducerTest` |
+| MVVM (схема, где данные, экран и «посредник» между ними, ViewModel, разделены) | `dev.stupeni.career.ReducerTest` |
 | Clean lite | `dev.stupeni.career.LoadLampTest` |
 | Корутины | `dev.stupeni.career.CoroutinesTest` |
 | Свои тесты | снимите `@Disabled` с `FormatUptimeTest` |

@@ -13,7 +13,7 @@
 
 ## Зачем это вам
 
-`list.map { }`, `string.toIntOrNull()`, `Modifier.padding(8.dp)`, `context.dataStore` — всё это extension. Они же стоят за DSL и за функциями с получателем из [урока 04](04-function-types.md). Своя extension делает код читаемым без наследования.
+`list.map { }`, `string.toIntOrNull()`, `Modifier.padding(8.dp)`, `context.dataStore` — всё это extension. Они же стоят за DSL (мини-язык внутри основного, заточенный под одну задачу) и за функциями с получателем из [урока 04](04-function-types.md). Своя extension делает код читаемым без наследования.
 
 ## Теория
 
@@ -31,11 +31,11 @@ fun String.lastChar(): Char = this[length - 1]
 - extension **не переопределяет** члены: если у класса есть метод с тем же именем, побеждает метод;
 - вызов определяется **статическим типом** переменной, не фактическим: `val a: Base = Derived()` вызовет extension для `Base`.
 
-**Nullable-получатель.** `fun String?.orDash(): String = this ?: "—"` вызывается и на `null`: `name.orDash()`. Так устроен `isNullOrEmpty()`.
+**Nullable-получатель (nullable — тип, значение которого может быть `null`).** `fun String?.orDash(): String = this ?: "—"` вызывается и на `null`: `name.orDash()`. Так устроен `isNullOrEmpty()`.
 
 **Generic.** `fun <T> List<T>.secondOrNull(): T? = if (size >= 2) this[1] else null`.
 
-**Extension-свойства.** Без поля, только геттер:
+**Extension-свойства.** Без поля, только геттер (геттер, сеттер — код, который читает или записывает значение свойства):
 
 ```kotlin
 val String.isIp: Boolean get() = Regex("""\d{1,3}(\.\d{1,3}){3}""").matches(this)

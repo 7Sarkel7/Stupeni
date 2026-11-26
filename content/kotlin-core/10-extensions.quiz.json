@@ -3,7 +3,7 @@
   "questions": [
     {
       "id": "kc-extensions-1",
-      "prompt": "Во что превращается extension-функция на JVM?",
+      "prompt": "Во что превращается extension-функция на JVM (виртуальная машина, которая запускает Kotlin- и Java-код; в тестах — прямо на компьютере)?",
       "options": [
         "В метод класса",
         "В статическую функцию с получателем первым параметром",
@@ -35,7 +35,7 @@
         "Suspend-функция"
       ],
       "correctIndex": 1,
-      "explanation": "Так устроены apply, buildString и DSL."
+      "explanation": "Так устроены apply, buildString и DSL (мини-язык внутри основного, заточенный под одну задачу)."
     },
     {
       "id": "kc-extensions-4",
@@ -47,7 +47,7 @@
         "Никакой"
       ],
       "correctIndex": 0,
-      "explanation": "Получатель nullable, внутри this может быть null."
+      "explanation": "Получатель nullable (тип, значение которого может быть null), внутри this может быть null."
     }
   ]
 }
