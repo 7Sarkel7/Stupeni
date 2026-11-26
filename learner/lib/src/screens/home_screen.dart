@@ -8,6 +8,7 @@ class HomeScreen extends StatelessWidget {
     super.key,
     required this.catalog,
     required this.progress,
+    required this.onOpenGlossary,
     required this.onOpenLesson,
     required this.onOpenTrack,
     required this.onReset,
@@ -15,6 +16,7 @@ class HomeScreen extends StatelessWidget {
 
   final Catalog catalog;
   final ProgressStore progress;
+  final VoidCallback onOpenGlossary;
   final void Function(LessonRef lesson) onOpenLesson;
   final void Function(Track track) onOpenTrack;
   final VoidCallback onReset;
@@ -37,6 +39,12 @@ class HomeScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Ступени'),
         actions: [
+          IconButton(
+            key: const Key('open-glossary-action'),
+            tooltip: 'Словарь жаргона',
+            onPressed: onOpenGlossary,
+            icon: const Icon(Icons.menu_book_outlined),
+          ),
           IconButton(
             tooltip: 'Сбросить прогресс',
             onPressed: onReset,
@@ -152,6 +160,20 @@ class HomeScreen extends StatelessWidget {
             ),
             const SizedBox(height: 8),
           ],
+          const SizedBox(height: 4),
+          Card(
+            child: ListTile(
+              key: const Key('open-glossary'),
+              leading: const Icon(Icons.menu_book_outlined),
+              title: const Text('Словарь жаргона'),
+              subtitle: const Text(
+                'Не поняли слово в уроке или проверке? Простые определения, '
+                'английский оригинал и примеры.',
+              ),
+              trailing: const Icon(Icons.chevron_right),
+              onTap: onOpenGlossary,
+            ),
+          ),
         ],
       ),
     );

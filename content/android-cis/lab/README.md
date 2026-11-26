@@ -1,6 +1,6 @@
 # Лаборатория стека найма
 
-Чистые функции без Android SDK. Тест красный, пока в теле стоит `TODO`. Это приёмка уроков трека [android-cis](../README.md), не приложение «Смена» и не решение капстоуна.
+Чистые функции без Android SDK (набор инструментов для разработки под платформу). Тест красный, пока в теле стоит `TODO`. Это приёмка уроков трека [android-cis](../README.md), не приложение «Смена» и не решение капстоуна.
 
 Заготовки: `src/main/kotlin/dev/stupeni/hire/`. Сигнатуры не меняйте: тест собирается об эти имена. Намёки лежат в [../solutions](../solutions) и открываются после своей попытки, около 40 минут.
 
@@ -25,7 +25,7 @@
 | Корутины, Flow, StateFlow | `dev.stupeni.hire.FlowNotesTest` |
 | Потоки и main-safety | `dev.stupeni.hire.DispatchTest` |
 | Room и сеть, очередь | `dev.stupeni.hire.OutboxTest` |
-| Push | `dev.stupeni.hire.PushTest` |
+| Push (пуш — отправка ваших коммитов на сервер, например на GitHub) | `dev.stupeni.hire.PushTest` |
 | WorkManager | `dev.stupeni.hire.WorkPolicyTest` |
 
-Hilt, тесты MockK/Turbine/Compose и GitHub Actions в эту JVM-лабораторию не входят: их сдают в своём репозитории `hire-scratch`. Капстоун «Смена» сюда не кладут.
+Hilt, тесты MockK/Turbine/Compose и GitHub Actions в эту JVM-лабораторию (JVM — виртуальная машина, которая запускает Kotlin- и Java-код; в тестах — прямо на компьютере) не входят: их сдают в своём репозитории `hire-scratch`. Капстоун «Смена» сюда не кладут.

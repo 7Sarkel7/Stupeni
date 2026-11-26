@@ -3,7 +3,7 @@
   "questions": [
     {
       "id": "ac-serialization-1",
-      "prompt": "Что делает Json { ignoreUnknownKeys = true }?",
+      "prompt": "Что делает Json { ignoreUnknownKeys = true }?\n\nСлова из вариантов: рефлексию — способность программы во время работы «разглядывать» свои классы и поля.",
       "options": [
         "Игнорирует неизвестные поля в JSON, сервер может добавлять новые",
         "Игнорирует обязательные поля",
@@ -27,7 +27,7 @@
     },
     {
       "id": "ac-serialization-3",
-      "prompt": "Зачем нужен плагин kotlin(\"plugin.serialization\")?",
+      "prompt": "Зачем нужен плагин kotlin(\"plugin.serialization\")?\n\nСлова из вариантов: ViewBinding — автоматическая «привязка» кода к элементам разметки экрана.",
       "options": [
         "Для Retrofit",
         "Без него @Serializable ничего не генерирует",
@@ -35,7 +35,7 @@
         "Для ViewBinding"
       ],
       "correctIndex": 1,
-      "explanation": "Плагин генерирует сериализаторы при сборке."
+      "explanation": "Плагин генерирует сериализаторы (сериализация — превращение объекта в текст или байты для хранения или отправки по сети) при сборке."
     },
     {
       "id": "ac-serialization-4",

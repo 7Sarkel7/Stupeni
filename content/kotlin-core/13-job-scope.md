@@ -9,11 +9,11 @@
 
 ## Цель
 
-Объяснить, что такое `CoroutineScope`, `Job`, `launch` против `async`, структурная конкурентность, отмена и таймаут. Отличать `viewModelScope`, `lifecycleScope` и `GlobalScope`.
+Объяснить, что такое `CoroutineScope`, `Job`, `launch` против `async`, структурная конкурентность, отмена и таймаут (предельное время ожидания ответа, после которого ожидание обрывают). Отличать `viewModelScope`, `lifecycleScope` и `GlobalScope`.
 
 ## Зачем это вам
 
-[Первый урок модуля 02](../02-kotlin-android/01-coroutines.md) вынес сеть с главного потока. [Flow и StateFlow](../android-cis/01-flow.md) и [потоки](../android-cis/03-threads.md) показали диспетчеры. Остался каркас: кто владеет корутиной и что с ней происходит при уходе с экрана. Это любимый вопрос на скрининге: «что будет, если пользователь закрыл экран во время запроса?».
+[Первый урок модуля 02](../02-kotlin-android/01-coroutines.md) вынес сеть с главного потока. [Flow и StateFlow](../android-cis/01-flow.md) и [потоки](../android-cis/03-threads.md) показали диспетчеры. Остался каркас: кто владеет корутиной и что с ней происходит при уходе с экрана. Это любимый вопрос на скрининге (первый короткий этап собеседования, где проверяют базовые знания): «что будет, если пользователь закрыл экран во время запроса?».
 
 Лямбда в `launch { ... }` — [функция с типом `suspend CoroutineScope.() -> Unit`](04-function-types.md), так что здесь работает всё, что вы уже знаете.
 
@@ -57,7 +57,7 @@ val (a, b) = coroutineScope {
 | Scope | Живёт | Когда использовать |
 | --- | --- | --- |
 | `viewModelScope` | пока жива ViewModel | загрузка данных для экрана |
-| `lifecycleScope` | пока жива Activity/Fragment | работа, связанная с UI |
+| `lifecycleScope` | пока жива Activity/Fragment | работа, связанная с UI (пользовательский интерфейс: всё, что видит и нажимает человек) |
 | `rememberCoroutineScope()` | пока composable в композиции | запуск из обработчика клика в Compose |
 | `GlobalScope` | весь процесс | почти никогда: нет владельца, нет отмены |
 | свой `CoroutineScope(SupervisorJob() + Dispatchers.Default)` | пока вы не вызвали `cancel()` | сервис, репозиторий, где нужен свой жизненный цикл |
@@ -85,9 +85,9 @@ val status = withTimeoutOrNull(3_000) { api.status() } ?: return NoNetwork
 
 **Ошибки и SupervisorJob.** **M.** По умолчанию ошибка ребёнка отменяет родителя, а значит и всех братьев. Для независимых задач (три картинки загружаются, одна упала — остальные нужны) используют `supervisorScope { }` или `SupervisorJob`. В `viewModelScope` уже `SupervisorJob`, но исключение в `launch` без обработчика всё равно уронит приложение: нужен `try/catch` внутри или `CoroutineExceptionHandler` на верхнем `launch`. Для `async` исключение приходит при `await()`.
 
-**Диспетчеры в двух словах.** `Dispatchers.Main` — UI, `IO` — сеть и диск, `Default` — вычисления. Не хардкодьте их во внутренних классах: принимайте `CoroutineDispatcher` параметром, в тесте подставляйте тестовый ([урок про тесты](../android-cis/09-tests.md)). Переключение — `withContext(Dispatchers.IO) { ... }`, не `launch(IO)` внутри `launch`.
+**Диспетчеры в двух словах.** `Dispatchers.Main` — UI, `IO` — сеть и диск, `Default` — вычисления. Не хардкодьте (значение, вписанное прямо в код вместо настроек или параметров) их во внутренних классах: принимайте `CoroutineDispatcher` параметром, в тесте подставляйте тестовый ([урок про тесты](../android-cis/09-tests.md)). Переключение — `withContext(Dispatchers.IO) { ... }`, не `launch(IO)` внутри `launch`.
 
-**Лямбда как отложенное действие и корутины.** Паттерн [`pendingAction`](05-nullable-lambdas.md) заменяется на `CompletableDeferred`: `val connected = CompletableDeferred<Unit>()`, при подключении `connected.complete(Unit)`, где нужно — `connected.await()`. Тот же результат без поля и без ручного сброса. Знание обоих вариантов — на собеседовании плюс.
+**Лямбда как отложенное действие и корутины.** Паттерн (типовой проверенный приём решения задачи) [`pendingAction`](05-nullable-lambdas.md) заменяется на `CompletableDeferred`: `val connected = CompletableDeferred<Unit>()`, при подключении `connected.complete(Unit)`, где нужно — `connected.await()`. Тот же результат без поля и без ручного сброса. Знание обоих вариантов — на собеседовании плюс.
 
 ## Разбор на примере
 
@@ -117,7 +117,7 @@ class StatusViewModel(private val api: LampApi) : ViewModel() {
 ```
 
 - `viewModelScope` уничтожается вместе с ViewModel: запрос не переживёт экран.
-- `job?.cancel()` — защита от гонки двух запросов: старый ответ не перезапишет новый.
+- `job?.cancel()` — защита от гонки (гонка — ошибка, при которой результат зависит от того, какой из параллельных процессов успеет раньше) двух запросов: старый ответ не перезапишет новый.
 - Таймаут и ошибка сети превращены в значения. Заметьте: `TimeoutCancellationException` — подкласс `CancellationException`, так что порядок веток важен; если вам нужно показать «таймаут», используйте `withTimeoutOrNull`.
 
 ## Упражнения

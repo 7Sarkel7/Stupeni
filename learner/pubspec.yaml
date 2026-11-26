@@ -61,6 +61,7 @@ flutter:
 
   # Канонические тексты лежат в /content и копируются сюда скриптом tool/sync_content.sh.
   assets:
+    - assets/glossary/glossary.json
     - assets/content/catalog.json
     - assets/content/hints/
     - assets/content/01-fundamentals/
@@ -72,6 +73,8 @@ flutter:
     - assets/content/07-pgs/
     - assets/content/career/
     - assets/content/android-cis/
+    - assets/content/kotlin-core/
+    - assets/content/android-core/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

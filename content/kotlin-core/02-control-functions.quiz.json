@@ -27,7 +27,7 @@
     },
     {
       "id": "kc-control-3",
-      "prompt": "Как вызвать connect(host, port = 80, timeoutMs = 3000), поменяв только таймаут?",
+      "prompt": "Как вызвать connect(host, port = 80, timeoutMs = 3000), поменяв только таймаут (предельное время ожидания ответа, после которого ожидание обрывают)?",
       "options": [
         "connect(host, 500)",
         "connect(host, timeoutMs = 500)",
