@@ -4,6 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'src/app.dart';
 import 'src/models.dart';
+import 'src/practice_history.dart';
 import 'src/progress_store.dart';
 
 Future<void> main() async {
@@ -16,6 +17,7 @@ Future<void> main() async {
       StupeniApp(
         catalog: catalog,
         progress: ProgressStore(prefs),
+        history: PracticeHistory(prefs),
         load: (path) => rootBundle.loadString('assets/content/$path'),
       ),
     );

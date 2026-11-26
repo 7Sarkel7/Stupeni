@@ -10,6 +10,8 @@ class HomeScreen extends StatelessWidget {
     required this.progress,
     required this.onOpenLesson,
     required this.onOpenTrack,
+    required this.onOpenPracticeTopics,
+    required this.onOpenPracticeMix,
     required this.onReset,
   });
 
@@ -17,6 +19,8 @@ class HomeScreen extends StatelessWidget {
   final ProgressStore progress;
   final void Function(LessonRef lesson) onOpenLesson;
   final void Function(Track track) onOpenTrack;
+  final VoidCallback onOpenPracticeTopics;
+  final VoidCallback onOpenPracticeMix;
   final VoidCallback onReset;
 
   @override
@@ -79,6 +83,40 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
             ),
+          const SizedBox(height: 12),
+          Card(
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('Тренировка', style: theme.textTheme.titleMedium),
+                  const SizedBox(height: 4),
+                  Text(
+                    'Короткие задания вне маршрута. Прогресс уроков не меняется.',
+                    style: theme.textTheme.bodyMedium,
+                  ),
+                  const SizedBox(height: 12),
+                  Wrap(
+                    spacing: 8,
+                    runSpacing: 8,
+                    children: [
+                      FilledButton.tonal(
+                        key: const Key('open-practice-topics'),
+                        onPressed: onOpenPracticeTopics,
+                        child: const Text('Тренировка по теме'),
+                      ),
+                      FilledButton.tonal(
+                        key: const Key('open-practice-mix'),
+                        onPressed: onOpenPracticeMix,
+                        child: const Text('Микс'),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
           if (career != null) ...[
             const SizedBox(height: 12),
             Card(

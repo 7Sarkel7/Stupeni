@@ -1,0 +1,229 @@
+{
+  "topicId": "compose",
+  "tasks": [
+    {
+      "id": "compose-c01",
+      "type": "choice",
+      "prompt": "Нужен красный фон, под который попадает и отступ: текст должен лежать внутри красного прямоугольника с отступом 16 dp (единица размера, не зависящая от плотности экрана) от его краёв. Какая цепочка модификаторов (настроек внешнего вида и поведения) это даёт?",
+      "options": [
+        "`Modifier.padding(16.dp)`",
+        "`Modifier.padding(16.dp).background(Color.Red)`",
+        "`Modifier.background(Color.Red).padding(16.dp)`",
+        "`Modifier.background(Color.Red, padding = 16.dp)`"
+      ],
+      "correctIndex": 2,
+      "explanation": "Модификаторы применяются по порядку сверху вниз: сначала фон закрашивает всю область, затем padding отодвигает содержимое внутрь. В варианте с обратным порядком красным станет только область внутри отступа."
+    },
+    {
+      "id": "compose-c02",
+      "type": "choice",
+      "prompt": "Кнопка нажимается, но число на экране не меняется. В чём ошибка?\n\n```kotlin\n@Composable\nfun Counter() {\n    var count = 0\n    Button(onClick = { count++ }) { Text(\"$count\") }\n}\n```",
+      "options": [
+        "`count` — обычная переменная: Compose не следит за ней, и при новом проходе функции она снова 0. Нужно `var count by remember { mutableStateOf(0) }`",
+        "`Button` нельзя вызывать внутри функции с `@Composable`",
+        "В `onClick` нельзя писать `count++`, только `count = count + 1`",
+        "Кнопке нужен параметр `enabled = true`, иначе она не нажимается"
+      ],
+      "correctIndex": 0,
+      "explanation": "Состояние, за которым следит Compose, хранят в `mutableStateOf`, а `remember` (запоминает значение между перерисовками) не даёт ему обнулиться. Обычная `var` не запускает перерисовку и теряет значение."
+    },
+    {
+      "id": "compose-c03",
+      "type": "choice",
+      "prompt": "Что покажет экран? `Box` и `Text` — части интерфейса: контейнер и текст.\n\n```kotlin\nBox {\n    Text(\"A\")\n    Text(\"B\")\n}\n```",
+      "options": [
+        "`A` над `B`, в столбик",
+        "`A` и `B` рядом, в строку",
+        "Только `B`: второй `Text` заменяет первый",
+        "`A` и `B` друг на друге в левом верхнем углу"
+      ],
+      "correctIndex": 3,
+      "explanation": "`Box` кладёт дочерние элементы слоями, поэтому тексты наложатся. Чтобы выстроить их в столбик или в строку, берут `Column` или `Row`."
+    },
+    {
+      "id": "compose-c04",
+      "type": "choice",
+      "prompt": "Найди ошибку: почему этот код не работает как часть экрана на Compose? `Text` — composable-функция (функция, рисующая часть экрана).\n\nfun Title() {\n    Text(\"Привет\")\n}",
+      "options": [
+        "Имя функции должно начинаться с маленькой буквы",
+        "У функции нет аннотации `@Composable`, а вызывать `Text` можно только из composable-функции",
+        "У `Text` нет параметра для строки",
+        "Функция ничего не возвращает, а должна вернуть `Text`"
+      ],
+      "correctIndex": 1,
+      "explanation": "Composable-функции вызываются только из других composable-функций, поэтому `Title` нужно пометить `@Composable`. Возвращать ничего не требуется: функция сама описывает интерфейс."
+    },
+    {
+      "id": "compose-f01",
+      "type": "fill",
+      "prompt": "Пометь функцию так, чтобы Compose мог использовать её как часть экрана.",
+      "code": "___\nfun Greeting(name: String) {\n    Text(\"Привет, $name\")\n}",
+      "answers": [
+        "@Composable",
+        "@androidx.compose.runtime.Composable"
+      ],
+      "explanation": "Аннотация (метка над функцией) `@Composable` превращает обычную функцию в описание части интерфейса. Имя такой функции принято писать с большой буквы."
+    },
+    {
+      "id": "compose-f02",
+      "type": "fill",
+      "prompt": "Создай состояние для текста поля, которое Compose умеет отслеживать. Начальное значение — пустая строка.",
+      "code": "var text by remember { ___(\"\") }\nTextField(value = text, onValueChange = { text = it })",
+      "answers": [
+        "mutableStateOf",
+        "mutableStateOf<String>"
+      ],
+      "explanation": "`mutableStateOf` создаёт держатель значения: при записи в него Compose перерисовывает те функции, которые это значение прочитали."
+    },
+    {
+      "id": "compose-f03",
+      "type": "fill",
+      "prompt": "Значение счётчика должно пережить поворот экрана. Впиши функцию, которая это умеет (обычного `remember` для этого мало).",
+      "code": "var count by ___ { mutableStateOf(0) }\nButton(onClick = { count++ }) { Text(\"$count\") }",
+      "answers": [
+        "rememberSaveable"
+      ],
+      "explanation": "`rememberSaveable` сохраняет значение в `Bundle` (набор данных, который система хранит при пересоздании экрана) и возвращает его после поворота. Обычный `remember` при повороте теряет значение."
+    },
+    {
+      "id": "compose-f04",
+      "type": "fill",
+      "prompt": "Растяни текст на всю ширину родителя. Высоту менять не нужно.",
+      "code": "Text(\n    text = \"Привет\",\n    modifier = Modifier.___()\n)",
+      "answers": [
+        "fillMaxWidth"
+      ],
+      "explanation": "`fillMaxWidth()` занимает всю доступную ширину. `fillMaxHeight()` растягивает по высоте, а `fillMaxSize()` — в обе стороны сразу."
+    },
+    {
+      "id": "compose-f05",
+      "type": "fill",
+      "prompt": "Добавь отступ 16 dp (единица размера, не зависящая от плотности экрана) со всех сторон вокруг текста.",
+      "code": "Text(\n    text = \"Привет\",\n    modifier = Modifier.___(16.dp)\n)",
+      "answers": [
+        "padding"
+      ],
+      "explanation": "`padding(16.dp)` отодвигает содержимое от границ на 16 dp со всех сторон. Размер задают другими модификаторами, например `size`."
+    },
+    {
+      "id": "compose-f06",
+      "type": "fill",
+      "prompt": "Сделай так, чтобы по нажатию на `Box` вызывалась функция `onTap`.",
+      "code": "@Composable\nfun Tile(onTap: () -> Unit) {\n    Box(modifier = Modifier.___ { onTap() }) {\n        Text(\"Нажми\")\n    }\n}",
+      "answers": [
+        "clickable"
+      ],
+      "explanation": "Модификатор `clickable` делает любой элемент нажимаемым и вызывает лямбду (небольшую безымянную функцию) при клике. Сам по себе `Box` на нажатия не реагирует."
+    },
+    {
+      "id": "compose-f07",
+      "type": "fill",
+      "prompt": "Расположи два текста рядом, в одну горизонтальную строку.",
+      "code": "___ {\n    Text(\"Имя\")\n    Text(\"Вася\")\n}",
+      "answers": [
+        "Row"
+      ],
+      "explanation": "`Row` выстраивает дочерние элементы по горизонтали. Для вертикального столбика используют `Column`."
+    },
+    {
+      "id": "compose-f08",
+      "type": "fill",
+      "prompt": "Укажи имя параметра `Button`, в который передают действие по нажатию.",
+      "code": "var count by remember { mutableStateOf(0) }\nButton(___ = { count++ }) {\n    Text(\"Плюс один\")\n}",
+      "answers": [
+        "onClick"
+      ],
+      "explanation": "Параметр `onClick` принимает лямбду, которая выполняется при нажатии. Текст кнопки задают отдельно, содержимым в фигурных скобках."
+    },
+    {
+      "id": "compose-f09",
+      "type": "fill",
+      "prompt": "Подними состояние поля вверх: впиши имя параметра `TextField`, который сообщает наружу о новом тексте. Само значение хранит вызывающая функция.",
+      "code": "@Composable\nfun NameField(name: String, onNameChange: (String) -> Unit) {\n    TextField(value = name, ___ = onNameChange)\n}",
+      "answers": [
+        "onValueChange"
+      ],
+      "explanation": "При подъёме состояния поле получает значение и лямбду-событие: значение идёт вниз, события вверх. Параметр `onValueChange` вызывается при каждом изменении текста."
+    },
+    {
+      "id": "compose-f10",
+      "type": "fill",
+      "prompt": "Запусти `loadData()` один раз, когда экран появился (корутина — это лёгкая фоновая задача). Ключ `Unit` не меняется.",
+      "code": "@Composable\nfun Screen(loadData: suspend () -> Unit) {\n    ___(Unit) { loadData() }\n    Text(\"Экран\")\n}",
+      "answers": [
+        "LaunchedEffect"
+      ],
+      "explanation": "`LaunchedEffect(key)` запускает корутину при входе в композицию и отменяет её при уходе или смене ключа. Вызывать `loadData()` прямо в теле нельзя: оно выполнялось бы при каждой перерисовке."
+    },
+    {
+      "id": "compose-f11",
+      "type": "fill",
+      "prompt": "Вставь между двумя текстами пустой промежуток высотой 16 dp: впиши имя композабла (функции, рисующей часть экрана), который просто занимает место.",
+      "code": "Column {\n    Text(\"Первый\")\n    ___(Modifier.height(16.dp))\n    Text(\"Второй\")\n}",
+      "answers": [
+        "Spacer"
+      ],
+      "explanation": "`Spacer` ничего не рисует, а только занимает место, размер ему задают модификатором. Для отступа вокруг элемента есть `padding`."
+    },
+    {
+      "id": "compose-f12",
+      "type": "fill",
+      "prompt": "В проекте на Navigation Compose открой экран с маршрутом \"details\" через `navController` (объект, управляющий переходами).",
+      "code": "Button(onClick = { navController.___(\"details\") }) {\n    Text(\"Подробнее\")\n}",
+      "answers": [
+        "navigate"
+      ],
+      "explanation": "`navigate(route)` кладёт новый экран поверх стека (списка открытых экранов), а `popBackStack()` возвращает назад."
+    },
+    {
+      "id": "compose-f13",
+      "type": "fill",
+      "prompt": "В проекте на Navigation Compose объяви в графе навигации экран с маршрутом \"home\". Впиши имя функции, которая описывает один экран внутри `NavHost`.",
+      "code": "NavHost(navController, startDestination = \"home\") {\n    ___(\"home\") { HomeScreen() }\n}",
+      "answers": [
+        "composable"
+      ],
+      "explanation": "Внутри `NavHost` каждый экран задают функцией `composable(route)`, в её лямбде рисуют содержимое. `startDestination` выбирает экран, с которого начинается стек."
+    },
+    {
+      "id": "compose-f14",
+      "type": "fill",
+      "prompt": "Нарисуй ленивый список имён: впиши функцию, которая создаёт по одной строке на каждый элемент списка `names`.",
+      "code": "val names = listOf(\"Аня\", \"Борис\")\nLazyColumn {\n    ___(names) { name -> Text(name) }\n}",
+      "answers": [
+        "items"
+      ],
+      "explanation": "`items` внутри `LazyColumn` описывает строки по данным. Ленивый список создаёт только те строки, которые сейчас видны."
+    },
+    {
+      "id": "compose-f15",
+      "type": "fill",
+      "prompt": "Задай стабильный идентификатор строки: впиши имя параметра `items`, в который передают функцию, возвращающую `id` элемента.",
+      "code": "LazyColumn {\n    items(users, ___ = { it.id }) { user ->\n        Text(user.name)\n    }\n}",
+      "answers": [
+        "key"
+      ],
+      "explanation": "С `key` Compose отличает строки при вставке и удалении и не путает их состояние. Номер позиции годится плохо: он сдвигается."
+    },
+    {
+      "id": "compose-f16",
+      "type": "fill",
+      "prompt": "Задай верхнюю панель экрана: впиши имя параметра `Scaffold` (каркас типового экрана), в который передают верхнюю панель.",
+      "code": "Scaffold(\n    ___ = { Text(\"Дом\") }\n) { innerPadding ->\n    Text(\"Привет\", Modifier.padding(innerPadding))\n}",
+      "answers": [
+        "topBar"
+      ],
+      "explanation": "`Scaffold` раскладывает типовые части экрана: `topBar` отвечает за верхнюю панель, а основное содержимое идёт в конце. Отступы `innerPadding` нужно передать содержимому."
+    },
+    {
+      "id": "compose-f17",
+      "type": "fill",
+      "prompt": "В UI-тесте (автоматической проверке экрана) нажми на кнопку, найденную по тексту. Впиши действие.",
+      "code": "composeTestRule\n    .onNodeWithText(\"Войти\")\n    .___()",
+      "answers": [
+        "performClick"
+      ],
+      "explanation": "`performClick()` имитирует нажатие на найденный элемент. Проверки результата пишут отдельно, например `assertIsDisplayed()`."
+    }
+  ]
+}

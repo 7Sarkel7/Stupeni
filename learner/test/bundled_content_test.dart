@@ -4,6 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stupeni/src/app.dart';
 import 'package:stupeni/src/models.dart';
+import 'package:stupeni/src/practice_history.dart';
 import 'package:stupeni/src/progress_store.dart';
 
 void main() {
@@ -23,6 +24,7 @@ void main() {
       StupeniApp(
         catalog: catalog,
         progress: progress,
+        history: PracticeHistory(await SharedPreferences.getInstance()),
         load: (path) => rootBundle.loadString('assets/content/$path'),
       ),
     );
@@ -30,6 +32,7 @@ void main() {
 
     expect(find.text('Открыть первый урок'), findsOneWidget);
     await tester.ensureVisible(find.byKey(const Key('open-career')));
+    await tester.pumpAndSettle();
     await tester.tap(find.byKey(const Key('open-career')));
     await tester.pumpAndSettle();
     expect(find.text('Коллекции и цена операции'), findsOneWidget);
@@ -37,6 +40,7 @@ void main() {
     await tester.pumpAndSettle();
 
     await tester.ensureVisible(find.byKey(const Key('open-android-cis')));
+    await tester.pumpAndSettle();
     await tester.tap(find.byKey(const Key('open-android-cis')));
     await tester.pumpAndSettle();
     expect(find.text('Корутины, Flow и StateFlow'), findsOneWidget);

@@ -1,0 +1,568 @@
+{
+  "topicId": "kotlin-basics",
+  "tasks": [
+    {
+      "id": "kotlin-basics-c01",
+      "type": "choice",
+      "prompt": "Что произойдёт при компиляции?\nval age = 20\nage = 21",
+      "options": [
+        "Код скомпилируется, age станет 21",
+        "Ошибка: `val` нельзя переназначить",
+        "Код скомпилируется, но age останется 20",
+        "Ошибка: число 21 слишком большое"
+      ],
+      "correctIndex": 1,
+      "explanation": "`val` задаёт значение один раз. Для значения, которое меняется, нужен `var`."
+    },
+    {
+      "id": "kotlin-basics-c02",
+      "type": "choice",
+      "prompt": "Какой тип Kotlin сам выведет для `val price = 3.14`?",
+      "options": [
+        "Float",
+        "Int",
+        "Double",
+        "String"
+      ],
+      "correctIndex": 2,
+      "explanation": "Дробное число без суффикса `f` получает тип `Double`. `Float` нужен только при записи `3.14f`."
+    },
+    {
+      "id": "kotlin-basics-c03",
+      "type": "choice",
+      "prompt": "Что напечатает `println(7 / 2)`?",
+      "options": [
+        "3",
+        "3.5",
+        "4",
+        "2"
+      ],
+      "correctIndex": 0,
+      "explanation": "Оба числа `Int`, поэтому деление целочисленное: дробная часть отбрасывается. Чтобы получить 3.5, одно из чисел должно быть `Double`."
+    },
+    {
+      "id": "kotlin-basics-c04",
+      "type": "choice",
+      "prompt": "Что напечатает `println(7 % 3)`?",
+      "options": [
+        "2",
+        "0",
+        "2.33",
+        "1"
+      ],
+      "correctIndex": 3,
+      "explanation": "Оператор `%` возвращает остаток от деления: 7 = 2 * 3 + 1."
+    },
+    {
+      "id": "kotlin-basics-c05",
+      "type": "choice",
+      "prompt": "Что напечатает `println(-7 / 2)`?",
+      "options": [
+        "-4",
+        "-3",
+        "-3.5",
+        "3"
+      ],
+      "correctIndex": 1,
+      "explanation": "Целочисленное деление отбрасывает дробную часть (округляет к нулю), а не вниз: -3.5 превращается в -3."
+    },
+    {
+      "id": "kotlin-basics-c06",
+      "type": "choice",
+      "prompt": "Почему этот код не скомпилируется?\nval a: Int = 5\nval b: Long = a",
+      "options": [
+        "Kotlin не приводит числа неявно, нужно `a.toLong()`",
+        "Long нельзя объявлять через val",
+        "Переменная a должна быть объявлена как var",
+        "Тип Long не умеет хранить число 5"
+      ],
+      "correctIndex": 0,
+      "explanation": "Между числовыми типами нет неявных преобразований. Пишите `a.toLong()` явно."
+    },
+    {
+      "id": "kotlin-basics-c07",
+      "type": "choice",
+      "prompt": "Что напечатает `println(\"2\" + 3)`?",
+      "options": [
+        "5",
+        "Ошибка компиляции",
+        "23",
+        "2 + 3"
+      ],
+      "correctIndex": 2,
+      "explanation": "Слева строка, поэтому `+` склеивает строки: получается \"23\". Для сложения чисел строку надо сначала преобразовать, например `\"2\".toInt()`."
+    },
+    {
+      "id": "kotlin-basics-c08",
+      "type": "choice",
+      "prompt": "Какая запись выведет `Сумма: 5`, если `val a = 2` и `val b = 3`?",
+      "options": [
+        "`println(\"Сумма: $a + b\")`",
+        "`println(\"Сумма: {a + b}\")`",
+        "`println(\"Сумма: $(a + b)\")`",
+        "`println(\"Сумма: ${a + b}\")`"
+      ],
+      "correctIndex": 3,
+      "explanation": "Для выражения в строке нужны `${...}`. Запись `$a + b` подставит только a и напечатает «Сумма: 2 + b»."
+    },
+    {
+      "id": "kotlin-basics-c09",
+      "type": "choice",
+      "prompt": "Что напечатает код?\nval s = \"kot\"\nprintln(\"$s.length\")",
+      "options": [
+        "3",
+        "kot.3",
+        "kot.length",
+        "Ошибка компиляции"
+      ],
+      "correctIndex": 2,
+      "explanation": "После `$s` шаблон заканчивается на имени переменной, `.length` остаётся обычным текстом. Для вызова нужно `${s.length}`."
+    },
+    {
+      "id": "kotlin-basics-c10",
+      "type": "choice",
+      "prompt": "Почему не компилируется `val name: String = null`?",
+      "options": [
+        "null можно писать только в var",
+        "Тип `String` не может хранить null, нужен `String?`",
+        "В Kotlin слово null не существует",
+        "Для null нужно использовать `0`"
+      ],
+      "correctIndex": 1,
+      "explanation": "Обычные типы в Kotlin не допускают null. Значение «может отсутствовать» отмечают знаком `?` у типа."
+    },
+    {
+      "id": "kotlin-basics-c11",
+      "type": "choice",
+      "prompt": "Что напечатает код?\nval s: String? = null\nprintln(s?.length)",
+      "options": [
+        "0",
+        "Падение с NullPointerException",
+        "Ошибка компиляции",
+        "null"
+      ],
+      "correctIndex": 3,
+      "explanation": "Безопасный вызов `?.` при null не вызывает метод, а возвращает null. `println` печатает слово null."
+    },
+    {
+      "id": "kotlin-basics-c12",
+      "type": "choice",
+      "prompt": "Что напечатает код?\nval nick: String? = null\nprintln(nick ?: \"пусто\")",
+      "options": [
+        "пусто",
+        "null",
+        "Ошибка компиляции",
+        "Пустую строку"
+      ],
+      "correctIndex": 0,
+      "explanation": "Оператор Элвис `?:` («если слева null, возьми правое») берёт правое значение, когда левое равно null."
+    },
+    {
+      "id": "kotlin-basics-c13",
+      "type": "choice",
+      "prompt": "Какой тип у выражения `s?.length`, если `s` имеет тип `String?`?",
+      "options": [
+        "Int",
+        "String?",
+        "Int?",
+        "Boolean"
+      ],
+      "correctIndex": 2,
+      "explanation": "При null результат тоже null, поэтому тип получается `Int?`, а не `Int`."
+    },
+    {
+      "id": "kotlin-basics-c14",
+      "type": "choice",
+      "prompt": "Что произойдёт, если выполнить `val s: String? = null` и затем `s!!.length`?",
+      "options": [
+        "Напечатается null",
+        "Исключение NullPointerException",
+        "Вернётся 0",
+        "Ошибка компиляции"
+      ],
+      "correctIndex": 1,
+      "explanation": "Оператор `!!` утверждает, что значение не null. Если это неправда, программа падает с исключением."
+    },
+    {
+      "id": "kotlin-basics-c15",
+      "type": "choice",
+      "prompt": "Что произойдёт, если прочитать `lateinit var`-свойство (свойство, которому значение присваивают позже) до того, как ему присвоили значение?",
+      "options": [
+        "Вернётся null",
+        "Вернётся значение по умолчанию (пустая строка или 0)",
+        "Ошибка компиляции",
+        "Исключение UninitializedPropertyAccessException"
+      ],
+      "correctIndex": 3,
+      "explanation": "У `lateinit` нет начального значения. Раннее чтение выбрасывает исключение, null там не бывает."
+    },
+    {
+      "id": "kotlin-basics-c16",
+      "type": "choice",
+      "prompt": "Какое объявление не скомпилируется?",
+      "options": [
+        "`lateinit val title: String`",
+        "`lateinit var title: String`",
+        "`lateinit var names: List<String>`",
+        "`lateinit var text: StringBuilder`"
+      ],
+      "correctIndex": 0,
+      "explanation": "`lateinit` работает только с `var`: значение присваивают позже, а `val` менять нельзя."
+    },
+    {
+      "id": "kotlin-basics-c17",
+      "type": "choice",
+      "prompt": "Как внутри класса проверить, что `lateinit var token: String` (свойство, значение которому присваивают позже) уже получила значение?",
+      "options": [
+        "`token.isEmpty()`",
+        "`token == null`",
+        "`::token.isInitialized`",
+        "`token.isInitialized`"
+      ],
+      "correctIndex": 2,
+      "explanation": "Для этого у свойства есть специальная проверка `::token.isInitialized`. Обычное чтение до присваивания приведёт к исключению."
+    },
+    {
+      "id": "kotlin-basics-c18",
+      "type": "choice",
+      "prompt": "Что напечатает код?\nval x by lazy { println(\"calc\"); 5 }\nprintln(x)\nprintln(x)",
+      "options": [
+        "5, 5 (две строки)",
+        "calc, 5, 5 (три строки)",
+        "calc, 5, calc, 5 (четыре строки)",
+        "calc (одна строка)"
+      ],
+      "correctIndex": 1,
+      "explanation": "Блок `lazy` выполняется один раз при первом чтении, результат запоминается. Второе чтение просто возвращает 5."
+    },
+    {
+      "id": "kotlin-basics-c19",
+      "type": "choice",
+      "prompt": "Какая строка корректна на верхнем уровне файла?",
+      "options": [
+        "`const val MAX = 10`",
+        "`const var MAX = 10`",
+        "`const val NOW = System.currentTimeMillis()`",
+        "`const val ITEMS = listOf(1, 2)`"
+      ],
+      "correctIndex": 0,
+      "explanation": "`const val` — константа, значение которой известно при компиляции: число, строка и т. п. Вызов функции или список для этого не подходят."
+    },
+    {
+      "id": "kotlin-basics-c20",
+      "type": "choice",
+      "prompt": "Что проверяет `a == b` для двух значений типа `String`?",
+      "options": [
+        "Указывают ли они на один и тот же объект",
+        "Совпадает ли только длина",
+        "Совпадает ли только первая буква",
+        "Совпадает ли их содержимое"
+      ],
+      "correctIndex": 3,
+      "explanation": "В Kotlin `==` сравнивает содержимое (через equals). Сравнение «тот же объект» записывается как `===`."
+    },
+    {
+      "id": "kotlin-basics-c21",
+      "type": "choice",
+      "prompt": "Чем `print(\"a\")` отличается от `println(\"a\")`?",
+      "options": [
+        "`println` после текста переводит строку, `print` нет",
+        "`print` печатает в консоль, а `println` в файл",
+        "`println` печатает текст дважды",
+        "Никакой разницы нет"
+      ],
+      "correctIndex": 0,
+      "explanation": "После `println` следующий вывод начнётся с новой строки, после `print` продолжится в той же."
+    },
+    {
+      "id": "kotlin-basics-c22",
+      "type": "choice",
+      "prompt": "Какой записью в Kotlin можно оставить однострочный комментарий?",
+      "options": [
+        "`# текст`",
+        "`-- текст`",
+        "`// текст`",
+        "`<!-- текст -->`"
+      ],
+      "correctIndex": 2,
+      "explanation": "Однострочный комментарий начинается с `//`, многострочный записывают как `/* ... */`."
+    },
+    {
+      "id": "kotlin-basics-c23",
+      "type": "choice",
+      "prompt": "Что напечатает `println(5 in 1..5)`?",
+      "options": [
+        "false",
+        "true",
+        "5",
+        "Ошибка компиляции"
+      ],
+      "correctIndex": 1,
+      "explanation": "Диапазон `1..5` включает обе границы: 1, 2, 3, 4 и 5. Проверка `in` возвращает true."
+    },
+    {
+      "id": "kotlin-basics-c24",
+      "type": "choice",
+      "prompt": "Что напечатает код?\nval big = Int.MAX_VALUE\nprintln(big + 1)",
+      "options": [
+        "2147483648",
+        "Исключение при сложении",
+        "2147483647",
+        "-2147483648"
+      ],
+      "correctIndex": 3,
+      "explanation": "`Int` хранит 32 бита, при переполнении число «заворачивается» в отрицательное, ошибки не будет. Для больших чисел используют `Long`."
+    },
+    {
+      "id": "kotlin-basics-c25",
+      "type": "choice",
+      "prompt": "Почему не компилируется этот код?\nvar n = 5\nn = \"пять\"",
+      "options": [
+        "Переменную нельзя изменять после объявления",
+        "Строки нельзя присваивать переменным",
+        "Тип переменной выведен как Int и дальше не меняется",
+        "Нужно написать `val` вместо `var`"
+      ],
+      "correctIndex": 2,
+      "explanation": "`var` разрешает менять значение, но не тип. Здесь тип выведен как `Int`, строка не подойдёт."
+    },
+    {
+      "id": "kotlin-basics-c26",
+      "type": "choice",
+      "prompt": "Почему не компилируется `val letter: Char = \"a\"`?",
+      "options": [
+        "Тип Char нельзя использовать с val",
+        "В двойных кавычках записана строка, а для Char нужны одинарные: `'a'`",
+        "Буква должна быть заглавной",
+        "Char нельзя хранить буквы"
+      ],
+      "correctIndex": 1,
+      "explanation": "`\"a\"` — это `String`, а `'a'` — это `Char`. Это разные типы."
+    },
+    {
+      "id": "kotlin-basics-c27",
+      "type": "choice",
+      "prompt": "Что напечатает код?\nval s: String? = null\ns?.let { println(\"внутри\") }\nprintln(\"после\")",
+      "options": [
+        "Только «после»",
+        "«внутри», затем «после»",
+        "Падение с исключением",
+        "Ошибка компиляции"
+      ],
+      "correctIndex": 0,
+      "explanation": "Блок `let` с `?.` выполняется только если значение не null. Здесь он пропускается."
+    },
+    {
+      "id": "kotlin-basics-c28",
+      "type": "choice",
+      "prompt": "Как получить 2.5 из `val a = 5` и `val b = 2` (оба `Int`)?",
+      "options": [
+        "`a / b`",
+        "`(a / b).toDouble()`",
+        "`a / b.toString()`",
+        "`a.toDouble() / b`"
+      ],
+      "correctIndex": 3,
+      "explanation": "Хотя бы один операнд должен быть `Double` до деления. В записи `(a / b).toDouble()` деление уже выполнено целочисленно и даст 2.0."
+    },
+    {
+      "id": "kotlin-basics-c29",
+      "type": "choice",
+      "prompt": "Что напечатает `println(\"abc\".toIntOrNull())`?",
+      "options": [
+        "0",
+        "null",
+        "Исключение NumberFormatException",
+        "abc"
+      ],
+      "correctIndex": 1,
+      "explanation": "`toIntOrNull()` возвращает null, если строку нельзя разобрать как число. Обычный `toInt()` на такой строке выбросил бы исключение."
+    },
+    {
+      "id": "kotlin-basics-c30",
+      "type": "choice",
+      "prompt": "Что сделает `requireNotNull(ip) { \"нет IP\" }`, если `ip` равен null?",
+      "options": [
+        "Вернёт строку «нет IP»",
+        "Вернёт null",
+        "Выбросит исключение с сообщением «нет IP»",
+        "Напечатает «нет IP» и продолжит работу"
+      ],
+      "correctIndex": 2,
+      "explanation": "`requireNotNull` проверяет, что значение не null. Если нет — выбрасывает `IllegalArgumentException` с вашим сообщением."
+    },
+    {
+      "id": "kotlin-basics-f01",
+      "type": "fill",
+      "prompt": "Допиши ключевое слово: нужна переменная, которую после создания менять нельзя.",
+      "code": "___ city = \"Москва\"\nprintln(city)",
+      "answers": [
+        "val"
+      ],
+      "explanation": "`val` объявляет переменную без возможности переназначения."
+    },
+    {
+      "id": "kotlin-basics-f02",
+      "type": "fill",
+      "prompt": "Допиши ключевое слово, чтобы переменной `score` можно было присвоить новое значение (на второй строке).",
+      "code": "___ score = 10\nscore = score + 5\nprintln(score)",
+      "answers": [
+        "var"
+      ],
+      "explanation": "Присваивать новое значение можно только переменной, объявленной через `var`. Будет напечатано 15."
+    },
+    {
+      "id": "kotlin-basics-f04",
+      "type": "fill",
+      "prompt": "Допиши вызов, чтобы деление шло в `Double` и напечаталось 3.5.",
+      "code": "val a = 7\nprintln(a.___() / 2)",
+      "answers": [
+        "toDouble"
+      ],
+      "explanation": "`toDouble()` превращает `Int` в `Double`, поэтому деление 7.0 / 2 даёт 3.5, а не 3."
+    },
+    {
+      "id": "kotlin-basics-f05",
+      "type": "fill",
+      "prompt": "Допиши строковый шаблон (запись, которая подставляет значение переменной в текст), чтобы вместо пропуска подставилось значение переменной `name`: «Привет, Аня!».",
+      "code": "val name = \"Аня\"\nprintln(\"Привет, ___!\")",
+      "answers": [
+        "$name",
+        "${name}"
+      ],
+      "explanation": "Знак `$` перед именем подставляет значение переменной в строку."
+    },
+    {
+      "id": "kotlin-basics-f06",
+      "type": "fill",
+      "prompt": "Допиши шаблон с выражением, чтобы напечаталось «Сумма: 5».",
+      "code": "val a = 2\nval b = 3\nprintln(\"Сумма: ___\")",
+      "answers": [
+        "${a + b}",
+        "${b + a}"
+      ],
+      "explanation": "Выражение внутри строки записывают в `${...}`: сумма 2 и 3 равна 5."
+    },
+    {
+      "id": "kotlin-basics-f07",
+      "type": "fill",
+      "prompt": "Допиши знак, чтобы переменная могла хранить и строку, и null.",
+      "code": "val title: String___ = null\nprintln(title)",
+      "answers": [
+        "?"
+      ],
+      "explanation": "Знак `?` после типа делает его допускающим null: `String?`."
+    },
+    {
+      "id": "kotlin-basics-f08",
+      "type": "fill",
+      "prompt": "Допиши оператор безопасного вызова (вызов, который при null не падает), чтобы код напечатал null и не упал.",
+      "code": "val s: String? = null\nprintln(s___length)",
+      "answers": [
+        "?."
+      ],
+      "explanation": "`?.` не вызывает свойство у null, а возвращает null."
+    },
+    {
+      "id": "kotlin-basics-f09",
+      "type": "fill",
+      "prompt": "Допиши оператор, чтобы при null подставилось слово «аноним».",
+      "code": "val nick: String? = null\nval shown = nick ___ \"аноним\"\nprintln(shown)",
+      "answers": [
+        "?:"
+      ],
+      "explanation": "Оператор `?:` (Элвис) выдаёт значение справа, если слева null."
+    },
+    {
+      "id": "kotlin-basics-f10",
+      "type": "fill",
+      "prompt": "Допиши оператор, который утверждает, что `s` не null, чтобы результат `.length` имел тип `Int`, а не `Int?`.",
+      "code": "val s: String? = \"kot\"\nval n: Int = s___.length\nprintln(n)",
+      "answers": [
+        "!!"
+      ],
+      "explanation": "`!!` превращает `String?` в `String`, но роняет программу, если там окажется null."
+    },
+    {
+      "id": "kotlin-basics-f11",
+      "type": "fill",
+      "prompt": "Допиши модификатор (слово перед `var`): свойство `title` получит значение позже, но его тип должен остаться `String` (без `?`).",
+      "code": "class Screen {\n    ___ var title: String\n    fun open() {\n        title = \"Старт\"\n    }\n}",
+      "answers": [
+        "lateinit"
+      ],
+      "explanation": "`lateinit var` обещает, что значение будет присвоено до первого чтения."
+    },
+    {
+      "id": "kotlin-basics-f12",
+      "type": "fill",
+      "prompt": "Допиши имя функции, чтобы значение вычислилось один раз при первом чтении.",
+      "code": "val data by ___ { \"готово\" }\nprintln(data)",
+      "answers": [
+        "lazy"
+      ],
+      "explanation": "`by lazy { ... }` выполняет блок при первом обращении и запоминает результат."
+    },
+    {
+      "id": "kotlin-basics-f13",
+      "type": "fill",
+      "prompt": "Допиши проверку, что `lateinit`-свойство `name` уже заполнено.",
+      "code": "class Box {\n    lateinit var name: String\n    fun ready() = ::name.___\n}",
+      "answers": [
+        "isInitialized"
+      ],
+      "explanation": "Свойство `isInitialized` у ссылки `::name` отвечает, было ли присвоено значение."
+    },
+    {
+      "id": "kotlin-basics-f14",
+      "type": "fill",
+      "prompt": "Допиши модификатор: нужна константа, значение которой известно ещё при компиляции (число 8080 на верхнем уровне файла).",
+      "code": "___ val PORT = 8080",
+      "answers": [
+        "const"
+      ],
+      "explanation": "`const val` — константа, значение которой известно при компиляции."
+    },
+    {
+      "id": "kotlin-basics-f17",
+      "type": "fill",
+      "prompt": "Допиши функцию, чтобы строка \"7\" превратилась в число `Int` и напечаталось 8.",
+      "code": "val s = \"7\"\nprintln(s.___() + 1)",
+      "answers": [
+        "toInt"
+      ],
+      "explanation": "`toInt()` разбирает строку как число, и сложение 7 + 1 даёт 8."
+    },
+    {
+      "id": "kotlin-basics-f18",
+      "type": "fill",
+      "prompt": "Допиши имя функции строки, чтобы все буквы стали заглавными и напечаталось KOTLIN.",
+      "code": "val word = \"kotlin\"\nprintln(word.___())",
+      "answers": [
+        "uppercase"
+      ],
+      "explanation": "Функция `uppercase()` возвращает копию строки в верхнем регистре; исходная строка не меняется."
+    },
+    {
+      "id": "kotlin-basics-f19",
+      "type": "fill",
+      "prompt": "Допиши имя функции, которая безопасно проверяет, что строка пуста или равна null (вызывать её можно и у `String?`). Код должен напечатать true.",
+      "code": "val note: String? = null\nprintln(note.___())",
+      "answers": [
+        "isNullOrEmpty",
+        "isNullOrBlank"
+      ],
+      "explanation": "`isNullOrEmpty()` можно вызвать у `String?` без `?.`: для null она вернёт true. `isNullOrBlank()` тоже подходит, но считает пустой и строку из одних пробелов."
+    },
+    {
+      "id": "kotlin-basics-f20",
+      "type": "fill",
+      "prompt": "Допиши суффикс (букву после числа), чтобы сложение шло в типе `Long` и напечаталось 4000000000, без переполнения.",
+      "code": "val total = 2000000000 + 2000000000___\nprintln(total)",
+      "answers": [
+        "L"
+      ],
+      "explanation": "Суффикс `L` делает литерал значением `Long`, и сумма не переполняет `Int`. Строчная `l` в Kotlin не допускается."
+    }
+  ]
+}

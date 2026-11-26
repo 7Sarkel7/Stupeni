@@ -1,0 +1,332 @@
+{
+  "topicId": "coroutines",
+  "tasks": [
+    {
+      "id": "coroutines-c01",
+      "type": "choice",
+      "prompt": "Что напечатает код? Корутина (лёгкая задача, которую можно приостановить) запускается через `launch`, `delay` ставит её на паузу. Нужные импорты есть.\n\nrunBlocking {\n    launch { delay(200); println(\"B\") }\n    launch { delay(100); println(\"A\") }\n    println(\"C\")\n}",
+      "options": [
+        "A, B, C",
+        "C, B, A",
+        "C, A, B",
+        "B, A, C"
+      ],
+      "correctIndex": 2,
+      "explanation": "`launch` не ждёт свой блок, поэтому `runBlocking` сразу идёт дальше и печатает C. Потом срабатывает короткая пауза (A), затем длинная (B)."
+    },
+    {
+      "id": "coroutines-c02",
+      "type": "choice",
+      "prompt": "Что означает модификатор `suspend` у функции?",
+      "options": [
+        "Функцию можно приостановить, не блокируя поток; вызывать её можно только из корутины или другой suspend-функции",
+        "Функция всегда выполняется в отдельном потоке",
+        "Функция сама переключается на потоки для сети и диска",
+        "Функция работает быстрее обычной"
+      ],
+      "correctIndex": 0,
+      "explanation": "`suspend` лишь разрешает приостановку в точках вроде `delay` и накладывает ограничение на место вызова. Поток и скорость он сам не меняет."
+    },
+    {
+      "id": "coroutines-c03",
+      "type": "choice",
+      "prompt": "Найди ошибку: почему этот код не компилируется? Нужный импорт `delay` есть.\n\nfun onClick() {\n    delay(1000)\n    println(\"Готово\")\n}",
+      "options": [
+        "`println` нельзя вызывать после паузы",
+        "`delay` принимает секунды, а не миллисекунды",
+        "`delay` можно вызывать только на потоках для сети и диска",
+        "`delay` — приостанавливающая (suspend) функция, а `onClick` обычная, поэтому вызвать её отсюда нельзя"
+      ],
+      "correctIndex": 3,
+      "explanation": "`delay` приостанавливающая, её зовут из корутины (например, внутри `launch`) или из другой suspend-функции. Миллисекунды в `delay` правильные."
+    },
+    {
+      "id": "coroutines-c04",
+      "type": "choice",
+      "prompt": "Две задачи по 500 мс запущены так. `async` запускает корутину с результатом, `await()` ждёт этот результат. Сколько примерно займёт блок?\n\nval a = async { delay(500); 1 }.await()\nval b = async { delay(500); 2 }.await()",
+      "options": [
+        "Около 500 мс",
+        "Около 1000 мс",
+        "Около 250 мс",
+        "Почти мгновенно: `async` ничего не ждёт"
+      ],
+      "correctIndex": 1,
+      "explanation": "`await()` сразу после `async` ждёт первый результат, и только потом стартует второй `async`. Чтобы задачи шли параллельно, сначала запускают оба `async`, а потом зовут `await()` у обоих."
+    },
+    {
+      "id": "coroutines-c05",
+      "type": "choice",
+      "prompt": "Что напечатает код? `coroutineScope` ждёт всех своих дочерних корутин. Нужные импорты есть.\n\ntry {\n    coroutineScope {\n        launch { delay(100); throw IllegalStateException(\"сбой\") }\n        launch { delay(500); println(\"вторая\") }\n    }\n} catch (e: Exception) {\n    println(\"поймано: ${e.message}\")\n}",
+      "options": [
+        "поймано: сбой",
+        "вторая, затем поймано: сбой",
+        "вторая",
+        "поймано: сбой, затем вторая"
+      ],
+      "correctIndex": 0,
+      "explanation": "Ошибка одного ребёнка отменяет его братьев, а исключение выходит из `coroutineScope` наружу. Вторая корутина отменена на паузе и ничего не печатает."
+    },
+    {
+      "id": "coroutines-c06",
+      "type": "choice",
+      "prompt": "Три картинки грузятся независимыми корутинами. Если одна загрузка упала, остальные всё равно нужны. Какую область (scope, владельца корутин) взять?",
+      "options": [
+        "Обычный `coroutineScope`",
+        "`GlobalScope.launch` для каждой картинки",
+        "`supervisorScope`",
+        "`runBlocking` вокруг всех трёх"
+      ],
+      "correctIndex": 2,
+      "explanation": "В `supervisorScope` падение одного ребёнка не отменяет братьев, а в `coroutineScope` отменяло бы. Исключение из `async` всё равно придёт в `await()`, его нужно обработать."
+    },
+    {
+      "id": "coroutines-c07",
+      "type": "choice",
+      "prompt": "Что напечатает код? `job.cancel()` просит корутину остановиться, `join()` ждёт её завершения.\n\nrunBlocking {\n    val job = launch {\n        try {\n            delay(1000)\n            println(\"A\")\n        } finally {\n            println(\"B\")\n        }\n    }\n    delay(100)\n    job.cancel()\n    job.join()\n    println(\"конец\")\n}",
+      "options": [
+        "A, B, конец",
+        "B, конец",
+        "конец",
+        "B, A, конец"
+      ],
+      "correctIndex": 1,
+      "explanation": "Отмена прерывает `delay`, строка A не печатается. Блок `finally` всё равно выполняется, поэтому видим B, а после `join()` печатается «конец»."
+    },
+    {
+      "id": "coroutines-c08",
+      "type": "choice",
+      "prompt": "Код вызван с главного потока. `flow { }` — холодный поток данных, `flowOn` задаёт диспетчер (пул потоков). В каком потоке выполнится `show(it)`?\n\nflow { emit(loadFromDisk()) }\n    .flowOn(Dispatchers.IO)\n    .collect { show(it) }",
+      "options": [
+        "На `Dispatchers.IO`: `flowOn` переключает весь код",
+        "В новом потоке, который создаёт `collect`",
+        "Всегда на `Dispatchers.Default`",
+        "Там, откуда вызван `collect` (главный поток); на IO уйдёт только тело `flow`"
+      ],
+      "correctIndex": 3,
+      "explanation": "`flowOn` меняет контекст только того, что стоит выше него: тела `flow` и операторов до `flowOn`. `collect` работает в контексте вызывающего, поэтому `show` безопасен для интерфейса."
+    },
+    {
+      "id": "coroutines-c09",
+      "type": "choice",
+      "prompt": "Что напечатает код (каждое число с новой строки)? `flowOf` создаёт поток данных (Flow), `collect` получает его значения, `filter` оставляет подходящие элементы, `map` преобразует каждый.\n\nflowOf(1, 2, 3, 4)\n    .filter { it % 2 == 0 }\n    .map { it * 10 }\n    .collect { println(it) }",
+      "options": [
+        "20, 40",
+        "10, 30",
+        "2, 4",
+        "10, 20, 30, 40"
+      ],
+      "correctIndex": 0,
+      "explanation": "Сначала `filter` оставляет 2 и 4, потом `map` умножает их на 10. Типичная ошибка — перепутать порядок операторов."
+    },
+    {
+      "id": "coroutines-c10",
+      "type": "choice",
+      "prompt": "В `MutableStateFlow` (горячий поток, который хранит текущее значение) лежит 1. Туда снова записывают то же значение: `state.value = 1`. Что получат сборщики (подписчики с `collect`)?",
+      "options": [
+        "Каждый сборщик получит 1 ещё раз",
+        "Выбросится исключение: значение уже такое",
+        "Никто ничего не получит: повтор равного значения не передаётся",
+        "Значение сбросится в null"
+      ],
+      "correctIndex": 2,
+      "explanation": "`StateFlow` сравнивает новое значение со старым по `equals` и не сообщает о повторе. Поэтому одноразовое событие через него отправить нельзя."
+    },
+    {
+      "id": "coroutines-c11",
+      "type": "choice",
+      "prompt": "`MutableSharedFlow()` (горячий поток событий) создан без параметров. Подписчиков пока нет, в него отправили `emit(\"тост\")`. Потом появился подписчик с `collect`. Что он получит?",
+      "options": [
+        "«тост»: SharedFlow хранит последнее событие, как StateFlow",
+        "Ничего: подписчиков не было, а повтор (replay) по умолчанию равен 0",
+        "Исключение: `emit` без подписчиков запрещён",
+        "`emit` подождёт подписчика и отправит событие позже"
+      ],
+      "correctIndex": 1,
+      "explanation": "Без подписчиков событие пропадает, а `emit` просто возвращается. Чтобы новый подписчик получил последние N событий, задают параметр `replay`."
+    },
+    {
+      "id": "coroutines-c12",
+      "type": "choice",
+      "prompt": "Во ViewModel (класс, который хранит данные экрана) написано `viewModelScope.launch { api.load() }`, а `load()` бросает `IOException`. Внутри нет ни `try/catch`, ни обработчика исключений. Что будет?",
+      "options": [
+        "Корутина тихо завершится, исключение игнорируется",
+        "Исключение уйдёт в `onCreate` экрана, и его можно поймать там",
+        "`viewModelScope` сам перезапустит корутину",
+        "Необработанное исключение из `launch` уронит приложение"
+      ],
+      "correctIndex": 3,
+      "explanation": "У `launch` нет вызывающего, который мог бы поймать ошибку. `viewModelScope` построен на `SupervisorJob` (это Job, который не отменяет соседей), но падение приложения он не предотвращает. Ошибку ловят внутри и превращают в состояние экрана."
+    },
+    {
+      "id": "coroutines-f01",
+      "type": "fill",
+      "prompt": "Допиши модификатор, чтобы функция могла вызывать `delay` (паузу, которая не блокирует поток).",
+      "code": "___ fun loadName(): String {\n    kotlinx.coroutines.delay(100)\n    return \"Лампа\"\n}",
+      "answers": [
+        "suspend"
+      ],
+      "explanation": "`delay` можно вызывать только из корутины или suspend-функции, поэтому функции нужен модификатор `suspend`."
+    },
+    {
+      "id": "coroutines-f02",
+      "type": "fill",
+      "prompt": "Допиши функцию, которая запускает корутину (приостанавливаемую задачу) и блокирует текущий поток, пока та не вернёт 42. Её используют в `main` и тестах.",
+      "code": "val n = kotlinx.coroutines.___ {\n    kotlinx.coroutines.delay(50)\n    21 * 2\n}\nprintln(n)",
+      "answers": [
+        "runBlocking"
+      ],
+      "explanation": "`runBlocking` ждёт завершения блока и возвращает его результат, 42. Она блокирует поток, поэтому в обработчиках нажатий её не используют."
+    },
+    {
+      "id": "coroutines-f03",
+      "type": "fill",
+      "prompt": "Допиши метод `Job` (ручки корутины), который приостанавливает корутину до завершения задачи. Результата у `Job` нет.",
+      "code": "val job = kotlinx.coroutines.Job()\nkotlinx.coroutines.runBlocking {\n    job.complete()\n    job.___()\n    println(\"задача завершена\")\n}",
+      "answers": [
+        "join"
+      ],
+      "explanation": "`join()` ждёт завершения `Job` и ничего не возвращает. Для результата нужен `Deferred` с методом `await()`."
+    },
+    {
+      "id": "coroutines-f04",
+      "type": "fill",
+      "prompt": "Допиши функцию, которая переключает блок на диспетчер (пул потоков) `Dispatchers.IO` и возвращает его результат.",
+      "code": "val text = kotlinx.coroutines.runBlocking {\n    kotlinx.coroutines.___(kotlinx.coroutines.Dispatchers.IO) {\n        \"данные с диска\"\n    }\n}\nprintln(text)",
+      "answers": [
+        "withContext"
+      ],
+      "explanation": "`withContext(диспетчер) { ... }` выполняет блок на нужном пуле потоков и возвращает значение блока, а дальше код идёт на прежнем диспетчере."
+    },
+    {
+      "id": "coroutines-f05",
+      "type": "fill",
+      "prompt": "Допиши имя диспетчера (пула потоков) для тяжёлого вычисления на процессоре, без ожидания диска и сети.",
+      "code": "val sum = kotlinx.coroutines.runBlocking {\n    kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.___) {\n        (1..1_000_000).sumOf { it.toLong() }\n    }\n}",
+      "answers": [
+        "Default"
+      ],
+      "explanation": "`Dispatchers.Default` рассчитан на вычисления, его пул примерно по числу ядер. `Dispatchers.IO` оставляют для ожидания диска и сети."
+    },
+    {
+      "id": "coroutines-f06",
+      "type": "fill",
+      "prompt": "Допиши метод `Job`, который отменяет задачу, чтобы программа напечатала true.",
+      "code": "val job = kotlinx.coroutines.Job()\njob.___()\nprintln(job.isCancelled)",
+      "answers": [
+        "cancel"
+      ],
+      "explanation": "После `cancel()` свойство `isCancelled` равно true. Для корутины отмена кооперативна: она остановится в ближайшей точке приостановки."
+    },
+    {
+      "id": "coroutines-f07",
+      "type": "fill",
+      "prompt": "`Deferred` — обещание результата, который появится позже. Допиши метод, который приостанавливает корутину до готовности значения и возвращает его.",
+      "code": "val answer = kotlinx.coroutines.CompletableDeferred<Int>()\nanswer.complete(42)\nkotlinx.coroutines.runBlocking { println(answer.___()) }",
+      "answers": [
+        "await"
+      ],
+      "explanation": "`await()` дожидается результата `Deferred` и возвращает его, здесь 42. Это suspend-функция, поэтому её вызывают внутри корутины."
+    },
+    {
+      "id": "coroutines-f08",
+      "type": "fill",
+      "prompt": "Допиши функцию, которая открывает обычную область для дочерних корутин: она ждёт всех детей, а ошибка любого отменяет остальных. Блок должен вернуть 30.",
+      "code": "suspend fun total(): Int = kotlinx.coroutines.___ {\n    10 + 20\n}",
+      "answers": [
+        "coroutineScope"
+      ],
+      "explanation": "`coroutineScope` возвращает результат блока и не завершается, пока не закончатся все дети. Версия, где ошибка не отменяет братьев, называется `supervisorScope`."
+    },
+    {
+      "id": "coroutines-f09",
+      "type": "fill",
+      "prompt": "Допиши функцию с таймаутом (предельным временем ожидания): при превышении 100 мс она должна вернуть null вместо исключения, и программа напечатает null.",
+      "code": "kotlinx.coroutines.runBlocking {\n    val result = kotlinx.coroutines.___(100) {\n        kotlinx.coroutines.delay(500)\n        \"готово\"\n    }\n    println(result)\n}",
+      "answers": [
+        "withTimeoutOrNull"
+      ],
+      "explanation": "`withTimeoutOrNull` возвращает null, если блок не уложился во время. Обычный `withTimeout` в этом случае бросил бы `TimeoutCancellationException`."
+    },
+    {
+      "id": "coroutines-f10",
+      "type": "fill",
+      "prompt": "Допиши функцию, которая отправляет значение в `Flow` (поток данных). Должны напечататься 1 и 2.",
+      "code": "kotlinx.coroutines.runBlocking {\n    val numbers = kotlinx.coroutines.flow.flow {\n        emit(1)\n        ___(2)\n    }\n    numbers.collect { println(it) }\n}",
+      "answers": [
+        "emit",
+        "this.emit"
+      ],
+      "explanation": "`emit` отправляет очередное значение сборщику. Тело `flow { }` выполняется только тогда, когда поток собирают."
+    },
+    {
+      "id": "coroutines-f11",
+      "type": "fill",
+      "prompt": "`Flow` холодный: пока его не запустили, ничего не происходит. Допиши терминальный оператор, который запускает поток и принимает каждое значение, чтобы напечатались 10, 20 и 30.",
+      "code": "val numbers = kotlinx.coroutines.flow.flowOf(1, 2, 3)\nkotlinx.coroutines.runBlocking {\n    numbers.___ { println(it * 10) }\n}",
+      "answers": [
+        "collect"
+      ],
+      "explanation": "`collect` запускает поток и вызывает блок для каждого значения. Это suspend-функция, поэтому её зовут внутри корутины."
+    },
+    {
+      "id": "coroutines-f12",
+      "type": "fill",
+      "prompt": "`MutableStateFlow` хранит текущее значение. Допиши свойство, через которое записывают новое значение, чтобы напечаталось 5.",
+      "code": "val counter = kotlinx.coroutines.flow.MutableStateFlow(0)\ncounter.___ = 5\nprintln(counter.value)",
+      "answers": [
+        "value"
+      ],
+      "explanation": "Через `value` значение и читают, и записывают. Новое значение сразу получают все подписчики."
+    },
+    {
+      "id": "coroutines-f13",
+      "type": "fill",
+      "prompt": "Допиши метод `MutableSharedFlow`, который отправляет событие без приостановки (его можно вызвать из обычной, не suspend-функции) и возвращает true, если событие принято.",
+      "code": "val events = kotlinx.coroutines.flow.MutableSharedFlow<String>(extraBufferCapacity = 1)\nval sent = events.___(\"тост\")\nprintln(sent)",
+      "answers": [
+        "tryEmit"
+      ],
+      "explanation": "`tryEmit` не приостанавливается и сообщает, удалось ли отправить событие. Обычный `emit` — suspend-функция, из обычной функции его не вызвать."
+    },
+    {
+      "id": "coroutines-f14",
+      "type": "fill",
+      "prompt": "Допиши тип, которым ViewModel отдаёт состояние наружу: поток только для чтения, у которого всегда есть текущее `value`.",
+      "code": "class Counter {\n    private val _count = kotlinx.coroutines.flow.MutableStateFlow(0)\n    val count: kotlinx.coroutines.flow.___<Int> = _count\n}",
+      "answers": [
+        "StateFlow"
+      ],
+      "explanation": "Наружу отдают `StateFlow`, а запись остаётся за приватным `MutableStateFlow`. Экран может читать состояние, но не менять его."
+    },
+    {
+      "id": "coroutines-f15",
+      "type": "fill",
+      "prompt": "`withTimeout` бросает особое исключение, когда время вышло. Допиши его имя, чтобы ловить именно таймаут, а не любую отмену.",
+      "code": "kotlinx.coroutines.runBlocking {\n    try {\n        kotlinx.coroutines.withTimeout(50) { kotlinx.coroutines.delay(500) }\n    } catch (e: kotlinx.coroutines.___) {\n        println(\"не успели\")\n    }\n}",
+      "answers": [
+        "TimeoutCancellationException"
+      ],
+      "explanation": "`TimeoutCancellationException` бросает только таймаут. Чужую отмену, например закрытие экрана, ловить нельзя: она должна уйти выше."
+    },
+    {
+      "id": "coroutines-f16",
+      "type": "fill",
+      "prompt": "Допиши имя функции, которая создаёт обработчик необработанных исключений корутины. Обработчик потом передают в `launch`.",
+      "code": "val handler = kotlinx.coroutines.___ { _, error ->\n    println(\"Ошибка: ${error.message}\")\n}",
+      "answers": [
+        "CoroutineExceptionHandler"
+      ],
+      "explanation": "`CoroutineExceptionHandler { контекст, ошибка -> ... }` получает исключение, которое никто не поймал в `launch`. Для `async` ошибка приходит в `await()`."
+    },
+    {
+      "id": "coroutines-f17",
+      "type": "fill",
+      "prompt": "Если эту функцию отменят во время `delay(1000)`, в `finally` всё равно нужна приостанавливающая очистка. Допиши контекст, который не даёт отмене прервать блок.",
+      "code": "suspend fun cleanup() {\n    try {\n        kotlinx.coroutines.delay(1000)\n    } finally {\n        kotlinx.coroutines.withContext(kotlinx.coroutines.___) { kotlinx.coroutines.delay(10) }\n    }\n}",
+      "answers": [
+        "NonCancellable"
+      ],
+      "explanation": "В отменённой корутине любая приостановка снова бросает отмену. `withContext(NonCancellable)` позволяет доделать очистку до конца."
+    }
+  ]
+}

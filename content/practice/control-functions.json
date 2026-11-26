@@ -1,0 +1,564 @@
+{
+  "topicId": "control-functions",
+  "tasks": [
+    {
+      "id": "control-functions-c01",
+      "type": "choice",
+      "prompt": "Что напечатает код?\nval x = 5\nval r = if (x > 3) \"много\" else \"мало\"\nprintln(r)",
+      "options": [
+        "мало",
+        "5",
+        "много",
+        "ошибка компиляции"
+      ],
+      "correctIndex": 2,
+      "explanation": "Условие `x > 3` истинно, поэтому `if` как выражение (код, который даёт значение) вернул строку из первой ветки."
+    },
+    {
+      "id": "control-functions-c02",
+      "type": "choice",
+      "prompt": "Какая запись правильно сохраняет большее из `a` и `b` в переменную через `if`?",
+      "options": [
+        "val m = if (a > b) a",
+        "val m = if (a > b) a else b",
+        "val m = (a > b) ? a : b",
+        "val m = if a > b then a else b"
+      ],
+      "correctIndex": 1,
+      "explanation": "Когда результат `if` присваивают, ветка `else` обязательна. Тернарного оператора `? :` в Kotlin нет, его роль играет сам `if`."
+    },
+    {
+      "id": "control-functions-c03",
+      "type": "choice",
+      "prompt": "Что напечатает код?\nval code = 3\nval s = when (code) {\n    1 -> \"a\"\n    2, 3 -> \"b\"\n    else -> \"c\"\n}\nprintln(s)",
+      "options": [
+        "b",
+        "a",
+        "c",
+        "bc"
+      ],
+      "correctIndex": 0,
+      "explanation": "Ветка `2, 3 ->` срабатывает для любого из перечисленных значений, поэтому для 3 получаем \"b\"."
+    },
+    {
+      "id": "control-functions-c04",
+      "type": "choice",
+      "prompt": "Что напечатает код?\nval n = 15\nval s = when (n) {\n    in 1..9 -> \"одна цифра\"\n    in 10..99 -> \"две цифры\"\n    else -> \"много\"\n}\nprintln(s)",
+      "options": [
+        "одна цифра",
+        "много",
+        "ничего не напечатает",
+        "две цифры"
+      ],
+      "correctIndex": 3,
+      "explanation": "`in 10..99` проверяет, попадает ли число в диапазон. 15 попадает во вторую ветку."
+    },
+    {
+      "id": "control-functions-c05",
+      "type": "choice",
+      "prompt": "Что напечатает код?\nval t = -5\nval s = when {\n    t < 0 -> \"минус\"\n    t == 0 -> \"ноль\"\n    else -> \"плюс\"\n}\nprintln(s)",
+      "options": [
+        "ноль",
+        "минус",
+        "плюс",
+        "минус плюс"
+      ],
+      "correctIndex": 1,
+      "explanation": "У `when` без аргумента в каждой ветке стоит своё условие. Первое истинное условие `t < 0` даёт \"минус\"."
+    },
+    {
+      "id": "control-functions-c06",
+      "type": "choice",
+      "prompt": "Что напечатает код?\nval n = 6\nval s = when (n) {\n    in 1..10 -> \"A\"\n    in 5..7 -> \"B\"\n    else -> \"C\"\n}\nprintln(s)",
+      "options": [
+        "A",
+        "B",
+        "AB",
+        "C"
+      ],
+      "correctIndex": 0,
+      "explanation": "`when` проверяет ветки сверху вниз и выполняет только первую подходящую. Число 6 попадает в обе ветки, но выбирается верхняя."
+    },
+    {
+      "id": "control-functions-c07",
+      "type": "choice",
+      "prompt": "Зачем в `when` по числу `Int`, результат которого кладут в `val`, нужна ветка `else`?",
+      "options": [
+        "Без `else` `when` не умеет сравнивать числа",
+        "`else` ускоряет работу `when`",
+        "Нельзя перечислить все числа Int, нужна ветка для остальных",
+        "`else` нужен только для строк, а для чисел нет"
+      ],
+      "correctIndex": 2,
+      "explanation": "Когда `when` даёт значение, у него должен быть результат при любом входе. Все значения `Int` не перечислить, поэтому остальные ловит `else`."
+    },
+    {
+      "id": "control-functions-c08",
+      "type": "choice",
+      "prompt": "Что напечатает код?\nvar sum = 0\nfor (i in 1..4) {\n    sum += i\n}\nprintln(sum)",
+      "options": [
+        "6",
+        "15",
+        "4",
+        "10"
+      ],
+      "correctIndex": 3,
+      "explanation": "Диапазон `1..4` включает обе границы: 1 + 2 + 3 + 4 = 10. Если взять 1..3, получилось бы 6."
+    },
+    {
+      "id": "control-functions-c09",
+      "type": "choice",
+      "prompt": "Что напечатает код?\nfor (i in 5 downTo 1 step 2) {\n    print(i)\n}",
+      "options": [
+        "531",
+        "54321",
+        "53",
+        "642"
+      ],
+      "correctIndex": 0,
+      "explanation": "`downTo` идёт вниз, а `step 2` берёт каждое второе число: 5, 3, 1. Граница 1 включается."
+    },
+    {
+      "id": "control-functions-c10",
+      "type": "choice",
+      "prompt": "Сколько раз выполнится тело цикла?\nfor (i in 5..1) {\n    println(i)\n}",
+      "options": [
+        "5 раз",
+        "0 раз",
+        "4 раза",
+        "Бесконечно"
+      ],
+      "correctIndex": 1,
+      "explanation": "Запись `5..1` — пустой диапазон: `..` идёт только вверх. Для обратного порядка нужен `5 downTo 1`."
+    },
+    {
+      "id": "control-functions-c11",
+      "type": "choice",
+      "prompt": "Что напечатает код?\nval r = mutableListOf<Int>()\nfor (i in 0..10 step 5) {\n    r.add(i)\n}\nprintln(r)",
+      "options": [
+        "[5, 10]",
+        "[0, 5]",
+        "[0, 5, 10]",
+        "[0, 10]"
+      ],
+      "correctIndex": 2,
+      "explanation": "Цикл начинается с 0 и прибавляет по 5, пока не выйдет за 10. Граница 10 входит в `..`, поэтому в списке три числа."
+    },
+    {
+      "id": "control-functions-c12",
+      "type": "choice",
+      "prompt": "Что напечатает первая строка этого кода?\nval names = listOf(\"a\", \"b\")\nfor ((i, n) in names.withIndex()) {\n    println(\"$i:$n\")\n}",
+      "options": [
+        "1:a",
+        "a:0",
+        "0:b",
+        "0:a"
+      ],
+      "correctIndex": 3,
+      "explanation": "`withIndex()` отдаёт пары (индекс, элемент). Индексы идут с нуля, поэтому первая строка — `0:a`."
+    },
+    {
+      "id": "control-functions-c13",
+      "type": "choice",
+      "prompt": "Какая запись обходит все элементы списка `names` по очереди?",
+      "options": [
+        "for (n in names) { ... }",
+        "for (n of names) { ... }",
+        "foreach (n in names) { ... }",
+        "for (n = names) { ... }"
+      ],
+      "correctIndex": 0,
+      "explanation": "В Kotlin элементы коллекции (набора элементов) перебирают так: `for (элемент in коллекция)`. Слов `of` и `foreach` в языке для этого нет."
+    },
+    {
+      "id": "control-functions-c14",
+      "type": "choice",
+      "prompt": "Что напечатает код?\nvar n = 10\ndo {\n    n++\n} while (n < 5)\nprintln(n)",
+      "options": [
+        "10",
+        "11",
+        "5",
+        "6"
+      ],
+      "correctIndex": 1,
+      "explanation": "В `do while` тело выполняется до проверки условия, то есть минимум один раз. После одного шага `n` равно 11, и условие уже ложно."
+    },
+    {
+      "id": "control-functions-c15",
+      "type": "choice",
+      "prompt": "В какой ситуации цикл `while` подходит лучше, чем `for` по диапазону?",
+      "options": [
+        "Когда нужно пройти числа от 1 до 10 по порядку",
+        "Когда нужно обойти список с индексами",
+        "Когда число повторов заранее неизвестно",
+        "Когда нужно повторить действие ровно 3 раза"
+      ],
+      "correctIndex": 2,
+      "explanation": "`for` удобен, когда границы известны заранее. `while` повторяет код, пока условие остаётся истинным, и число шагов может быть любым."
+    },
+    {
+      "id": "control-functions-c16",
+      "type": "choice",
+      "prompt": "Что напечатает код?\nfor (i in 1..5) {\n    if (i == 3) break\n    print(i)\n}",
+      "options": [
+        "1245",
+        "123",
+        "45",
+        "12"
+      ],
+      "correctIndex": 3,
+      "explanation": "`break` сразу завершает цикл. До `i == 3` успели напечатать 1 и 2, а 3 уже не печатается."
+    },
+    {
+      "id": "control-functions-c17",
+      "type": "choice",
+      "prompt": "Что напечатает код?\nfor (i in 1..5) {\n    if (i % 2 == 0) continue\n    print(i)\n}",
+      "options": [
+        "135",
+        "24",
+        "12345",
+        "1"
+      ],
+      "correctIndex": 0,
+      "explanation": "`continue` пропускает остаток текущего шага и переходит к следующему. Чётные числа пропускаются, печатаются 1, 3, 5."
+    },
+    {
+      "id": "control-functions-c18",
+      "type": "choice",
+      "prompt": "Чему равно `count` в конце?\nvar count = 0\nouter@ for (a in 1..3) {\n    for (b in 1..3) {\n        if (b == 2) break@outer\n        count++\n    }\n}\nprintln(count)",
+      "options": [
+        "3",
+        "1",
+        "2",
+        "9"
+      ],
+      "correctIndex": 1,
+      "explanation": "`outer@` — метка (имя) внешнего цикла. `break@outer` прерывает именно его: успел выполниться один `count++` при a = 1, b = 1."
+    },
+    {
+      "id": "control-functions-c19",
+      "type": "choice",
+      "prompt": "Чему равно `count` в конце?\nvar count = 0\nfor (a in 1..3) {\n    for (b in 1..3) {\n        if (b == 2) break\n        count++\n    }\n}\nprintln(count)",
+      "options": [
+        "1",
+        "2",
+        "3",
+        "9"
+      ],
+      "correctIndex": 2,
+      "explanation": "Обычный `break` прерывает только ближайший внутренний цикл. Внешний продолжает работу три раза, и каждый раз `count++` срабатывает один раз."
+    },
+    {
+      "id": "control-functions-c20",
+      "type": "choice",
+      "prompt": "Что напечатает код?\nfun greet(name: String, greeting: String = \"Привет\") = \"$greeting, $name\"\nprintln(greet(\"Аня\"))",
+      "options": [
+        "Аня, Привет",
+        "Привет, name",
+        "ошибка компиляции: не передан greeting",
+        "Привет, Аня"
+      ],
+      "correctIndex": 3,
+      "explanation": "Если аргумент не передан, берётся значение по умолчанию. Параметр `greeting` получает \"Привет\"."
+    },
+    {
+      "id": "control-functions-c21",
+      "type": "choice",
+      "prompt": "Что напечатает код?\nfun greet(name: String, greeting: String = \"Привет\") = \"$greeting, $name\"\nprintln(greet(greeting = \"Хай\", name = \"Боб\"))",
+      "options": [
+        "Хай, Боб",
+        "Боб, Хай",
+        "Привет, Боб",
+        "ошибка компиляции из-за порядка аргументов"
+      ],
+      "correctIndex": 0,
+      "explanation": "Именованные аргументы (передача со значением вида `имя = значение`) можно писать в любом порядке. Значения попадают в параметры по именам."
+    },
+    {
+      "id": "control-functions-c22",
+      "type": "choice",
+      "prompt": "Дана функция `fun f(a: Int, b: Int = 2, c: Int = 3)`. Какой вызов НЕ скомпилируется?",
+      "options": [
+        "f(1)",
+        "f(1, c = 5)",
+        "f(c = 5)",
+        "f(b = 1, a = 0)"
+      ],
+      "correctIndex": 2,
+      "explanation": "У параметра `a` нет значения по умолчанию, поэтому его нужно передать. Пропускать можно только `b` и `c`."
+    },
+    {
+      "id": "control-functions-c23",
+      "type": "choice",
+      "prompt": "Что означает запись `fun triple(x: Int) = x * 3`?",
+      "options": [
+        "Ошибку: после `=` нужны скобки и `return`",
+        "Функцию, результат которой — выражение `x * 3`",
+        "Переменную с функцией без параметров",
+        "Функцию, которая ничего не возвращает"
+      ],
+      "correctIndex": 1,
+      "explanation": "Для функции из одного выражения можно писать `= выражение` вместо блока с `return`. Тип результата выводится из выражения."
+    },
+    {
+      "id": "control-functions-c24",
+      "type": "choice",
+      "prompt": "Что вернёт функция?\nfun log(msg: String) {\n    println(msg)\n}\nval r = log(\"x\")",
+      "options": [
+        "Значение `Unit`: у функции без явного результата именно этот тип",
+        "null",
+        "Пустую строку",
+        "Ничего: так записать в `val` нельзя"
+      ],
+      "correctIndex": 0,
+      "explanation": "Функция без указанного результата возвращает `Unit` — значение-пустышку. Тип `Unit` писать необязательно, и результат можно сохранить в переменную."
+    },
+    {
+      "id": "control-functions-c25",
+      "type": "choice",
+      "prompt": "Почему этот код не компилируется?\nfun add(a: Int, b: Int): Int {\n    a + b\n}",
+      "options": [
+        "Нельзя складывать два Int",
+        "Пропущен знак `=` перед фигурной скобкой",
+        "Параметры нужно объявлять через `val`",
+        "В функции с блоком `{ }` и типом результата нужен `return`"
+      ],
+      "correctIndex": 3,
+      "explanation": "В блочной функции результат не берётся из последнего выражения сам. Нужно написать `return a + b` или использовать запись `= a + b`."
+    },
+    {
+      "id": "control-functions-c26",
+      "type": "choice",
+      "prompt": "Что напечатает код?\nfun count(vararg items: String) = items.size\nprintln(count(\"x\", \"y\", \"z\"))\nprintln(count())",
+      "options": [
+        "1 и затем 1",
+        "3 и затем 0",
+        "xyz и затем пусто",
+        "Не скомпилируется: `count()` вызван без аргументов"
+      ],
+      "correctIndex": 1,
+      "explanation": "`vararg` — параметр, принимающий любое число аргументов, в том числе ноль. Внутри функции они доступны как массив, `size` равен их числу."
+    },
+    {
+      "id": "control-functions-c27",
+      "type": "choice",
+      "prompt": "Что напечатает код?\nfun sign(x: Int): String {\n    if (x < 0) return \"минус\"\n    if (x == 0) return \"ноль\"\n    return \"плюс\"\n}\nprintln(sign(0))",
+      "options": [
+        "минус",
+        "плюс",
+        "ноль",
+        "ноль плюс"
+      ],
+      "correctIndex": 2,
+      "explanation": "`return` сразу завершает функцию и отдаёт значение. При x = 0 вторая проверка истинна, до последней строки дело не доходит."
+    },
+    {
+      "id": "control-functions-c28",
+      "type": "choice",
+      "prompt": "Что напечатает код с рекурсией (функция вызывает саму себя)?\nfun fact(n: Int): Int = if (n <= 1) 1 else n * fact(n - 1)\nprintln(fact(4))",
+      "options": [
+        "10",
+        "16",
+        "4",
+        "24"
+      ],
+      "correctIndex": 3,
+      "explanation": "fact(4) = 4 * 3 * 2 * 1 = 24. Условие `n <= 1` — точка остановки, без неё вызовы шли бы бесконечно."
+    },
+    {
+      "id": "control-functions-c29",
+      "type": "choice",
+      "prompt": "Что произойдёт при вызове `down(5)`?\nfun down(n: Int) {\n    down(n - 1)\n}",
+      "options": [
+        "Переполнится стек вызовов (память под цепочку вызовов)",
+        "Функция остановится на n = 0",
+        "Код не скомпилируется из-за вызова самой себя",
+        "Функция вернёт 0 и завершится"
+      ],
+      "correctIndex": 0,
+      "explanation": "У рекурсивной функции нет условия остановки, поэтому вложенные вызовы копятся, пока не случится `StackOverflowError`. Такое условие нужно всегда."
+    },
+    {
+      "id": "control-functions-f01",
+      "type": "fill",
+      "prompt": "Допиши ключевое слово, чтобы `if` вернул \"нет связи\" и программа напечатала эту строку.",
+      "code": "val online = false\nval label = if (online) \"в сети\" ___ \"нет связи\"\nprintln(label)",
+      "answers": [
+        "else"
+      ],
+      "explanation": "Альтернативная ветка `if` вводится словом `else`. При `online = false` выбирается она."
+    },
+    {
+      "id": "control-functions-f02",
+      "type": "fill",
+      "prompt": "Впиши число, чтобы для кода 502 программа напечатала \"сервер\".",
+      "code": "val code = 502\nval text = when (code) {\n    200 -> \"ок\"\n    500, ___, 503 -> \"сервер\"\n    else -> \"другое\"\n}\nprintln(text)",
+      "answers": [
+        "502"
+      ],
+      "explanation": "Несколько значений в одной ветке `when` перечисляют через запятую. Чтобы сработала ветка, в списке должно быть 502."
+    },
+    {
+      "id": "control-functions-f03",
+      "type": "fill",
+      "prompt": "Допиши ключевое слово, чтобы ветка проверяла попадание оценки в диапазон 80..100.",
+      "code": "val score = 85\nval grade = when (score) {\n    ___ 80..100 -> \"отлично\"\n    in 50..79 -> \"хорошо\"\n    else -> \"ещё нет\"\n}\nprintln(grade)",
+      "answers": [
+        "in"
+      ],
+      "explanation": "Слово `in` проверяет, входит ли значение в диапазон. Для 85 выбирается ветка \"отлично\"."
+    },
+    {
+      "id": "control-functions-f04",
+      "type": "fill",
+      "prompt": "Допиши оператор, чтобы ветка срабатывала только при равенстве `n` нулю.",
+      "code": "val n = 0\nval s = when {\n    n < 0 -> \"минус\"\n    n ___ 0 -> \"ноль\"\n    else -> \"плюс\"\n}\nprintln(s)",
+      "answers": [
+        "=="
+      ],
+      "explanation": "Равенство проверяется оператором `==`. Одно `=` в Kotlin — это присваивание, в условии оно не подойдёт."
+    },
+    {
+      "id": "control-functions-f05",
+      "type": "fill",
+      "prompt": "Допиши слово, чтобы цикл шёл от 0 до 10 с шагом 2.",
+      "code": "for (i in 0..10 ___ 2) {\n    print(\"$i \")\n}",
+      "answers": [
+        "step"
+      ],
+      "explanation": "`step` задаёт шаг диапазона. Получится 0 2 4 6 8 10."
+    },
+    {
+      "id": "control-functions-f06",
+      "type": "fill",
+      "prompt": "Допиши слово, чтобы цикл печатал числа в обратном порядке: 321.",
+      "code": "for (i in 3 ___ 1) {\n    print(i)\n}",
+      "answers": [
+        "downTo"
+      ],
+      "explanation": "`3 downTo 1` идёт от большего числа к меньшему и включает обе границы. Обычное `3..1` дало бы пустой цикл."
+    },
+    {
+      "id": "control-functions-f07",
+      "type": "fill",
+      "prompt": "Допиши слово, чтобы цикл перебирал индексы списка и не вышел за его границу.",
+      "code": "val items = listOf(\"a\", \"b\", \"c\")\nfor (i in 0 ___ items.size) {\n    println(items[i])\n}",
+      "answers": [
+        "until",
+        "..<"
+      ],
+      "explanation": "`0 until items.size` не включает верхнюю границу, то есть даёт индексы 0, 1, 2. Запись `0..items.size` дошла бы до 3 и вызвала бы ошибку."
+    },
+    {
+      "id": "control-functions-f08",
+      "type": "fill",
+      "prompt": "Допиши имя функции, чтобы в цикле были доступны и индекс `i`, и элемент `name`.",
+      "code": "val names = listOf(\"Аня\", \"Борис\")\nfor ((i, name) in names.___()) {\n    println(\"$i: $name\")\n}",
+      "answers": [
+        "withIndex"
+      ],
+      "explanation": "`withIndex()` превращает список в пары (индекс, элемент), которые можно разобрать в скобках `(i, name)`."
+    },
+    {
+      "id": "control-functions-f09",
+      "type": "fill",
+      "prompt": "Допиши оператор, чтобы цикл напечатал 3, 2, 1 и остановился до нуля.",
+      "code": "var n = 3\nwhile (n ___ 0) {\n    println(n)\n    n--\n}",
+      "answers": [
+        ">",
+        "!="
+      ],
+      "explanation": "Пока `n` больше нуля, цикл продолжается. После печати 1 значение `n` станет 0, условие ложно, и цикл завершится."
+    },
+    {
+      "id": "control-functions-f10",
+      "type": "fill",
+      "prompt": "Допиши ключевое слово, чтобы цикл повторялся, пока `n < 3`. В конце должно напечататься 3.",
+      "code": "var n = 0\ndo {\n    n++\n} ___ (n < 3)\nprintln(n)",
+      "answers": [
+        "while"
+      ],
+      "explanation": "У цикла `do { ... } while (условие)` условие стоит после тела. Он повторяется, пока `n < 3`, и завершается при n = 3."
+    },
+    {
+      "id": "control-functions-f11",
+      "type": "fill",
+      "prompt": "Допиши ключевое слово, чтобы цикл остановился на числе 4 и напечатал 123.",
+      "code": "for (i in 1..10) {\n    if (i == 4) ___\n    print(i)\n}",
+      "answers": [
+        "break"
+      ],
+      "explanation": "`break` немедленно выходит из цикла. Поэтому 4 и следующие числа не печатаются."
+    },
+    {
+      "id": "control-functions-f12",
+      "type": "fill",
+      "prompt": "Допиши ключевое слово, чтобы число 3 пропускалось, а цикл продолжал работу: 1245.",
+      "code": "for (i in 1..5) {\n    if (i == 3) ___\n    print(i)\n}",
+      "answers": [
+        "continue"
+      ],
+      "explanation": "`continue` пропускает остаток текущего шага и переходит к следующему. В отличие от `break`, цикл не заканчивается."
+    },
+    {
+      "id": "control-functions-f13",
+      "type": "fill",
+      "prompt": "Допиши имя метки (название, которым помечен цикл), чтобы `break` останавливал внешний цикл, а не внутренний.",
+      "code": "outer@ for (a in 1..3) {\n    for (b in 1..3) {\n        if (a * b == 4) break@___\n    }\n}",
+      "answers": [
+        "outer"
+      ],
+      "explanation": "После `break@` указывают имя метки нужного цикла. Метка объявлена как `outer@` перед внешним циклом."
+    },
+    {
+      "id": "control-functions-f15",
+      "type": "fill",
+      "prompt": "Допиши имя параметра, чтобы число 5 передавалось в `width` по имени.",
+      "code": "fun area(width: Int, height: Int) = width * height\nprintln(area(height = 2, ___ = 5))",
+      "answers": [
+        "width"
+      ],
+      "explanation": "Именованный аргумент записывают как `имя = значение`. Порядок при этом не важен: получится 5 * 2 = 10."
+    },
+    {
+      "id": "control-functions-f16",
+      "type": "fill",
+      "prompt": "Допиши ключевое слово, чтобы функция принимала любое число аргументов типа Int.",
+      "code": "fun total(___ nums: Int): Int = nums.sum()\nprintln(total(1, 2, 3))",
+      "answers": [
+        "vararg"
+      ],
+      "explanation": "Модификатор `vararg` позволяет передать столько аргументов, сколько нужно. Внутри функции `nums` ведёт себя как массив, а `sum()` даёт 6."
+    },
+    {
+      "id": "control-functions-f18",
+      "type": "fill",
+      "prompt": "Допиши тип результата, который у функции без явного результата.",
+      "code": "fun hello(): ___ {\n    println(\"hi\")\n}\nhello()",
+      "answers": [
+        "Unit"
+      ],
+      "explanation": "Если функция ничего полезного не возвращает, её тип результата — `Unit`. Его можно и не писать."
+    },
+    {
+      "id": "control-functions-f19",
+      "type": "fill",
+      "prompt": "Допиши оператор диапазона, чтобы цикл прошёл по символам от 'a' до 'c' включительно и напечатал abc.",
+      "code": "for (ch in 'a'___'c') {\n    print(ch)\n}",
+      "answers": [
+        ".."
+      ],
+      "explanation": "Диапазон `'a'..'c'` включает оба края: a, b, c. Диапазоны бывают не только из чисел, но и из символов."
+    },
+    {
+      "id": "control-functions-f20",
+      "type": "fill",
+      "prompt": "Допиши оператор, который «распаковывает» массив `nums` в отдельные аргументы vararg-функции. Код должен напечатать 6.",
+      "code": "fun total(vararg n: Int) = n.sum()\nval nums = intArrayOf(1, 2, 3)\nprintln(total(___nums))",
+      "answers": [
+        "*"
+      ],
+      "explanation": "Оператор распаковки `*` передаёт элементы массива как отдельные аргументы в vararg-параметр. Без него вызов не скомпилируется: массив нельзя передать вместо Int."
+    }
+  ]
+}

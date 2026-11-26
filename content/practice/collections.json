@@ -1,0 +1,505 @@
+{
+  "topicId": "collections",
+  "tasks": [
+    {
+      "id": "collections-c01",
+      "type": "choice",
+      "prompt": "Почему этот код не компилируется?\n\nval xs = listOf(1, 2)\nxs.add(3)",
+      "options": [
+        "add принимает только строки",
+        "Переменную нужно объявить через var",
+        "У listOf список только для чтения: метода add у него нет",
+        "Нужно указать тип: List<Int>"
+      ],
+      "correctIndex": 2,
+      "explanation": "listOf создаёт неизменяемый список (только чтение), add есть лишь у MutableList. Переменная var не помогла бы: менять нужно сам список, а не ссылку на него."
+    },
+    {
+      "id": "collections-c02",
+      "type": "choice",
+      "prompt": "Что напечатает код?\n\nval xs = listOf(1, 2, 3, 4)\nprintln(xs.map { it * 2 }.filter { it > 4 })",
+      "options": [
+        "[6, 8]",
+        "[3, 4]",
+        "[2, 4, 6, 8]",
+        "[8]"
+      ],
+      "correctIndex": 0,
+      "explanation": "Сначала map удваивает: [2, 4, 6, 8], затем filter оставляет только элементы больше 4: [6, 8]. Исходный список xs при этом не меняется."
+    },
+    {
+      "id": "collections-c03",
+      "type": "choice",
+      "prompt": "Сколько элементов будет в множестве (Set, коллекция без повторов)?\n\nval s = listOf(\"a\", \"b\", \"a\", \"c\", \"b\").toSet()\nprintln(s.size)",
+      "options": [
+        "5",
+        "2",
+        "1",
+        "3"
+      ],
+      "correctIndex": 3,
+      "explanation": "Set хранит каждое значение один раз: остаются a, b, c. Размер 5 был бы у исходного списка."
+    },
+    {
+      "id": "collections-c04",
+      "type": "choice",
+      "prompt": "Что напечатает код?\n\nval ages = mapOf(\"Аня\" to 20, \"Борис\" to 25)\nprintln(ages[\"Вера\"])",
+      "options": [
+        "0",
+        "null",
+        "Исключение: такого ключа нет",
+        "Пустая строка"
+      ],
+      "correctIndex": 1,
+      "explanation": "Квадратные скобки у Map (словарь «ключ → значение») возвращают значение или null, если ключа нет. Исключения при этом нет."
+    },
+    {
+      "id": "collections-c06",
+      "type": "choice",
+      "prompt": "Что напечатает код?\n\nval cache = mutableMapOf<String, Int>()\ncache.getOrPut(\"a\") { 1 }\ncache.getOrPut(\"a\") { 2 }\nprintln(cache[\"a\"])",
+      "options": [
+        "2",
+        "1",
+        "3",
+        "null"
+      ],
+      "correctIndex": 1,
+      "explanation": "getOrPut вычисляет блок в фигурных скобках только если ключа нет, и кладёт результат в карту. Второй вызов находит a и блок не запускает."
+    },
+    {
+      "id": "collections-c07",
+      "type": "choice",
+      "prompt": "Что напечатает код?\n\nval m = mapOf(\"a\" to 1, \"b\" to 2)\nprintln(m.entries.joinToString { \"${it.key}:${it.value}\" })",
+      "options": [
+        "a:1,b:2",
+        "{a=1, b=2}",
+        "a:1, b:2",
+        "[a:1, b:2]"
+      ],
+      "correctIndex": 2,
+      "explanation": "entries это пары «ключ-значение», у каждой есть key и value. joinToString по умолчанию склеивает элементы через запятую с пробелом."
+    },
+    {
+      "id": "collections-c08",
+      "type": "choice",
+      "prompt": "Какая запись даёт сумму всех значений карты?\n\nval prices = mapOf(\"хлеб\" to 40, \"молоко\" to 70)",
+      "options": [
+        "prices.values.sum()",
+        "prices.keys.sum()",
+        "prices.sum()",
+        "prices.entries.sum()"
+      ],
+      "correctIndex": 0,
+      "explanation": "values это коллекция значений (40 и 70), у неё есть sum(): 110. Ключи здесь строки, а у самой карты и у пар суммы нет."
+    },
+    {
+      "id": "collections-c09",
+      "type": "choice",
+      "prompt": "Что напечатает код?\n\nval p = \"кот\" to 3\nprintln(p.first + p.second)",
+      "options": [
+        "3кот",
+        "кот",
+        "кот3",
+        "Ошибка компиляции: строку и число складывать нельзя"
+      ],
+      "correctIndex": 2,
+      "explanation": "Запись a to b создаёт пару (Pair): first это \"кот\", second это 3. Строка плюс число даёт склеенную строку \"кот3\"."
+    },
+    {
+      "id": "collections-c11",
+      "type": "choice",
+      "prompt": "Как получить последний элемент списка xs из четырёх элементов по индексу?",
+      "options": [
+        "xs[3]",
+        "xs[4]",
+        "xs[-1]",
+        "xs[xs.size]"
+      ],
+      "correctIndex": 0,
+      "explanation": "Индексы начинаются с 0, поэтому у четырёх элементов это 0, 1, 2, 3. Индексы 4 и xs.size выходят за границу, а отрицательных индексов в списках Kotlin нет."
+    },
+    {
+      "id": "collections-c12",
+      "type": "choice",
+      "prompt": "Что напечатает код?\n\nval fruits = listOf(\"яблоко\", \"киви\", \"слива\")\nprintln(fruits.sortedByDescending { it.length })",
+      "options": [
+        "[киви, слива, яблоко]",
+        "[яблоко, слива, киви]",
+        "[яблоко, киви, слива]",
+        "[слива, киви, яблоко]"
+      ],
+      "correctIndex": 1,
+      "explanation": "Длины слов: 6, 4 и 5. sortedByDescending ставит большее значение ключа раньше: яблоко, слива, киви. sortedBy дал бы обратный порядок."
+    },
+    {
+      "id": "collections-c13",
+      "type": "choice",
+      "prompt": "Что напечатает код?\n\nprintln(listOf(1, 2, 3).fold(10) { acc, x -> acc + x })",
+      "options": [
+        "6",
+        "10",
+        "16",
+        "3"
+      ],
+      "correctIndex": 2,
+      "explanation": "fold начинает с начального значения 10 (acc) и по очереди прибавляет каждый элемент: 10, 11, 13, 16. Результат 6 был бы у reduce, который стартует с первого элемента."
+    },
+    {
+      "id": "collections-c14",
+      "type": "choice",
+      "prompt": "Что произойдёт при вызове reduce на пустом списке?\n\nemptyList<Int>().reduce { a, b -> a + b }",
+      "options": [
+        "Вернётся 0",
+        "Вернётся null",
+        "Вернётся пустой список",
+        "Будет выброшено исключение"
+      ],
+      "correctIndex": 3,
+      "explanation": "reduce берёт первый элемент как стартовый, а в пустом списке его нет, поэтому падает. fold с начальным значением или sum() вернут 0."
+    },
+    {
+      "id": "collections-c16",
+      "type": "choice",
+      "prompt": "Что напечатает код?\n\nprintln(listOf(1, 2, 3, 4, 5).chunked(2))",
+      "options": [
+        "[[1, 2], [3, 4]]",
+        "[[1, 2], [2, 3], [3, 4], [4, 5]]",
+        "[[1, 2], [3, 4], [5]]",
+        "[[1, 2, 3], [4, 5]]"
+      ],
+      "correctIndex": 2,
+      "explanation": "chunked(2) режет список на порции по 2 элемента без пересечений; последняя порция может быть короче. Вариант с перекрытием соответствует windowed(2)."
+    },
+    {
+      "id": "collections-c17",
+      "type": "choice",
+      "prompt": "Что напечатает код?\n\nprintln(listOf(1, 2, 3).zip(listOf(\"a\", \"b\")))",
+      "options": [
+        "[(1, a), (2, b), (3, null)]",
+        "[(1, a), (2, b)]",
+        "Исключение: списки разной длины",
+        "[(a, 1), (b, 2)]"
+      ],
+      "correctIndex": 1,
+      "explanation": "zip склеивает элементы попарно и останавливается на более коротком списке, лишнее 3 отбрасывается. Первым в паре идёт элемент того списка, у которого вызвали zip."
+    },
+    {
+      "id": "collections-c18",
+      "type": "choice",
+      "prompt": "Что напечатает код?\n\nprintln(listOf(\"ab\", \"c\").flatMap { it.toList() })",
+      "options": [
+        "[[a, b], [c]]",
+        "[ab, c]",
+        "[abc]",
+        "[a, b, c]"
+      ],
+      "correctIndex": 3,
+      "explanation": "toList() превращает строку в список символов, а flatMap склеивает все такие списки в один плоский. Обычный map оставил бы вложенные списки [[a, b], [c]]."
+    },
+    {
+      "id": "collections-c19",
+      "type": "choice",
+      "prompt": "Что напечатает код?\n\nprintln(listOf(\"кот\", \"слон\").associate { it to it.length })",
+      "options": [
+        "{кот=3, слон=4}",
+        "[(кот, 3), (слон, 4)]",
+        "{3=кот, 4=слон}",
+        "{кот=кот, слон=слон}"
+      ],
+      "correctIndex": 0,
+      "explanation": "associate строит карту из пар, которые возвращает блок: ключ слово, значение его длина. Print выводит карту в виде {ключ=значение, ...}."
+    },
+    {
+      "id": "collections-c20",
+      "type": "choice",
+      "prompt": "Что вернёт вызов на пустом списке?\n\nemptyList<Int>().all { it > 0 }",
+      "options": [
+        "false",
+        "null",
+        "true",
+        "Исключение"
+      ],
+      "correctIndex": 2,
+      "explanation": "all означает «ни один элемент не нарушает условие». В пустом списке нарушить нечего, поэтому true. Парный any на пустом списке даст false."
+    },
+    {
+      "id": "collections-c21",
+      "type": "choice",
+      "prompt": "Нужно проверить, есть ли в списке хотя бы одно отрицательное число. Какой оператор подходит?",
+      "options": [
+        "all { it < 0 }",
+        "none { it < 0 }",
+        "filter { it < 0 }",
+        "any { it < 0 }"
+      ],
+      "correctIndex": 3,
+      "explanation": "any возвращает true, если условие выполнилось хотя бы для одного элемента. all требует это для каждого, none означает «ни для одного», а filter вернёт список, а не да или нет."
+    },
+    {
+      "id": "collections-c23",
+      "type": "choice",
+      "prompt": "Что напечатает код?\n\nval s = listOf(1, 2, 3).asSequence().map { println(\"map $it\"); it * 2 }\nprintln(\"готово\")",
+      "options": [
+        "map 1, map 2, map 3, затем «готово»",
+        "«готово», затем map 1, map 2, map 3",
+        "Только «готово»",
+        "Ошибка компиляции: нет завершающего оператора"
+      ],
+      "correctIndex": 2,
+      "explanation": "Sequence (ленивая последовательность) ничего не считает, пока не вызван завершающий оператор вроде toList или first. Здесь его нет, поэтому map не выполняется ни разу."
+    },
+    {
+      "id": "collections-c24",
+      "type": "choice",
+      "prompt": "Что означает val в записи val names = mutableListOf(\"Аня\")?",
+      "options": [
+        "Класть в список новые элементы нельзя",
+        "Новые элементы класть в список можно, но переменной нельзя присвоить другой список",
+        "Нельзя ни класть новые элементы, ни присваивать другой список",
+        "Можно присвоить другой список, но нельзя класть новые элементы"
+      ],
+      "correctIndex": 1,
+      "explanation": "val запрещает только переприсваивание самой переменной. Изменяемость содержимого определяется типом: mutableListOf даёт список, в который add работает."
+    },
+    {
+      "id": "collections-c25",
+      "type": "choice",
+      "prompt": "Что напечатает код?\n\nprintln(listOf(1, 2, 3, 4).windowed(3))",
+      "options": [
+        "[[1, 2, 3], [4]]",
+        "[[1, 2, 3], [2, 3, 4]]",
+        "[[1, 2, 3]]",
+        "[[1, 2], [2, 3], [3, 4]]"
+      ],
+      "correctIndex": 1,
+      "explanation": "windowed(3) двигает окно из 3 элементов на один шаг и берёт только полные окна. Вариант [[1, 2, 3], [4]] это chunked(3), где порции не пересекаются."
+    },
+    {
+      "id": "collections-f01",
+      "type": "fill",
+      "prompt": "Впиши оператор, который оставит в списке только числа больше 2 (результат [5, 3, 7]).",
+      "code": "val nums = listOf(1, 5, 3, 0, 7)\nval big = nums.___ { it > 2 }\nprintln(big)",
+      "answers": [
+        "filter"
+      ],
+      "explanation": "filter оставляет только те элементы, для которых условие в фигурных скобках истинно."
+    },
+    {
+      "id": "collections-f02",
+      "type": "fill",
+      "prompt": "Впиши функцию, создающую изменяемый список, чтобы add сработал.",
+      "code": "val tasks = ___(\"купить хлеб\")\ntasks.add(\"позвонить\")\nprintln(tasks.size)",
+      "answers": [
+        "mutableListOf",
+        "arrayListOf"
+      ],
+      "explanation": "mutableListOf создаёт MutableList, в который можно добавлять и из которого можно удалять. Размер после add будет 2."
+    },
+    {
+      "id": "collections-f03",
+      "type": "fill",
+      "prompt": "Впиши функцию Map (словарь «ключ → значение»), которая вернёт 0, если ключа «груша» нет (должно напечататься 0).",
+      "code": "val stock = mapOf(\"яблоко\" to 5)\nval n = stock.___(\"груша\", 0)\nprintln(n)",
+      "answers": [
+        "getOrDefault"
+      ],
+      "explanation": "getOrDefault(ключ, запасное) возвращает значение по ключу, а если ключа нет, то запасное значение. Саму карту он не меняет."
+    },
+    {
+      "id": "collections-f05",
+      "type": "fill",
+      "prompt": "Впиши функцию, чтобы вместо исключения напечатался null (индекса 10 в списке нет).",
+      "code": "val xs = listOf(1, 2, 3)\nprintln(xs.___(10))",
+      "answers": [
+        "getOrNull",
+        "elementAtOrNull"
+      ],
+      "explanation": "getOrNull возвращает элемент по индексу или null, если индекс вне списка. Запись xs[10] упала бы с IndexOutOfBoundsException."
+    },
+    {
+      "id": "collections-f06",
+      "type": "fill",
+      "prompt": "Впиши оператор, который сгруппирует слова по длине в карту «длина → список слов», чтобы g[3] было [кот, кит].",
+      "code": "val words = listOf(\"кот\", \"слон\", \"кит\")\nval g = words.___ { it.length }\nprintln(g[3])",
+      "answers": [
+        "groupBy"
+      ],
+      "explanation": "groupBy собирает элементы с одинаковым ключом в списки: у ключа 3 это кот и кит, у ключа 4 только слон."
+    },
+    {
+      "id": "collections-f09",
+      "type": "fill",
+      "prompt": "Впиши оператор, который просуммирует числа списка (результат 15).",
+      "code": "val nums = listOf(4, 5, 6)\nprintln(nums.___())",
+      "answers": [
+        "sum"
+      ],
+      "explanation": "sum() складывает все числа списка без аргументов: 4 плюс 5 плюс 6."
+    },
+    {
+      "id": "collections-f10",
+      "type": "fill",
+      "prompt": "Впиши оператор, который посчитает, сколько температур выше 24 (результат 2).",
+      "code": "val temps = listOf(18, 25, 31, 22)\nval hot = temps.___ { it > 24 }\nprintln(hot)",
+      "answers": [
+        "count"
+      ],
+      "explanation": "count с условием возвращает число подошедших элементов: подходят 25 и 31, итого 2."
+    },
+    {
+      "id": "collections-f11",
+      "type": "fill",
+      "prompt": "Впиши оператор, который отбросит первые два элемента (результат [3, 4, 5]).",
+      "code": "val xs = listOf(1, 2, 3, 4, 5)\nprintln(xs.___(2))",
+      "answers": [
+        "drop"
+      ],
+      "explanation": "drop(n) возвращает список без первых n элементов. Парный take(n) наоборот берёт только первые n."
+    },
+    {
+      "id": "collections-f13",
+      "type": "fill",
+      "prompt": "Впиши оператор, который уберёт повторы и вернёт список [1, 2, 3].",
+      "code": "val xs = listOf(1, 1, 2, 3, 3)\nprintln(xs.___())",
+      "answers": [
+        "distinct"
+      ],
+      "explanation": "distinct оставляет первое вхождение каждого значения и сохраняет порядок. Результат остаётся списком."
+    },
+    {
+      "id": "collections-f14",
+      "type": "fill",
+      "prompt": "Впиши оператор, который разделит числа на две группы: меньше 5 и остальные. В small должно оказаться [1, 2].",
+      "code": "val (small, rest) = listOf(1, 5, 2, 8).___ { it < 5 }\nprintln(small)",
+      "answers": [
+        "partition"
+      ],
+      "explanation": "partition возвращает пару списков: сначала подошедшие под условие, затем остальные. Деструктуризация val (a, b) раскладывает пару по двум переменным."
+    },
+    {
+      "id": "collections-f16",
+      "type": "fill",
+      "prompt": "Впиши вызов, который сделает цепочку ленивой (элементы считаются только по мере надобности): map и first должны обработать только первый элемент, а не миллион.",
+      "code": "val first = (1..1_000_000).toList().___().map { it * 2 }.first()\nprintln(first)",
+      "answers": [
+        "asSequence"
+      ],
+      "explanation": "asSequence() превращает список в Sequence (ленивую последовательность): элементы идут через цепочку по одному, и first останавливает работу после первого."
+    },
+    {
+      "id": "collections-f17",
+      "type": "fill",
+      "prompt": "Впиши оператор, который удалит из изменяемого списка все чётные числа (должно остаться [1, 3]).",
+      "code": "val xs = mutableListOf(1, 2, 3, 4)\nxs.___ { it % 2 == 0 }\nprintln(xs)",
+      "answers": [
+        "removeIf",
+        "removeAll"
+      ],
+      "explanation": "removeIf удаляет из самого списка все элементы, подошедшие под условие, и не ломает обход, в отличие от remove внутри цикла for."
+    },
+    {
+      "id": "collections-c26",
+      "type": "choice",
+      "prompt": "Что напечатает код?\n\nval xs = mutableListOf(3, 1, 2)\nxs.sorted()\nprintln(xs)",
+      "options": [
+        "[1, 2, 3]",
+        "[3, 1, 2]",
+        "[3, 2, 1]",
+        "Ошибка компиляции: sorted нельзя вызвать у изменяемого списка"
+      ],
+      "correctIndex": 1,
+      "explanation": "sorted() не меняет список, а возвращает новый отсортированный; результат здесь выброшен, поэтому xs остался [3, 1, 2]. Менять порядок на месте умеет sort()."
+    },
+    {
+      "id": "collections-c27",
+      "type": "choice",
+      "prompt": "Что напечатает код?\n\nval ys = mutableListOf(10, 20, 30)\nys.removeAt(1)\nys.remove(10)\nprintln(ys)",
+      "options": [
+        "[30]",
+        "[20, 30]",
+        "[10, 20, 30]",
+        "[10]"
+      ],
+      "correctIndex": 0,
+      "explanation": "removeAt(1) удаляет элемент по индексу 1 (20), получается [10, 30]; remove(10) удаляет само значение 10, остаётся [30]."
+    },
+    {
+      "id": "collections-c28",
+      "type": "choice",
+      "prompt": "Что напечатает код?\n\nval m = mapOf(\"a\" to 1, \"b\" to 2, \"a\" to 3)\nprintln(m)",
+      "options": [
+        "{a=1, b=2, a=3}",
+        "{a=3, b=2}",
+        "{a=1, b=2}",
+        "Ошибка: повторяющийся ключ"
+      ],
+      "correctIndex": 1,
+      "explanation": "Ключи в Map уникальны: повторная запись с тем же ключом заменяет значение, поэтому у ключа a остаётся 3."
+    },
+    {
+      "id": "collections-c29",
+      "type": "choice",
+      "prompt": "В каком порядке выведутся строки? Sequence (последовательность) обрабатывает элементы по одному, а first() берёт первый подходящий.\n\nsequenceOf(1, 2, 3)\n    .filter { println(\"f $it\"); it > 1 }\n    .map { println(\"m $it\"); it * 10 }\n    .first()",
+      "options": [
+        "f 1, f 2, m 2",
+        "f 1, f 2, f 3, m 2, m 3",
+        "f 1, m 1, f 2, m 2",
+        "m 2, f 1, f 2"
+      ],
+      "correctIndex": 0,
+      "explanation": "Каждый элемент проходит всю цепочку по очереди: 1 отсеивается фильтром, 2 проходит и попадает в map, после чего first() останавливает работу, а тройка не обрабатывается."
+    },
+    {
+      "id": "collections-f18",
+      "type": "fill",
+      "prompt": "Впиши свойство элемента карты, в котором лежит значение (возраст). Должна напечататься сумма 45.",
+      "code": "val ages = mapOf(\"Аня\" to 20, \"Борис\" to 25)\nvar sum = 0\nfor (entry in ages) sum += entry.___\nprintln(sum)",
+      "answers": [
+        "value",
+        "component2()"
+      ],
+      "explanation": "При обходе Map каждый элемент хранит пару: key — ключ, value — значение; складываем значения 20 и 25."
+    },
+    {
+      "id": "collections-f19",
+      "type": "fill",
+      "prompt": "Впиши оператор, который преобразует значения карты, оставив ключи. Должно напечататься {a=20, b=40}.",
+      "code": "val prices = mapOf(\"a\" to 10, \"b\" to 20)\nval doubled = prices.___ { it.value * 2 }\nprintln(doubled)",
+      "answers": [
+        "mapValues"
+      ],
+      "explanation": "mapValues возвращает новую карту с теми же ключами и новыми значениями."
+    },
+    {
+      "id": "collections-f20",
+      "type": "fill",
+      "prompt": "Впиши оператор, который вернёт самое длинное слово по длине (должно напечататься «слон»).",
+      "code": "val words = listOf(\"кот\", \"слон\", \"кит\")\nprintln(words.___ { it.length })",
+      "answers": [
+        "maxByOrNull",
+        "maxBy"
+      ],
+      "explanation": "maxByOrNull выбирает элемент с наибольшим значением из лямбды; для пустого списка вернул бы null."
+    },
+    {
+      "id": "collections-f21",
+      "type": "fill",
+      "prompt": "Впиши вызов, который сделает из неизменяемого списка изменяемую копию, чтобы add сработал. Должно напечататься [1, 2, 3].",
+      "code": "val fixed = listOf(1, 2)\nval copy = fixed.___()\ncopy.add(3)\nprintln(copy)",
+      "answers": [
+        "toMutableList"
+      ],
+      "explanation": "toMutableList создаёт новый изменяемый список с теми же элементами, исходный список не меняется."
+    },
+    {
+      "id": "collections-f22",
+      "type": "fill",
+      "prompt": "Впиши вызов, чтобы в цикле получать пары (индекс, элемент). Должно напечататься «0 a» и «1 b» (каждое с новой строки).",
+      "code": "val letters = listOf(\"a\", \"b\")\nfor ((i, s) in letters.___()) {\n    println(\"$i $s\")\n}",
+      "answers": [
+        "withIndex"
+      ],
+      "explanation": "withIndex оборачивает каждый элемент в пару с его индексом, которую удобно разобрать на i и s."
+    }
+  ]
+}

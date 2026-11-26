@@ -1,0 +1,501 @@
+{
+  "topicId": "scope-extensions",
+  "tasks": [
+    {
+      "id": "scope-extensions-c01",
+      "type": "choice",
+      "prompt": "Что напечатает код?\n`val r = 5.let { it + 1 }\nprintln(r)`",
+      "options": [
+        "it + 1",
+        "5",
+        "kotlin.Unit",
+        "6"
+      ],
+      "correctIndex": 3,
+      "explanation": "`let` возвращает результат лямбды (небольшой безымянной функции в фигурных скобках), то есть 5 + 1 = 6. Сам объект возвращают `apply` и `also`."
+    },
+    {
+      "id": "scope-extensions-c02",
+      "type": "choice",
+      "prompt": "Что напечатает код?\n`val sb = StringBuilder().apply { append(\"a\"); append(\"b\") }\nprintln(sb)`",
+      "options": [
+        "a",
+        "ab",
+        "kotlin.Unit",
+        "Ошибка компиляции"
+      ],
+      "correctIndex": 1,
+      "explanation": "Внутри `apply` объект доступен как `this`, поэтому `append` вызывается без префикса. Результатом `apply` остаётся сам `StringBuilder` со строкой `ab`."
+    },
+    {
+      "id": "scope-extensions-c03",
+      "type": "choice",
+      "prompt": "Что напечатает код?\n`val doubled = listOf(1, 2, 3)\n    .also { println(it.size) }\n    .map { it * 2 }\nprintln(doubled)`",
+      "options": [
+        "Только [2, 4, 6]",
+        "3, затем [1, 2, 3]",
+        "3, затем [2, 4, 6]",
+        "6, затем [2, 4, 6]"
+      ],
+      "correctIndex": 2,
+      "explanation": "`also` выполняет побочное действие (печатает размер 3) и возвращает тот же список, поэтому `map` продолжает цепочку, и после неё печатается [2, 4, 6]."
+    },
+    {
+      "id": "scope-extensions-c04",
+      "type": "choice",
+      "prompt": "Вы пишете `settings.… { \"$host:$port\" }` и хотите обращаться к полям без `it.`, а результатом должна стать строка из лямбды. Какую функцию поставить вместо многоточия?",
+      "options": [
+        "also",
+        "let",
+        "takeIf",
+        "run"
+      ],
+      "correctIndex": 3,
+      "explanation": "`run` даёт объект как `this` (поля видны без префикса) и возвращает результат лямбды. `let` потребовал бы `it.host`, а `also` вернул бы сам объект."
+    },
+    {
+      "id": "scope-extensions-c05",
+      "type": "choice",
+      "prompt": "Почему этот код не компилируется?\n`val n: Int = \"abc\".apply { length }`",
+      "options": [
+        "`apply` возвращает сам объект (String), а не результат лямбды",
+        "Внутри `apply` нельзя использовать `length`",
+        "У `String` нет свойства `length`",
+        "`apply` работает только с изменяемыми переменными `var`"
+      ],
+      "correctIndex": 0,
+      "explanation": "Результат `apply` всегда сам получатель, здесь строка `String`, а не `Int`. Чтобы получить длину, нужен `let` или `run`."
+    },
+    {
+      "id": "scope-extensions-c06",
+      "type": "choice",
+      "prompt": "Что напечатает код?\n`println(10.takeUnless { it > 5 })`",
+      "options": [
+        "10",
+        "null",
+        "true",
+        "false"
+      ],
+      "correctIndex": 1,
+      "explanation": "`takeUnless` возвращает значение, если условие ложно, и `null`, если истинно. Условие `10 > 5` истинно, поэтому результат `null`."
+    },
+    {
+      "id": "scope-extensions-c07",
+      "type": "choice",
+      "prompt": "Какой тип имеет выражение `\"hi\".takeIf { it.length == 2 }`?",
+      "options": [
+        "Boolean",
+        "String",
+        "String?",
+        "Int?"
+      ],
+      "correctIndex": 2,
+      "explanation": "`takeIf` возвращает либо сам объект, либо `null`, поэтому тип nullable: `String?`. Типичная ошибка: ждать `Boolean`, как у обычного условия."
+    },
+    {
+      "id": "scope-extensions-c08",
+      "type": "choice",
+      "prompt": "Что напечатает код?\n`val s: String? = null\nprintln(s?.let { it.length } ?: -1)`",
+      "options": [
+        "0",
+        "null",
+        "NullPointerException",
+        "-1"
+      ],
+      "correctIndex": 3,
+      "explanation": "Для `null` безопасный вызов `?.let` пропускает блок и даёт `null`, а оператор `?:` подставляет запасное значение -1."
+    },
+    {
+      "id": "scope-extensions-c09",
+      "type": "choice",
+      "prompt": "Что напечатает код?\n`val v = run { val a = 2; a * 3 }\nprintln(v)`",
+      "options": [
+        "6",
+        "2",
+        "kotlin.Unit",
+        "Ошибка компиляции: нет объекта"
+      ],
+      "correctIndex": 0,
+      "explanation": "`run` без объекта просто выполняет блок и возвращает его последнее выражение `a * 3`, то есть 6. Так удобно вычислять значение с временными переменными."
+    },
+    {
+      "id": "scope-extensions-c10",
+      "type": "choice",
+      "prompt": "В классе `Screen` внутри лямбды `apply { ... }` нужно обратиться к самому экрану, а не к объекту `apply`. Как это записать?",
+      "options": [
+        "outer.this",
+        "this@Screen",
+        "Screen.this",
+        "super.this"
+      ],
+      "correctIndex": 1,
+      "explanation": "Внутри `apply` обычный `this` указывает на получателя лямбды. Чтобы достучаться до внешнего класса, используют метку `this@Screen`. Запись `Screen.this` взята из Java и в Kotlin недопустима."
+    },
+    {
+      "id": "scope-extensions-c11",
+      "type": "choice",
+      "prompt": "Что напечатает код?\n`fun String.shout() = uppercase() + \"!\"\nprintln(\"hey\".shout())`",
+      "options": [
+        "hey!",
+        "HEY",
+        "HEY!",
+        "Ошибка: у String нет метода shout"
+      ],
+      "correctIndex": 2,
+      "explanation": "Это extension-функция (функция-расширение: выглядит как метод чужого класса). Внутри `this` — строка `\"hey\"`, поэтому `uppercase()` даёт `HEY`, затем добавляется `!`."
+    },
+    {
+      "id": "scope-extensions-c12",
+      "type": "choice",
+      "prompt": "У класса `A` есть метод `fun hi() = \"member\"`, а рядом объявлено расширение (функция, добавленная к классу снаружи) `fun A.hi(n: Int) = \"ext$n\"`. Что напечатает `println(A().hi(1))`?",
+      "options": [
+        "member",
+        "Ошибка: конфликт имён",
+        "member1",
+        "ext1"
+      ],
+      "correctIndex": 3,
+      "explanation": "Метод класса побеждает только при совпадении сигнатуры (имени и параметров). Здесь параметры разные, поэтому подходит расширение и выводится `ext1`."
+    },
+    {
+      "id": "scope-extensions-c13",
+      "type": "choice",
+      "prompt": "Есть `open class Base`, `class Derived : Base()` и два расширения (функции, добавленные к классам снаружи): `fun Base.name() = \"base\"` и `fun Derived.name() = \"derived\"`. Что напечатает код?\n`val b: Base = Derived()\nprintln(b.name())`",
+      "options": [
+        "base",
+        "derived",
+        "Ошибка компиляции: неоднозначность",
+        "null"
+      ],
+      "correctIndex": 0,
+      "explanation": "Расширение выбирается по объявленному типу переменной (`Base`), а не по реальному объекту. Полиморфизма (выбора по фактическому типу) у расширений нет."
+    },
+    {
+      "id": "scope-extensions-c14",
+      "type": "choice",
+      "prompt": "Почему не компилируется `val String.len: Int = 0` (свойство-расширение с начальным значением)?",
+      "options": [
+        "Свойства-расширения можно объявлять только внутри класса",
+        "Свойства-расширения должны быть только `var`",
+        "Тип `Int` нельзя использовать у расширения",
+        "У расширения нет собственного поля, нужен геттер вместо значения"
+      ],
+      "correctIndex": 3,
+      "explanation": "Расширение не добавляет в класс настоящих полей, поэтому хранить значение негде. Пишут вычисляемое свойство: `val String.len: Int get() = length`."
+    },
+    {
+      "id": "scope-extensions-c15",
+      "type": "choice",
+      "prompt": "Какой тип имеет `this` внутри функции `fun String?.safeLen(): Int = this?.length ?: 0`?",
+      "options": [
+        "String",
+        "Any",
+        "String?",
+        "Nothing"
+      ],
+      "correctIndex": 2,
+      "explanation": "Получатель объявлен как `String?`, значит и `this` может быть `null`. Поэтому внутри нужна проверка: `this?.length`."
+    },
+    {
+      "id": "scope-extensions-c16",
+      "type": "choice",
+      "prompt": "Что напечатает код?\n`val greet: String.() -> String = { \"Hi, $this\" }\nprintln(\"Bob\".greet())`",
+      "options": [
+        "Hi, this",
+        "Hi, ",
+        "Ошибка: лямбду нельзя вызвать у строки",
+        "Hi, Bob"
+      ],
+      "correctIndex": 3,
+      "explanation": "Тип `String.() -> String` — лямбда с получателем: при вызове `\"Bob\".greet()` строка `\"Bob\"` становится `this` внутри лямбды."
+    },
+    {
+      "id": "scope-extensions-c17",
+      "type": "choice",
+      "prompt": "Функция принимает `block: (Report) -> Unit`, где `Report` — класс с методом `line(s: String)`. Как внутри такой лямбды вызвать `line`?",
+      "options": [
+        "it.line(\"текст\")",
+        "this.line(\"текст\")",
+        "Report.line(\"текст\")",
+        "line(\"текст\") без объекта"
+      ],
+      "correctIndex": 0,
+      "explanation": "У обычного типа `(Report) -> Unit` объект передан параметром (по умолчанию `it`). Чтобы писать `line(...)` без объекта, тип должен быть с получателем: `Report.() -> Unit`."
+    },
+    {
+      "id": "scope-extensions-c18",
+      "type": "choice",
+      "prompt": "Что напечатает код?\n`infix fun Int.plusTwice(x: Int) = this + x * 2\nprintln(1 plusTwice 3)`",
+      "options": [
+        "8",
+        "7",
+        "5",
+        "Ошибка: нужны точка и скобки"
+      ],
+      "correctIndex": 1,
+      "explanation": "`infix` разрешает вызов без точки и скобок: `1 plusTwice 3` — то же, что `1.plusTwice(3)`. Вычисляется 1 + 3 * 2 = 7."
+    },
+    {
+      "id": "scope-extensions-c19",
+      "type": "choice",
+      "prompt": "Какое объявление функции с `infix` корректно?",
+      "options": [
+        "infix fun Int.add(a: Int, b: Int): Int",
+        "infix fun add(a: Int): Int",
+        "infix fun Int.add(a: Int): Int",
+        "infix fun Int.add(vararg a: Int): Int"
+      ],
+      "correctIndex": 2,
+      "explanation": "`infix`-функция должна быть методом или расширением (есть получатель слева) и принимать ровно один обычный параметр. Два параметра, `vararg` или отсутствие получателя не подходят."
+    },
+    {
+      "id": "scope-extensions-c20",
+      "type": "choice",
+      "prompt": "Что напечатает код?\n`data class P(val x: Int) {\n    operator fun plus(o: P) = P(x + o.x)\n}\nprintln(P(1) + P(2))`",
+      "options": [
+        "3",
+        "P(1)P(2)",
+        "Ошибка компиляции",
+        "P(x=3)"
+      ],
+      "correctIndex": 3,
+      "explanation": "Оператор `+` превращается в вызов `plus`. Получается `P(3)`, а `toString` у data class печатает `P(x=3)`."
+    },
+    {
+      "id": "scope-extensions-c21",
+      "type": "choice",
+      "prompt": "В какой метод компилятор превращает запись `bag[i]` у собственного класса?",
+      "options": [
+        "get(i)",
+        "at(i)",
+        "index(i)",
+        "find(i)"
+      ],
+      "correctIndex": 0,
+      "explanation": "Квадратные скобки — это перегрузка оператора: `bag[i]` вызывает `bag.get(i)`, а `bag[i] = v` — `set(i, v)`. Метод должен быть помечен `operator`."
+    },
+    {
+      "id": "scope-extensions-c22",
+      "type": "choice",
+      "prompt": "Что нужно добавить к `fun plus(other: Money): Money` в своём классе, чтобы можно было писать `a + b`?",
+      "options": [
+        "inline",
+        "operator",
+        "override",
+        "infix"
+      ],
+      "correctIndex": 1,
+      "explanation": "Без ключевого слова `operator` метод `plus` остаётся обычным методом, и `a + b` не скомпилируется. Вызов `a.plus(b)` при этом работал бы."
+    },
+    {
+      "id": "scope-extensions-c23",
+      "type": "choice",
+      "prompt": "Какую задачу extension-функция (функция, добавляемая к классу снаружи) решить не может?",
+      "options": [
+        "Дополнить `String` удобной проверкой",
+        "Обернуть длинный вызов в короткое имя",
+        "Прочитать `private` поле чужого класса",
+        "Вызвать публичные методы получателя"
+      ],
+      "correctIndex": 2,
+      "explanation": "Extension — обычная статическая функция вне класса, поэтому `private` члены ей недоступны. Всё публичное она использует свободно."
+    },
+    {
+      "id": "scope-extensions-c25",
+      "type": "choice",
+      "prompt": "Что напечатает код?\n`val x = 5.also { it + 1 }\nprintln(x)`",
+      "options": [
+        "5",
+        "6",
+        "kotlin.Unit",
+        "Ошибка компиляции"
+      ],
+      "correctIndex": 0,
+      "explanation": "`also` игнорирует результат лямбды и возвращает сам объект, то есть 5. Новичок часто ждёт 6, как от `let`."
+    },
+    {
+      "id": "scope-extensions-f01",
+      "type": "fill",
+      "prompt": "Впиши scope-функцию (функцию, которая выполняет блок кода с объектом), дающую объект как `it` и возвращающую результат лямбды, чтобы вывелось 6.",
+      "code": "val len = \"kotlin\".___ { it.length }\nprintln(len)",
+      "answers": [
+        "let"
+      ],
+      "explanation": "`let` передаёт объект как `it` и возвращает результат лямбды: длину строки, 6."
+    },
+    {
+      "id": "scope-extensions-f05",
+      "type": "fill",
+      "prompt": "Впиши функцию, чтобы непустое имя осталось как есть, а пустое заменилось на \"аноним\". Для \"Anna\" должно вывестись Anna.",
+      "code": "val input = \"Anna\"\nval name = input.___ { it.isBlank() } ?: \"аноним\"\nprintln(name)",
+      "answers": [
+        "takeUnless"
+      ],
+      "explanation": "`takeUnless` возвращает объект, если условие ложно. Имя не пустое, поэтому остаётся `Anna`, а для пустого дало бы `null` и сработал бы `?:`."
+    },
+    {
+      "id": "scope-extensions-f06",
+      "type": "fill",
+      "prompt": "Впиши тип получателя (объекта, на котором вызывают функцию), чтобы вызов `4.double()` вывел 8.",
+      "code": "fun ___.double(): Int = this * 2\nprintln(4.double())",
+      "answers": [
+        "Int"
+      ],
+      "explanation": "Тип перед точкой — получатель extension-функции. Вызов на числе `4` требует `Int`, а `this * 2` даёт 8."
+    },
+    {
+      "id": "scope-extensions-f07",
+      "type": "fill",
+      "prompt": "Впиши ключевое слово, обозначающее строку, на которой вызвано расширение, чтобы вывелось hello.",
+      "code": "fun String.firstWord(): String = ___.substringBefore(\" \")\nprintln(\"hello world\".firstWord())",
+      "answers": [
+        "this",
+        "this@firstWord"
+      ],
+      "explanation": "Внутри extension-функции `this` — объект-получатель, то есть строка `\"hello world\"`. Её часть до пробела: `hello`."
+    },
+    {
+      "id": "scope-extensions-f08",
+      "type": "fill",
+      "prompt": "Впиши часть объявления, которая делает свойство-расширение вычисляемым, чтобы `\"kotlin\".lastLetter` давало последнюю букву, n.",
+      "code": "val String.lastLetter: Char ___ this[length - 1]",
+      "answers": [
+        "get() ="
+      ],
+      "explanation": "У свойства-расширения нет поля, поэтому значение задаёт геттер: `get() = ...`. Последняя буква слова kotlin — `n`."
+    },
+    {
+      "id": "scope-extensions-f11",
+      "type": "fill",
+      "prompt": "Впиши остаток типа параметра `block` (лямбда с получателем `StringBuilder`, ничего не возвращает), чтобы `append` внутри блока работал без объекта.",
+      "code": "fun build(block: StringBuilder.___): String =\n    StringBuilder().apply(block).toString()\nprintln(build { append(\"a\") })",
+      "answers": [
+        "() -> Unit"
+      ],
+      "explanation": "Тип `StringBuilder.() -> Unit` — лямбда с получателем: `this` внутри блока — это `StringBuilder`. Так строятся простые DSL (мини-языки на лямбдах)."
+    },
+    {
+      "id": "scope-extensions-f12",
+      "type": "fill",
+      "prompt": "Впиши модификатор, чтобы метод можно было вызвать без точки и скобок: `P(1) add 2`.",
+      "code": "class P(val x: Int) {\n    ___ fun add(n: Int) = P(x + n)\n}\nval p = P(1) add 2\nprintln(p.x)",
+      "answers": [
+        "infix"
+      ],
+      "explanation": "Метод с одним параметром, помеченный `infix`, вызывают в форме `a add b`. Результат: `P(3)`, значит `p.x` равно 3."
+    },
+    {
+      "id": "scope-extensions-f15",
+      "type": "fill",
+      "prompt": "Впиши имя оператор-метода, чтобы работала проверка `2 in Small()`.",
+      "code": "class Small {\n    operator fun ___(x: Int) = x in 1..3\n}\nprintln(2 in Small())",
+      "answers": [
+        "contains"
+      ],
+      "explanation": "Оператор `in` вызывает метод `contains`. Число 2 входит в диапазон 1..3, поэтому выведется `true`."
+    },
+    {
+      "id": "scope-extensions-f16",
+      "type": "fill",
+      "prompt": "Впиши функцию, которой объект передаётся аргументом в скобках, а внутри блока доступен как `this`. Должно вывестись host:80.",
+      "code": "class Settings(val host: String, val port: Int)\nval settings = Settings(\"host\", 80)\nval text = ___(settings) { \"$host:$port\" }\nprintln(text)",
+      "answers": [
+        "with"
+      ],
+      "explanation": "`with(obj) { ... }` принимает объект аргументом, даёт `this` внутри и возвращает результат лямбды: строку `host:80`."
+    },
+    {
+      "id": "scope-extensions-c26",
+      "type": "choice",
+      "prompt": "Что напечатает код (extension-функция — функция, добавленная к классу снаружи; `T` — параметр типа, то есть любой тип элементов)?\n`fun <T> List<T>.secondOrNull(): T? = if (size >= 2) this[1] else null\nprintln(listOf(\"a\").secondOrNull())`",
+      "options": [
+        "a",
+        "null",
+        "IndexOutOfBoundsException",
+        "Ошибка компиляции: нельзя дополнить List"
+      ],
+      "correctIndex": 1,
+      "explanation": "В списке один элемент, условие `size >= 2` ложно, поэтому возвращается `null`. Расширение с `<T>` работает для списка любого типа, а исключения нет: индекс проверяется заранее."
+    },
+    {
+      "id": "scope-extensions-f17",
+      "type": "fill",
+      "prompt": "Впиши функцию стандартной библиотеки, которая создаёт `StringBuilder`, выполняет блок с `append` без префикса и возвращает готовую строку. Должно вывестись ab.",
+      "code": "val s = ___ {\n    append(\"a\")\n    append(\"b\")\n}\nprintln(s)",
+      "answers": [
+        "buildString"
+      ],
+      "explanation": "`buildString { ... }` — лямбда с получателем `StringBuilder`: внутри `append` вызывается без объекта, а результат — собранная строка `ab`."
+    },
+    {
+      "id": "scope-extensions-f18",
+      "type": "fill",
+      "prompt": "Впиши имя оператор-метода, чтобы запись `Money(2) * 3` (умножение через `*`) давала сумму 6.",
+      "code": "class Money(val v: Int) {\n    operator fun ___(n: Int) = Money(v * n)\n}\nprintln((Money(2) * 3).v)",
+      "answers": [
+        "times"
+      ],
+      "explanation": "Оператор `*` превращается в вызов метода `times`. Метод помечен `operator`, поэтому `Money(2) * 3` — то же, что `Money(2).times(3)`, и выводится 6."
+    },
+    {
+      "id": "scope-extensions-f19",
+      "type": "fill",
+      "prompt": "Впиши стандартную infix-функцию (вызывается без точки и скобок), которая собирает пару `Pair` из двух значений. Должно вывестись one.",
+      "code": "val p = 1 ___ \"one\"\nprintln(p.second)",
+      "answers": [
+        "to"
+      ],
+      "explanation": "`1 to \"one\"` создаёт `Pair(1, \"one\")`. Второй элемент пары доступен как `second`, то есть `one`."
+    },
+    {
+      "id": "scope-extensions-f20",
+      "type": "fill",
+      "prompt": "Впиши scope-функцию (функцию, выполняющую блок кода с объектом), чтобы внутри блока поле `name` менялось без префикса, а в `q` оказался сам объект `Person`.",
+      "code": "class Person { var name = \"\" }\nval q = Person().___ { name = \"Аня\" }\nprintln(q.name)",
+      "answers": [
+        "apply"
+      ],
+      "explanation": "`apply` даёт объект как `this` (поле `name` видно без префикса) и возвращает сам объект. Поэтому `q.name` напечатает `Аня`."
+    },
+    {
+      "id": "scope-extensions-f21",
+      "type": "fill",
+      "prompt": "Впиши scope-функцию (функцию, выполняющую блок кода над объектом), которой объект передаётся аргументом, а не через точку. Внутри блока `append` вызывается без префикса, должно вывестись ab.",
+      "code": "val sb = StringBuilder()\n___(sb) {\n    append(\"a\")\n    append(\"b\")\n}\nprintln(sb)",
+      "answers": [
+        "with"
+      ],
+      "explanation": "`with(объект) { ... }` вызывается не через точку: объект идёт аргументом и внутри блока доступен как `this`, поэтому `append` пишется без префикса. В `sb` накапливается `ab`."
+    },
+    {
+      "id": "scope-extensions-f22",
+      "type": "fill",
+      "prompt": "Впиши имя оператор-метода, чтобы работало сравнение `Ver(1) < Ver(2)` и выводилось true.",
+      "code": "class Ver(val n: Int) {\n    operator fun ___(o: Ver): Int = n - o.n\n}\nprintln(Ver(1) < Ver(2))",
+      "answers": [
+        "compareTo"
+      ],
+      "explanation": "Операторы `<`, `>`, `<=`, `>=` превращаются в вызов `compareTo` и сравнение результата с нулём. Здесь 1 - 2 = -1, меньше нуля, значит `true`."
+    },
+    {
+      "id": "scope-extensions-f23",
+      "type": "fill",
+      "prompt": "Впиши оператор, чтобы extension-функция (функция, добавленная к `Int` снаружи) проверяла чётность: для 4 должно вывестись true.",
+      "code": "fun Int.isEven() = this ___ 2 == 0\nprintln(4.isEven())",
+      "answers": [
+        "%"
+      ],
+      "explanation": "Оператор `%` даёт остаток от деления. У чётного числа остаток от деления на 2 равен 0, поэтому `4.isEven()` — `true`."
+    },
+    {
+      "id": "scope-extensions-f24",
+      "type": "fill",
+      "prompt": "Впиши имя функции, которая разворачивает строку, чтобы расширение (функция, добавленная к `String` снаружи) определяло палиндромы (слова, читаемые одинаково в обе стороны). Для level должно вывестись true.",
+      "code": "fun String.isPalindrome() = this == this.___()\nprintln(\"level\".isPalindrome())",
+      "answers": [
+        "reversed"
+      ],
+      "explanation": "`reversed()` возвращает строку задом наперёд. У слова `level` она совпадает с исходной, поэтому результат `true`."
+    }
+  ]
+}
