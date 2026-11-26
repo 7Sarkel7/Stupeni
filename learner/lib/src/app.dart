@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
+import 'glossary.dart';
 import 'models.dart';
 import 'progress_store.dart';
+import 'screens/glossary_screen.dart';
 import 'screens/home_screen.dart';
 import 'screens/lesson_screen.dart';
 import 'screens/track_screen.dart';
@@ -12,11 +14,13 @@ class StupeniApp extends StatefulWidget {
     required this.catalog,
     required this.progress,
     required this.load,
+    this.loadGlossary = loadBundledGlossary,
   });
 
   final Catalog catalog;
   final ProgressStore progress;
   final LoadText load;
+  final LoadGlossary loadGlossary;
 
   @override
   State<StupeniApp> createState() => _StupeniAppState();
@@ -76,6 +80,14 @@ class _StupeniAppState extends State<StupeniApp> {
     );
   }
 
+  void _openGlossary(BuildContext context) {
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(
+        builder: (context) => GlossaryScreen(load: widget.loadGlossary),
+      ),
+    );
+  }
+
   void _openTrack(BuildContext context, Track track) {
     Navigator.of(context).push(
       MaterialPageRoute<void>(
@@ -109,6 +121,7 @@ class _StupeniAppState extends State<StupeniApp> {
         builder: (context) => HomeScreen(
           catalog: widget.catalog,
           progress: widget.progress,
+          onOpenGlossary: () => _openGlossary(context),
           onOpenLesson: (lesson) => _openLesson(context, lesson),
           onOpenTrack: (track) => _openTrack(context, track),
           onReset: () => _confirmReset(context),
