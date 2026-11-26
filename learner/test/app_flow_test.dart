@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stupeni/src/app.dart';
 import 'package:stupeni/src/models.dart';
+import 'package:stupeni/src/practice_history.dart';
 import 'package:stupeni/src/progress_store.dart';
 
 void main() {
@@ -88,7 +89,12 @@ void main() {
     tester,
   ) async {
     await tester.pumpWidget(
-      StupeniApp(catalog: catalog, progress: progress, load: load),
+      StupeniApp(
+        catalog: catalog,
+        progress: progress,
+        history: PracticeHistory(await SharedPreferences.getInstance()),
+        load: load,
+      ),
     );
     await tester.pumpAndSettle();
 
@@ -181,7 +187,12 @@ void main() {
     }
 
     await tester.pumpWidget(
-      StupeniApp(catalog: hintCatalog, progress: progress, load: hintLoad),
+      StupeniApp(
+        catalog: hintCatalog,
+        progress: progress,
+        history: PracticeHistory(await SharedPreferences.getInstance()),
+        load: hintLoad,
+      ),
     );
     await tester.pumpAndSettle();
     await tester.tap(find.byKey(const Key('start-lesson')));

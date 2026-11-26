@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -8,86 +7,68 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stupeni/src/app.dart';
 import 'package:stupeni/src/models.dart';
 import 'package:stupeni/src/practice.dart';
+import 'package:stupeni/src/practice_history.dart';
+import 'package:stupeni/src/practice_select.dart';
 import 'package:stupeni/src/progress_store.dart';
 import 'package:stupeni/src/screens/practice_screen.dart';
 
-Question _question(String id, {int correct = 0}) => Question(
-  id: id,
-  prompt: 'Вопрос $id',
-  options: ['a$id', 'b$id', 'c$id', 'd$id'],
-  correctIndex: correct,
-  explanation: 'Разбор $id',
+FillTask _fill(List<String> answers) => FillTask(
+  id: 'f',
+  prompt: 'Допиши',
+  code: 'val d = { x: Int -> x ___ 2 }',
+  answers: answers,
+  explanation: 'Разбор',
 );
-
-PracticeTopic _topic(String id) =>
-    PracticeTopic(id: id, title: 'Тема $id', subtitle: '', lessonIds: const []);
-
-Map<PracticeTopic, List<PracticeItem>> _pools(Map<String, int> sizes) {
-  return {
-    for (final entry in sizes.entries)
-      _topic(entry.key): [
-        for (var i = 0; i < entry.value; i++)
-          PracticeItem(
-            topic: _topic(entry.key),
-            lessonId: 'l-${entry.key}',
-            question: _question('${entry.key}-$i'),
-          ),
-      ],
-  };
-}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  group('микс', () {
-    test('соседние вопросы из разных тем и без повторов', () {
-      for (var seed = 0; seed < 30; seed++) {
-        final byTopic = _pools({'a': 6, 'b': 6, 'c': 2, 'd': 1});
-        final session = buildMixSession(byTopic, Random(seed));
-        expect(session, hasLength(practiceSessionLength));
-        for (var i = 1; i < session.length; i++) {
-          expect(session[i].topic, isNot(session[i - 1].topic));
-        }
-        final ids = session.map((e) => e.question.id).toSet();
-        expect(ids, hasLength(session.length));
-      }
+  group('допиши код: проверка ответа', () {
+    test('пробелы вокруг знаков и повторные пробелы не важны', () {
+      final task = _fill(['it * 2', 'x*2']);
+      expect(task.accepts('it * 2'), isTrue);
+      expect(task.accepts('  it*2 '), isTrue);
+      expect(task.accepts('it   *   2'), isTrue);
+      expect(task.accepts('x * 2'), isTrue);
+      expect(task.accepts('it * 3'), isFalse);
+      expect(task.accepts(''), isFalse);
+      expect(task.accepts('   '), isFalse);
     });
 
-    test('при достаточном числе тем каждая берётся один раз', () {
-      final byTopic = _pools({for (var i = 0; i < 12; i++) 't$i': 3});
-      final session = buildMixSession(byTopic, Random(1));
-      expect(session.map((e) => e.topic).toSet(), hasLength(session.length));
+    test('пробел между словами важен, регистр сохраняется', () {
+      final task = _fill(['val x']);
+      expect(task.accepts('val  x'), isTrue);
+      expect(task.accepts('valx'), isFalse);
+      expect(task.accepts('Val x'), isFalse);
+      expect(normalizeAnswer('git  switch -c'), 'git switch-c');
+      expect(normalizeAnswer(' a , b '), 'a,b');
     });
 
-    test('одна тема и пустые темы не ломают сессию', () {
-      final one = buildMixSession(_pools({'a': 4, 'b': 0}), Random(2));
-      expect(one, hasLength(4));
-      expect(buildMixSession(_pools({'a': 0}), Random(2)), isEmpty);
-    });
-  });
+    test('разбор файла банка: типы, id и пропуск проверяются', () {
+      String bank(String task) => '{"topicId":"t","tasks":[$task]}';
+      const choice =
+          '{"id":"t-c01","type":"choice","prompt":"в","options":["1","2","3","4"],'
+          '"correctIndex":1,"explanation":"р"}';
+      const fill =
+          '{"id":"t-f01","type":"fill","prompt":"в","code":"a ___","answers":["b"],'
+          '"explanation":"р","lang":"bash"}';
+      final tasks = parsePracticeBank(bank('$choice,$fill'), 't');
+      expect(tasks[0], isA<ChoiceTask>());
+      expect((tasks[1] as FillTask).lang, 'bash');
 
-  group('тема', () {
-    test('вопросы только из выбранной темы, без повторов, не больше длины', () {
-      final items = _pools({'a': 25})[_topic('a')]!;
-      final session = buildTopicSession(items, Random(3));
-      expect(session, hasLength(practiceSessionLength));
-      expect(session.map((e) => e.question.id).toSet(), hasLength(10));
-      expect(session.every((e) => e.topic.id == 'a'), isTrue);
-      expect(
-        buildTopicSession(items.take(3).toList(), Random(3)),
-        hasLength(3),
+      void bad(String json) => expect(
+        () => parsePracticeBank(bank(json), 't'),
+        throwsFormatException,
       );
-    });
-
-    test('перемешанные варианты сохраняют правильный ответ', () {
-      final items = _pools({'a': 10})[_topic('a')]!;
-      for (var seed = 0; seed < 20; seed++) {
-        for (final item in buildTopicSession(items, Random(seed))) {
-          final id = item.question.id;
-          expect(item.question.options[item.question.correctIndex], 'a$id');
-          expect(item.question.options.toSet(), hasLength(4));
-        }
-      }
+      bad('$choice,$choice');
+      bad(fill.replaceAll('a ___', 'a ___ ___'));
+      bad(fill.replaceAll('a ___', 'a'));
+      bad(fill.replaceAll('["b"]', '[]'));
+      bad(fill.replaceAll('"fill"', '"quiz"'));
+      expect(
+        () => parsePracticeBank(bank(choice), 'other'),
+        throwsFormatException,
+      );
     });
   });
 
@@ -113,144 +94,205 @@ void main() {
       expect(availableTopics(catalog), hasLength(practiceTopics.length));
     });
 
-    test('вопросы каждой темы читаются из ассетов', () async {
+    test('банк каждой темы: от 50 заданий, заметная доля «допиши»', () async {
+      final allIds = <String>{};
       for (final topic in practiceTopics) {
         final items = await loadTopicItems(catalog, topic, load);
-        expect(items, isNotEmpty, reason: topic.id);
-        expect(
-          items.map((e) => e.question.id).toSet(),
-          hasLength(items.length),
-        );
+        final fills = items.where((e) => e.task is FillTask).length;
+        expect(items.length, greaterThanOrEqualTo(50), reason: topic.id);
+        expect(fills, greaterThanOrEqualTo(15), reason: topic.id);
+        expect(fills / items.length, lessThan(0.5), reason: topic.id);
+        for (final item in items) {
+          expect(allIds.add(item.id), isTrue, reason: 'повтор ${item.id}');
+        }
       }
-      final all = await loadAllTopicItems(catalog, load);
-      expect(buildMixSession(all, Random(4)), hasLength(practiceSessionLength));
     });
 
-    testWidgets('главный экран ведёт в тему и в микс, прогресс не меняется', (
-      tester,
-    ) async {
-      SharedPreferences.setMockInitialValues({});
-      final progress = ProgressStore(await SharedPreferences.getInstance());
-      await tester.pumpWidget(
-        StupeniApp(catalog: catalog, progress: progress, load: load),
-      );
-      await tester.pumpAndSettle();
-
-      final topics = find.byKey(const Key('open-practice-topics'));
-      await tester.ensureVisible(topics);
-      await tester.tap(topics);
-      await tester.pumpAndSettle();
-      expect(find.text('Тренировка по теме'), findsOneWidget);
-      await tester.tap(find.byKey(const Key('practice-topic-lambdas')));
-      await tester.pump();
-      await tester.runAsync(
-        () => Future<void>.delayed(const Duration(seconds: 1)),
-      );
-      await tester.pumpAndSettle();
-      expect(find.textContaining('Лямбды: 1 из 10'), findsOneWidget);
-      expect(find.byKey(const Key('practice-topic-chip')), findsNothing);
-      Navigator.of(tester.element(find.textContaining('Лямбды: 1'))).pop();
-      await tester.pumpAndSettle();
-      Navigator.of(tester.element(find.text('Тренировка по теме'))).pop();
-      await tester.pumpAndSettle();
-
-      final mix = find.byKey(const Key('open-practice-mix'));
-      await tester.ensureVisible(mix);
-      await tester.tap(mix);
-      await tester.pump();
-      await tester.runAsync(
-        () => Future<void>.delayed(const Duration(seconds: 1)),
-      );
-      await tester.pumpAndSettle();
-      expect(find.textContaining('Микс: 1 из 10'), findsOneWidget);
-      expect(find.byKey(const Key('practice-topic-chip')), findsOneWidget);
-
-      expect(progress.studiedIds, isEmpty);
-      expect(progress.streak, 0);
-    });
-  });
-
-  group('экраны', () {
-    late Catalog catalog;
-
-    final quizzes = {
-      for (final id in ['a', 'b'])
-        '$id.quiz.json': jsonEncode({
-          'lessonId': id,
-          'questions': [
-            for (var i = 0; i < 3; i++)
-              {
-                'id': '$id-$i',
-                'prompt': 'Вопрос $id-$i',
-                'options': ['верно', 'x', 'y', 'z'],
-                'correctIndex': 0,
-                'explanation': 'Разбор $id-$i',
-              },
-          ],
-        }),
-    };
-
-    Future<String> load(String path) async => quizzes[path]!;
-
-    LessonRef lesson(String id) => LessonRef(
-      id: id,
-      title: 'Урок $id',
-      minutes: 5,
-      status: 'ready',
-      path: '$id.md',
-      quiz: '$id.quiz.json',
+    test(
+      'допустимые ответы «допиши» принимаются и не равны пропуску',
+      () async {
+        for (final topic in practiceTopics) {
+          for (final item in await loadTopicItems(catalog, topic, load)) {
+            final task = item.task;
+            if (task is! FillTask) continue;
+            expect(task.accepts(fillBlank), isFalse, reason: task.id);
+            for (final answer in task.answers) {
+              expect(task.accepts(answer), isTrue, reason: task.id);
+              expect(answer.length, lessThanOrEqualTo(60), reason: task.id);
+            }
+          }
+        }
+      },
     );
 
-    setUp(() async {
-      catalog = Catalog(
-        title: 'Ступени',
-        recommendedStart: 'a',
-        tracks: [
-          Track(
-            id: 't',
-            order: 1,
-            title: 'Трек',
-            subtitle: '',
-            status: 'ready',
-            summary: '',
-            lessons: [lesson('a'), lesson('b')],
-          ),
-        ],
-      );
+    test('сессии темы и микса собираются из ассетов', () async {
+      final topic = practiceTopics.firstWhere((t) => t.id == 'lambdas');
+      final items = await loadTopicItems(catalog, topic, load);
+      final session = buildSession({topic: items}, {}, Random(1));
+      expect(session, hasLength(practiceSessionLength));
+      final all = await loadAllTopicItems(catalog, load);
+      final mix = buildSession(all, {}, Random(4));
+      expect(mix, hasLength(practiceSessionLength));
+      for (var i = 1; i < mix.length; i++) {
+        expect(mix[i].topic, isNot(mix[i - 1].topic));
+      }
     });
 
-    testWidgets('тренировка по теме: проходит подход и не трогает прогресс', (
+    testWidgets(
+      'главный экран ведёт в тему и в микс, прогресс уроков не меняется',
+      (tester) async {
+        SharedPreferences.setMockInitialValues({});
+        final prefs = await SharedPreferences.getInstance();
+        final progress = ProgressStore(prefs);
+        await tester.pumpWidget(
+          StupeniApp(
+            catalog: catalog,
+            progress: progress,
+            history: PracticeHistory(prefs),
+            load: load,
+          ),
+        );
+        await tester.pumpAndSettle();
+
+        final topics = find.byKey(const Key('open-practice-topics'));
+        await tester.ensureVisible(topics);
+        await tester.pumpAndSettle();
+        await tester.tap(topics);
+        await tester.pumpAndSettle();
+        expect(find.text('Тренировка по теме'), findsOneWidget);
+        await tester.tap(find.byKey(const Key('practice-topic-lambdas')));
+        await tester.pump();
+        await tester.runAsync(
+          () => Future<void>.delayed(const Duration(seconds: 1)),
+        );
+        await tester.pumpAndSettle();
+        expect(find.textContaining('Лямбды: 1 из 10'), findsOneWidget);
+        expect(find.byKey(const Key('practice-topic-chip')), findsNothing);
+        Navigator.of(tester.element(find.textContaining('Лямбды: 1'))).pop();
+        await tester.pumpAndSettle();
+        Navigator.of(tester.element(find.text('Тренировка по теме'))).pop();
+        await tester.pumpAndSettle();
+
+        final mix = find.byKey(const Key('open-practice-mix'));
+        await tester.ensureVisible(mix);
+        await tester.pumpAndSettle();
+        await tester.tap(mix);
+        await tester.pump();
+        await tester.runAsync(
+          () => Future<void>.delayed(const Duration(seconds: 1)),
+        );
+        await tester.pumpAndSettle();
+        expect(find.textContaining('Микс: 1 из 10'), findsOneWidget);
+        expect(find.byKey(const Key('practice-topic-chip')), findsOneWidget);
+
+        expect(progress.studiedIds, isEmpty);
+        expect(progress.streak, 0);
+      },
+    );
+  });
+
+  group('экран подхода', () {
+    const topic = PracticeTopic(
+      id: 'x',
+      title: 'Тема',
+      subtitle: '',
+      lessonIds: [],
+    );
+
+    PracticeItem choice(String id) => PracticeItem(
+      topic: topic,
+      task: ChoiceTask(
+        Question(
+          id: id,
+          prompt: 'Вопрос $id',
+          options: const ['верно', 'x', 'y', 'z'],
+          correctIndex: 0,
+          explanation: 'Разбор $id',
+        ),
+      ),
+    );
+
+    PracticeItem fill(String id) => PracticeItem(
+      topic: topic,
+      task: FillTask(
+        id: id,
+        prompt: 'Допиши $id',
+        code: 'val d = { x: Int -> x ___ 2 }',
+        answers: const ['*', 'times'],
+        explanation: 'Разбор $id',
+      ),
+    );
+
+    testWidgets('выбор и «допиши»: ответы пишутся в историю, итог считается', (
       tester,
     ) async {
+      final recorded = <String, bool>{};
       await tester.pumpWidget(
         MaterialApp(
           home: PracticeSessionScreen(
             title: 'Тема',
-            buildSession: () async => buildTopicSession(
-              await loadTopicItems(
-                catalog,
-                const PracticeTopic(
-                  id: 'x',
-                  title: 'Тема',
-                  subtitle: '',
-                  lessonIds: ['a'],
-                ),
-                load,
-              ),
-              Random(1),
-            ),
+            buildSession: () async => [choice('c1'), fill('f1'), fill('f2')],
+            onAnswered: (item, correct) => recorded[item.id] = correct,
           ),
         ),
       );
       await tester.pumpAndSettle();
-      for (var i = 0; i < 3; i++) {
-        expect(find.textContaining('Вопрос a-'), findsOneWidget);
-        await tester.tap(find.text('верно'));
-        await tester.pumpAndSettle();
-        await tester.tap(find.byKey(const Key('practice-next')));
-        await tester.pumpAndSettle();
-      }
-      expect(find.text('Верно 3 из 3.'), findsOneWidget);
+
+      await tester.tap(find.text('верно'));
+      await tester.pumpAndSettle();
+      expect(find.text('Разбор c1'), findsOneWidget);
+      await tester.tap(find.byKey(const Key('practice-next')));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Допиши f1'), findsOneWidget);
+      expect(find.byKey(const Key('practice-code')), findsOneWidget);
+      final check = find.byKey(const Key('practice-fill-check'));
+      expect(tester.widget<FilledButton>(check).onPressed, isNull);
+      await tester.enterText(
+        find.byKey(const Key('practice-fill-input')),
+        '  *  ',
+      );
+      await tester.pump();
+      await tester.tap(check);
+      await tester.pumpAndSettle();
+      expect(find.text('Верно: *'), findsOneWidget);
+      expect(find.text('Разбор f1'), findsOneWidget);
+      await tester.tap(find.byKey(const Key('practice-next')));
+      await tester.pumpAndSettle();
+
+      await tester.enterText(
+        find.byKey(const Key('practice-fill-input')),
+        'plus',
+      );
+      await tester.pump();
+      await tester.tap(find.byKey(const Key('practice-fill-check')));
+      await tester.pumpAndSettle();
+      expect(find.text('Правильный ответ: *'), findsOneWidget);
+      await tester.tap(find.byKey(const Key('practice-next')));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Верно 2 из 3.'), findsOneWidget);
+      expect(recorded, {'c1': true, 'f1': true, 'f2': false});
+    });
+
+    testWidgets('«Не знаю» засчитывается ошибкой и показывает ответ', (
+      tester,
+    ) async {
+      final recorded = <String, bool>{};
+      await tester.pumpWidget(
+        MaterialApp(
+          home: PracticeSessionScreen(
+            title: 'Тема',
+            buildSession: () async => [fill('f1')],
+            onAnswered: (item, correct) => recorded[item.id] = correct,
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+      await tester.tap(find.byKey(const Key('practice-fill-giveup')));
+      await tester.pumpAndSettle();
+      expect(find.text('Правильный ответ: *'), findsOneWidget);
+      expect(recorded, {'f1': false});
     });
   });
 }

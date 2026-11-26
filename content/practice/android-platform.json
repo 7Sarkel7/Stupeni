@@ -1,0 +1,305 @@
+{
+  "topicId": "android-platform",
+  "tasks": [
+    {
+      "id": "android-platform-c01",
+      "type": "choice",
+      "prompt": "Пользователь нажал кнопку Home, и Activity (экран приложения) ушла в фон. Какие колбэки (методы, которые система вызывает сама) сработают?",
+      "options": [
+        "onPause, onStop и onDestroy",
+        "только onDestroy",
+        "onPause, затем onStop; onDestroy не вызывается",
+        "onStop, затем onPause"
+      ],
+      "correctIndex": 2,
+      "explanation": "Экран перестаёт быть виден: сначала onPause, потом onStop. Activity при этом остаётся в памяти, поэтому onDestroy не вызывается."
+    },
+    {
+      "id": "android-platform-c02",
+      "type": "choice",
+      "prompt": "В Activity (экране приложения) есть поле `var count = 0`. Пользователь увеличил его до 5 и повернул телефон. Других механизмов сохранения нет. Чему равен `count` после поворота?",
+      "options": [
+        "0: Activity пересоздана, поле инициализируется заново",
+        "5: поля Activity сохраняются автоматически",
+        "null: значение стирается",
+        "Приложение закрывается с ошибкой"
+      ],
+      "correctIndex": 0,
+      "explanation": "При повороте по умолчанию создаётся новый экземпляр Activity, и его поля получают начальные значения. Состояние хранят в ViewModel (объекте для данных экрана) или в SavedStateHandle (сохранённом состоянии экрана)."
+    },
+    {
+      "id": "android-platform-c03",
+      "type": "choice",
+      "prompt": "Чем колбэк (метод, который система вызывает сама) onPause отличается от onStop?",
+      "options": [
+        "onPause вызывается при закрытии приложения, onStop при повороте",
+        "onPause: экран потерял фокус, но ещё может быть виден; onStop: экран уже не виден",
+        "Это одно и то же, вызываются всегда вместе без различий",
+        "onPause можно использовать для долгой работы, onStop только для коротких действий"
+      ],
+      "correctIndex": 1,
+      "explanation": "onPause означает потерю фокуса: экран ещё может быть частично виден, например за диалогом. onStop вызывается, когда экран полностью скрыт. В onPause не делают тяжёлую работу."
+    },
+    {
+      "id": "android-platform-c04",
+      "type": "choice",
+      "prompt": "Какой из этих вызовов создаёт неявный Intent (объект-запрос на действие)?",
+      "options": [
+        "`Intent(this, SettingsActivity::class.java)`",
+        "`Intent(this, MainActivity::class.java).putExtra(\"id\", 5)`",
+        "`Intent(applicationContext, LampService::class.java)`",
+        "`Intent(Intent.ACTION_VIEW, Uri.parse(url))`"
+      ],
+      "correctIndex": 3,
+      "explanation": "Неявный Intent описывает действие и данные, а подходящее приложение выбирает система. Во всех остальных вариантах указан конкретный класс, то есть Intent явный."
+    },
+    {
+      "id": "android-platform-c05",
+      "type": "choice",
+      "prompt": "Вы добавили в приложение новый экран, класс `DetailActivity` (Activity), но запуск экрана падает с ActivityNotFoundException. Что, скорее всего, пропущено?",
+      "options": [
+        "Элемент `<activity>` внутри `<application>` в AndroidManifest.xml (манифесте, файле-описании приложения)",
+        "Строка в `build.gradle.kts` с именем класса",
+        "Запись в файле `libs.versions.toml`",
+        "Правило в `proguard-rules.pro`"
+      ],
+      "correctIndex": 0,
+      "explanation": "Каждый экран нужно объявить в манифесте. Без объявления система не найдёт Activity и бросит ActivityNotFoundException."
+    },
+    {
+      "id": "android-platform-c06",
+      "type": "choice",
+      "prompt": "Какое из этих разрешений опасное, то есть требует согласия пользователя во время работы приложения?",
+      "options": [
+        "INTERNET",
+        "VIBRATE",
+        "CAMERA",
+        "ACCESS_NETWORK_STATE"
+      ],
+      "correctIndex": 2,
+      "explanation": "Доступ к камере пользователь должен подтвердить. INTERNET, VIBRATE и ACCESS_NETWORK_STATE нормальные: их достаточно объявить в манифесте."
+    },
+    {
+      "id": "android-platform-c07",
+      "type": "choice",
+      "prompt": "Класс помечен `@Serializable` (его можно превращать в JSON и обратно): `@Serializable data class Cfg(val ip: String, val port: Int = 80)`. Что вернёт `Json.decodeFromString<Cfg>(text)` (разбор JSON-текста в объект) для текста `{\"ip\":\"1.2.3.4\"}`?",
+      "options": [
+        "Ошибку MissingFieldException: нет поля port",
+        "`Cfg(ip=1.2.3.4, port=80)`",
+        "`Cfg(ip=1.2.3.4, port=0)`",
+        "`Cfg(ip=1.2.3.4, port=null)`"
+      ],
+      "correctIndex": 1,
+      "explanation": "Значение по умолчанию делает поле необязательным: если его нет в JSON, подставляется 80. Тип Int не может стать null."
+    },
+    {
+      "id": "android-platform-c08",
+      "type": "choice",
+      "prompt": "Где правильно создавать лаунчер (объект запуска) через `registerForActivityResult` для запроса разрешения?",
+      "options": [
+        "Внутри обработчика нажатия кнопки, перед вызовом launch",
+        "В onStop, чтобы не мешать экрану",
+        "Внутри корутины, после первого отказа пользователя",
+        "Полем класса или в onCreate, а не в обработчике клика"
+      ],
+      "correctIndex": 3,
+      "explanation": "Регистрацию выполняют заранее: полем или в onCreate. Из клика остаётся только launch."
+    },
+    {
+      "id": "android-platform-c09",
+      "type": "choice",
+      "prompt": "Какое значение в `defaultConfig` (блоке общих настроек сборки) нельзя менять после публикации приложения в магазине, иначе это будет считаться другим приложением?",
+      "options": [
+        "applicationId",
+        "versionName",
+        "minSdk",
+        "versionCode"
+      ],
+      "correctIndex": 0,
+      "explanation": "applicationId служит идентификатором приложения в магазине. versionName и minSdk можно менять, versionCode только увеличивают."
+    },
+    {
+      "id": "android-platform-c10",
+      "type": "choice",
+      "prompt": "Что такое BroadcastReceiver?",
+      "options": [
+        "Компонент с экраном, который показывает уведомления",
+        "Компонент, который получает широковещательные сообщения (broadcast) от системы или приложений, например о низком заряде батареи",
+        "Класс для отправки HTTP-запросов в фоне",
+        "Хранилище данных, общее для всех приложений"
+      ],
+      "correctIndex": 1,
+      "explanation": "BroadcastReceiver принимает события, которые рассылают система или другие приложения. Экрана у него нет, и работает он очень короткое время."
+    },
+    {
+      "id": "android-platform-f01",
+      "type": "fill",
+      "prompt": "Допиши имя колбэка (метода, который система вызывает сама), срабатывающего, когда Activity (экран приложения) полностью перестала быть видна.",
+      "code": "override fun ___() {\n    println(\"экран скрыт\")\n}",
+      "answers": [
+        "onStop"
+      ],
+      "explanation": "onStop вызывается, когда экран больше не виден пользователю. До этого вызывается onPause."
+    },
+    {
+      "id": "android-platform-f02",
+      "type": "fill",
+      "prompt": "Допиши вызов метода родительского класса в колбэке, где Activity (экран) уничтожается, после остановки своей работы.",
+      "code": "override fun onDestroy() {\n    scope.cancel()\n    super.___()\n}",
+      "answers": [
+        "onDestroy"
+      ],
+      "explanation": "В переопределённом onDestroy нужно вызвать родительский onDestroy. Свою очистку, например отмену scope, делают рядом."
+    },
+    {
+      "id": "android-platform-f03",
+      "type": "fill",
+      "prompt": "Допиши запись, которая запускает экран DetailActivity явным Intent (объектом-запросом, где указан конкретный класс).",
+      "code": "startActivity(Intent(this, DetailActivity::___))",
+      "answers": [
+        "class.java"
+      ],
+      "explanation": "`DetailActivity::class.java` даёт Java-класс экрана, и Intent запускает именно его."
+    },
+    {
+      "id": "android-platform-f04",
+      "type": "fill",
+      "prompt": "Допиши имя функции, чтобы положить в Intent (объект-запрос на запуск экрана) число 42 под ключом id.",
+      "code": "val intent = Intent(this, DetailActivity::class.java)\nintent.___(\"id\", 42)\nstartActivity(intent)",
+      "answers": [
+        "putExtra"
+      ],
+      "explanation": "putExtra добавляет в Intent пару «ключ и значение». Принимающий экран прочитает её по тому же ключу."
+    },
+    {
+      "id": "android-platform-f05",
+      "type": "fill",
+      "prompt": "Допиши имя функции, которая читает из Intent (объекта-запроса) целое число по ключу id, а если ключа нет, возвращает 0.",
+      "code": "val id = intent.___(\"id\", 0)",
+      "answers": [
+        "getIntExtra"
+      ],
+      "explanation": "getIntExtra берёт Int по ключу, а второй параметр служит значением по умолчанию."
+    },
+    {
+      "id": "android-platform-f06",
+      "type": "fill",
+      "prompt": "Допиши имя функции, которая проверяет, выдано ли приложению разрешение CAMERA (камера).",
+      "code": "val granted = ContextCompat.___(this, Manifest.permission.CAMERA) ==\n    PackageManager.PERMISSION_GRANTED",
+      "answers": [
+        "checkSelfPermission"
+      ],
+      "explanation": "checkSelfPermission возвращает PERMISSION_GRANTED, если разрешение уже выдано. Запрашивают его только если оно не выдано."
+    },
+    {
+      "id": "android-platform-f07",
+      "type": "fill",
+      "prompt": "Допиши имя готового контракта (класса-описания запроса) для запроса одного разрешения.",
+      "code": "private val askCamera = registerForActivityResult(\n    ActivityResultContracts.___()\n) { granted ->\n    if (granted) openCamera() else showWhyNeeded()\n}",
+      "answers": [
+        "RequestPermission"
+      ],
+      "explanation": "RequestPermission запрашивает одно разрешение и передаёт в лямбду Boolean: выдали или нет."
+    },
+    {
+      "id": "android-platform-f08",
+      "type": "fill",
+      "prompt": "Допиши имя функции лаунчера (объекта запуска запроса), которая показывает системный диалог запроса разрешения CAMERA.",
+      "code": "findViewById<View>(R.id.cameraButton).setOnClickListener {\n    askCamera.___(Manifest.permission.CAMERA)\n}",
+      "answers": [
+        "launch"
+      ],
+      "explanation": "Метод launch запускает запрос. Результат придёт в лямбду, переданную в registerForActivityResult."
+    },
+    {
+      "id": "android-platform-f09",
+      "type": "fill",
+      "prompt": "Допиши имя метода Activity, который возвращает true, когда после отказа стоит объяснить пользователю, зачем нужно разрешение.",
+      "code": "if (___(Manifest.permission.CAMERA)) {\n    showExplanation()\n}",
+      "answers": [
+        "shouldShowRequestPermissionRationale"
+      ],
+      "explanation": "shouldShowRequestPermissionRationale возвращает true после первого отказа. Тогда показывают объяснение и можно спросить ещё раз."
+    },
+    {
+      "id": "android-platform-f10",
+      "type": "fill",
+      "prompt": "Допиши имя метода, который после подключения по BLE (энергоэкономичному Bluetooth) запускает поиск сервисов GATT (структуры данных устройства).",
+      "code": "override fun onConnectionStateChange(gatt: BluetoothGatt, status: Int, newState: Int) {\n    if (newState == BluetoothProfile.STATE_CONNECTED) {\n        gatt.___()\n    }\n}",
+      "answers": [
+        "discoverServices"
+      ],
+      "explanation": "discoverServices ищет сервисы и характеристики устройства. Результат придёт в onServicesDiscovered, и только после него можно писать в характеристики."
+    },
+    {
+      "id": "android-platform-f11",
+      "type": "fill",
+      "prompt": "Допиши значение, которое включает R8 (инструмент, который сжимает код и запутывает в нём имена) для сборки release.",
+      "code": "buildTypes {\n    release {\n        isMinifyEnabled = ___\n    }\n}",
+      "answers": [
+        "true"
+      ],
+      "explanation": "isMinifyEnabled = true включает R8: код сжимается и обфусцируется. После этого release-сборку нужно проверить вручную."
+    },
+    {
+      "id": "android-platform-f12",
+      "type": "fill",
+      "prompt": "Допиши имя свойства, которое добавляет суффикс к applicationId (уникальному идентификатору приложения), чтобы debug и release можно было установить рядом.",
+      "code": "buildTypes {\n    debug {\n        ___ = \".debug\"\n    }\n}",
+      "answers": [
+        "applicationIdSuffix"
+      ],
+      "explanation": "applicationIdSuffix дописывает суффикс к applicationId, поэтому debug-версия считается отдельным приложением."
+    },
+    {
+      "id": "android-platform-f13",
+      "type": "fill",
+      "prompt": "Допиши имя функции, которая читает пароль подписи из переменной окружения (настройки, заданной вне кода), чтобы он не попал в git.",
+      "code": "signingConfigs {\n    create(\"release\") {\n        storePassword = System.___(\"RELEASE_STORE_PASSWORD\")\n    }\n}",
+      "answers": [
+        "getenv"
+      ],
+      "explanation": "System.getenv возвращает значение переменной окружения. Пароли лежат вне репозитория, и в build.gradle.kts их только читают."
+    },
+    {
+      "id": "android-platform-f14",
+      "type": "fill",
+      "prompt": "Допиши имя опции Json, чтобы null или неизвестное значение enum (перечисления) заменялись значением по умолчанию.",
+      "code": "val json = Json { ___ = true }",
+      "answers": [
+        "coerceInputValues"
+      ],
+      "explanation": "coerceInputValues подставляет значение по умолчанию вместо null или неизвестного значения enum. У поля такое значение должно быть задано."
+    },
+    {
+      "id": "android-platform-f15",
+      "type": "fill",
+      "prompt": "Допиши имя аннотации (пометки над полем), которая связывает поле uptimeMs с именем uptime_ms в JSON.",
+      "code": "@Serializable\ndata class Status(\n    @___(\"uptime_ms\") val uptimeMs: Long,\n)",
+      "answers": [
+        "SerialName"
+      ],
+      "explanation": "@SerialName задаёт имя поля в JSON, а в Kotlin можно использовать привычное имя в camelCase."
+    },
+    {
+      "id": "android-platform-f16",
+      "type": "fill",
+      "prompt": "Допиши имя функции, которая разбирает JSON-строку text в объект Status.",
+      "code": "val json = Json { ignoreUnknownKeys = true }\nval text = \"{\\\"ip\\\":\\\"1.2.3.4\\\"}\"\nval status = json.___<Status>(text)",
+      "answers": [
+        "decodeFromString"
+      ],
+      "explanation": "decodeFromString превращает строку JSON в объект указанного типа. Обратная операция называется encodeToString."
+    },
+    {
+      "id": "android-platform-f17",
+      "type": "fill",
+      "prompt": "Допиши вызов, которым Service (компонент без экрана для фоновой работы) останавливает сам себя после окончания передачи.",
+      "code": "scope.launch {\n    transfer()\n    ___()\n}",
+      "answers": [
+        "stopSelf"
+      ],
+      "explanation": "stopSelf останавливает сервис. Foreground service должен завершаться, как только работа закончена."
+    }
+  ]
+}

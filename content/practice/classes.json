@@ -1,0 +1,503 @@
+{
+  "topicId": "classes",
+  "tasks": [
+    {
+      "id": "classes-c01",
+      "type": "choice",
+      "prompt": "Чем отличается параметр первичного конструктора (список параметров в заголовке класса) с `val` от параметра без `val`: `class A(val x: Int)` и `class A(x: Int)`?",
+      "options": [
+        "Первый класс неизменяемый, второй изменяемый",
+        "В первом x становится свойством и доступен как a.x; во втором x — только параметр конструктора",
+        "Второй вариант не скомпилируется без val",
+        "Разницы нет: в обоих случаях a.x доступен снаружи"
+      ],
+      "correctIndex": 1,
+      "explanation": "Только `val` или `var` превращают параметр в свойство класса. Без них параметр виден лишь внутри инициализации класса."
+    },
+    {
+      "id": "classes-c02",
+      "type": "choice",
+      "prompt": "Что напечатает код?\n\nclass Box(val n: Int) {\n    init { println(\"init $n\") }\n}\nfun main() {\n    println(\"start\")\n    Box(3)\n    println(\"end\")\n}",
+      "options": [
+        "start, init 3, end",
+        "init 3, start, end",
+        "start, end, init 3",
+        "start, end"
+      ],
+      "correctIndex": 0,
+      "explanation": "Блок `init` выполняется при создании объекта, то есть во время `Box(3)`, между двумя println."
+    },
+    {
+      "id": "classes-c03",
+      "type": "choice",
+      "prompt": "Почему этот код не компилируется?\n\nclass Animal { fun speak() = \"...\" }\nclass Dog : Animal()",
+      "options": [
+        "Dog должен быть data class",
+        "У Animal нет первичного конструктора",
+        "Функция speak должна быть abstract",
+        "Классы в Kotlin по умолчанию final: Animal нужно пометить open"
+      ],
+      "correctIndex": 3,
+      "explanation": "Наследоваться можно только от класса с модификатором `open` (или `abstract`). Без него класс закрыт для наследования."
+    },
+    {
+      "id": "classes-c04",
+      "type": "choice",
+      "prompt": "Что напечатает код?\n\ndata class P(val x: Int, val y: Int)\nfun main() {\n    println(P(1, 2) == P(1, 2))\n    println(P(1, 2) === P(1, 2))\n}",
+      "options": [
+        "true, затем true",
+        "false, затем false",
+        "true, затем false",
+        "false, затем true"
+      ],
+      "correctIndex": 2,
+      "explanation": "У data class `==` сравнивает поля, а `===` проверяет, один ли это объект в памяти. Здесь объекты разные."
+    },
+    {
+      "id": "classes-c06",
+      "type": "choice",
+      "prompt": "Что напечатает код?\n\ndata class User(val name: String, val age: Int)\nfun main() {\n    val a = User(\"Аня\", 20)\n    val b = a.copy(age = 21)\n    println(a)\n    println(b)\n}",
+      "options": [
+        "User(name=Аня, age=20) и User(name=Аня, age=21)",
+        "User(name=Аня, age=21) дважды",
+        "User(name=Аня, age=20) дважды",
+        "Дважды User@ и число (адрес объекта)"
+      ],
+      "correctIndex": 0,
+      "explanation": "`copy` создаёт новый объект с заменой указанных полей, исходный не меняется. `toString` data class печатает все поля."
+    },
+    {
+      "id": "classes-c07",
+      "type": "choice",
+      "prompt": "Деструктуризация (разложение объекта на переменные). Что напечатает код?\n\ndata class P(val x: Int, val y: Int)\nfun main() {\n    val (a, b) = P(3, 7)\n    println(b - a)\n}",
+      "options": [
+        "-4",
+        "10",
+        "Ошибка компиляции",
+        "4"
+      ],
+      "correctIndex": 3,
+      "explanation": "Переменные берут значения по порядку полей конструктора: a = 3, b = 7, разность 4."
+    },
+    {
+      "id": "classes-c08",
+      "type": "choice",
+      "prompt": "Что напечатает код?\n\nenum class Level { Low, Mid, High }\nfun main() {\n    println(Level.High.ordinal)\n}",
+      "options": [
+        "3",
+        "1",
+        "2",
+        "High"
+      ],
+      "correctIndex": 2,
+      "explanation": "`ordinal` — номер значения в списке, начиная с нуля: Low = 0, Mid = 1, High = 2."
+    },
+    {
+      "id": "classes-c09",
+      "type": "choice",
+      "prompt": "Что произойдёт при вызове `Level.valueOf(\"Medium\")`, если в `enum class Level` есть только Low, Mid и High?",
+      "options": [
+        "Вернётся null",
+        "Исключение IllegalArgumentException: такого значения нет",
+        "Вернётся ближайшее значение Mid",
+        "Ошибка компиляции"
+      ],
+      "correctIndex": 1,
+      "explanation": "`valueOf` ищет значение по точному имени и бросает исключение (ошибку времени выполнения), если не нашёл. Для безопасного поиска пользуются `entries.firstOrNull { ... }`."
+    },
+    {
+      "id": "classes-c10",
+      "type": "choice",
+      "prompt": "Функция `fun text(r: Reply): String = when (r) { ... }` разбирает все варианты sealed interface (запечатанного интерфейса). Что будет, если добавить в `Reply` новый вариант, не трогая `when`, где нет `else`?",
+      "options": [
+        "Ошибка компиляции: when должен покрыть все варианты",
+        "Код соберётся, а новый вариант молча даст пустую строку",
+        "Код соберётся, но упадёт при запуске с ClassCastException",
+        "Компилятор подставит ветку else сам"
+      ],
+      "correctIndex": 0,
+      "explanation": "У sealed все наследники известны компилятору, поэтому он проверяет `when` на полноту. Из-за `else` эта проверка бы пропала."
+    },
+    {
+      "id": "classes-c11",
+      "type": "choice",
+      "prompt": "Что напечатает код?\n\nobject Counter {\n    var n = 0\n    fun inc() = ++n\n}\nfun main() {\n    Counter.inc()\n    Counter.inc()\n    println(Counter.inc())\n}",
+      "options": [
+        "1",
+        "0",
+        "Ошибка компиляции: сначала нужно написать Counter()",
+        "3"
+      ],
+      "correctIndex": 3,
+      "explanation": "`object` — единственный экземпляр, он создаётся сам и хранит состояние между вызовами. Три вызова дают 3."
+    },
+    {
+      "id": "classes-c13",
+      "type": "choice",
+      "prompt": "Что означает модификатор видимости `internal` в Kotlin?",
+      "options": [
+        "Объявление видно только внутри своего файла",
+        "Объявление видно только внутри одного модуля (отдельной части проекта со своей сборкой)",
+        "Объявление видно только потомкам класса",
+        "Объявление видно из любого кода, включая другие приложения"
+      ],
+      "correctIndex": 1,
+      "explanation": "`internal` — граница модуля. Файл ограничивает `private` на верхнем уровне, потомков — `protected`."
+    },
+    {
+      "id": "classes-c14",
+      "type": "choice",
+      "prompt": "Сколько интерфейсов может реализовать один класс Kotlin и от скольких классов он может наследоваться?",
+      "options": [
+        "Реализовать можно сколько угодно интерфейсов, наследоваться — только от одного класса",
+        "Только один интерфейс и один класс",
+        "Сколько угодно и интерфейсов, и классов",
+        "Только один интерфейс, но сколько угодно классов"
+      ],
+      "correctIndex": 0,
+      "explanation": "Множественного наследования классов в Kotlin нет, а интерфейсы можно комбинировать: `class A : B(), I1, I2`."
+    },
+    {
+      "id": "classes-c16",
+      "type": "choice",
+      "prompt": "Почему этот код не компилируется?\n\nopen class A { open fun hi() = 1 }\nclass B : A() {\n    fun hi() = 2\n}",
+      "options": [
+        "Нужно убрать open у функции hi",
+        "Класс B тоже должен быть open",
+        "Перед fun hi в классе B нужно написать override",
+        "Функция hi должна возвращать Unit"
+      ],
+      "correctIndex": 2,
+      "explanation": "Переопределение метода предка нужно явно помечать `override`. Так компилятор ловит случайные совпадения имён."
+    },
+    {
+      "id": "classes-c17",
+      "type": "choice",
+      "prompt": "Что напечатает код?\n\ninterface Greeter {\n    fun hello() = \"Привет\"\n}\nclass Friendly : Greeter\nfun main() {\n    println(Friendly().hello())\n}",
+      "options": [
+        "Ошибка компиляции: Friendly обязан переопределить hello",
+        "Привет",
+        "Пустая строка",
+        "Greeter"
+      ],
+      "correctIndex": 1,
+      "explanation": "У метода интерфейса может быть реализация по умолчанию. Класс вправе её не переопределять."
+    },
+    {
+      "id": "classes-c18",
+      "type": "choice",
+      "prompt": "Какой тип выведет Kotlin для `val b = Box(\"станция\")`, если объявлено `class Box<T>(val value: T)` (T — параметр типа)?",
+      "options": [
+        "Box<String>",
+        "Box<Any>",
+        "Box<T>",
+        "Box<Nothing>"
+      ],
+      "correctIndex": 0,
+      "explanation": "Компилятор подставляет T по переданному значению: строка даёт String. Писать `Box<String>(...)` вручную не нужно."
+    },
+    {
+      "id": "classes-c19",
+      "type": "choice",
+      "prompt": "Почему обобщённая функция (с параметром типа T) `fun <T> twice(x: T) = x + x` не компилируется?",
+      "options": [
+        "Обобщённые функции в Kotlin запрещены",
+        "Параметр типа нужно писать с маленькой буквы",
+        "Не указан тип возвращаемого значения",
+        "О типе T ничего не известно, поэтому оператор + для него не определён"
+      ],
+      "correctIndex": 3,
+      "explanation": "Без ограничения T может быть любым типом, в том числе без `+`. Операции допустимы только те, что есть у верхней границы типа (самого общего допустимого типа; по умолчанию `Any?`)."
+    },
+    {
+      "id": "classes-c20",
+      "type": "choice",
+      "prompt": "Что напечатает код?\n\nfun main() {\n    val n = try { \"12a\".toInt() } catch (e: NumberFormatException) { -1 }\n    println(n)\n}",
+      "options": [
+        "12",
+        "0",
+        "-1",
+        "Ошибка компиляции: try нельзя присваивать"
+      ],
+      "correctIndex": 2,
+      "explanation": "`try` — выражение, его значение берётся из блока try или из сработавшего catch. `\"12a\"` не число, поэтому сработал catch."
+    },
+    {
+      "id": "classes-c21",
+      "type": "choice",
+      "prompt": "Что напечатает код?\n\nfun f(): Int {\n    try {\n        return 1\n    } finally {\n        println(\"finally\")\n    }\n}\nfun main() {\n    println(f())\n}",
+      "options": [
+        "Сначала 1, затем finally",
+        "Сначала finally, затем 1",
+        "Только 1",
+        "Ошибка компиляции: return нельзя внутри try"
+      ],
+      "correctIndex": 1,
+      "explanation": "Блок `finally` выполняется всегда, даже перед выходом по `return`. Поэтому слово печатается раньше, чем main выведет результат."
+    },
+    {
+      "id": "classes-c22",
+      "type": "choice",
+      "prompt": "Что произойдёт при выполнении `val s: String? = null; requireNotNull(s) { \"нужна строка\" }`?",
+      "options": [
+        "Бросится IllegalArgumentException с текстом «нужна строка»",
+        "Бросится NullPointerException с текстом «нужна строка»",
+        "Ничего: вернётся null",
+        "Бросится IllegalStateException"
+      ],
+      "correctIndex": 0,
+      "explanation": "`requireNotNull` проверяет аргумент на null и бросает IllegalArgumentException с вашим сообщением. Это понятнее, чем голый `!!`."
+    },
+    {
+      "id": "classes-c23",
+      "type": "choice",
+      "prompt": "Что напечатает код (runCatching выполняет блок и не даёт исключению прервать программу)?",
+      "options": [
+        "x",
+        "-1",
+        "Программа упадёт с NumberFormatException",
+        "0"
+      ],
+      "correctIndex": 3,
+      "explanation": "`runCatching` ловит исключение и кладёт его в Result. `getOrDefault(0)` возвращает 0, если результат — ошибка."
+    },
+    {
+      "id": "classes-c24",
+      "type": "choice",
+      "prompt": "Что напечатает код?\n\nfun main() {\n    val r = runCatching { \"42\".toInt() }\n    println(r.fold(onSuccess = { it + 1 }, onFailure = { -1 }))\n}",
+      "options": [
+        "42",
+        "-1",
+        "43",
+        "Ошибка компиляции"
+      ],
+      "correctIndex": 2,
+      "explanation": "Разбор прошёл успешно, значит выполняется `onSuccess`: 42 + 1 = 43. `onFailure` вызвался бы только при исключении."
+    },
+    {
+      "id": "classes-c25",
+      "type": "choice",
+      "prompt": "Какая запись объявляет собственное исключение (ошибку своего типа)?",
+      "options": [
+        "exception class NoNetworkException(message: String)",
+        "class NoNetworkException(message: String) : Exception(message)",
+        "class NoNetworkException { throws Exception }",
+        "class NoNetworkException : throw Exception()"
+      ],
+      "correctIndex": 1,
+      "explanation": "Своё исключение — обычный класс-наследник `Exception` (или `RuntimeException`). Сообщение передаётся в конструктор предка."
+    },
+    {
+      "id": "classes-f01",
+      "type": "fill",
+      "prompt": "Сделай `name` свойством класса, чтобы строка `u.name` сработала и напечатала имя.",
+      "code": "class User(___ name: String)\nval u = User(\"Аня\")\nprintln(u.name)",
+      "answers": [
+        "val",
+        "var"
+      ],
+      "explanation": "Ключевое слово `val` в первичном конструкторе превращает параметр в свойство только для чтения. `var` тоже подойдёт, но свойство станет изменяемым."
+    },
+    {
+      "id": "classes-f02",
+      "type": "fill",
+      "prompt": "Разреши наследоваться от `Animal`, чтобы `Cat` мог его расширить: код должен напечатать «...» и «мяу».",
+      "code": "___ class Animal { open fun sound() = \"...\" }\nclass Cat : Animal() { override fun sound() = \"мяу\" }\nprintln(Animal().sound())\nprintln(Cat().sound())",
+      "answers": [
+        "open"
+      ],
+      "explanation": "Классы Kotlin закрыты по умолчанию. Модификатор `open` разрешает наследование. Animal здесь создаётся напрямую, поэтому `abstract` не подходит."
+    },
+    {
+      "id": "classes-f03",
+      "type": "fill",
+      "prompt": "Допиши модификатор, чтобы `Square` реализовал метод `area` интерфейса (контракта) `Shape`.",
+      "code": "interface Shape { fun area(): Int }\nclass Square(val side: Int) : Shape {\n    ___ fun area() = side * side\n}\nfun main() {\n    println(Square(3).area())\n}",
+      "answers": [
+        "override"
+      ],
+      "explanation": "Метод интерфейса в классе помечается `override`. Тогда `Square(3).area()` напечатает 9."
+    },
+    {
+      "id": "classes-f04",
+      "type": "fill",
+      "prompt": "Допиши модификатор перед `class`, чтобы две точки с одинаковыми x и y считались равными (сравнение по полям): код должен напечатать true.",
+      "code": "___ class Point(val x: Int, val y: Int)\nprintln(Point(1, 2) == Point(1, 2))",
+      "answers": [
+        "data"
+      ],
+      "explanation": "У `data class` компилятор сам генерирует `equals`, поэтому два объекта с равными полями равны."
+    },
+    {
+      "id": "classes-f06",
+      "type": "fill",
+      "prompt": "Допиши имя функции, которую data class генерирует для второго поля. Нужно получить y, как это делает деструктуризация (разложение объекта на переменные) `val (a, b) = p`.",
+      "code": "data class Point(val x: Int, val y: Int)\nval p = Point(3, 4)\nval second = p.___()\nprintln(second)",
+      "answers": [
+        "component2"
+      ],
+      "explanation": "Для поля номер N data class создаёт `componentN()`. Деструктуризация вызывает их по порядку: `component1()` даёт x, `component2()` — y."
+    },
+    {
+      "id": "classes-f08",
+      "type": "fill",
+      "prompt": "Допиши слово, чтобы ветка проверяла тип варианта: `Reply.Ok` несёт данные, поэтому нужна проверка типа.",
+      "code": "sealed interface Reply {\n    data class Ok(val body: String) : Reply\n    data object NoNetwork : Reply\n}\nfun text(r: Reply): String = when (r) {\n    ___ Reply.Ok -> \"ок\"\n    Reply.NoNetwork -> \"нет связи\"\n}",
+      "answers": [
+        "is"
+      ],
+      "explanation": "Для варианта с данными в `when` пишут `is Тип`. Внутри такой ветки `r` уже приведён к `Reply.Ok`. Одиночный `object` сравнивают без `is`."
+    },
+    {
+      "id": "classes-f09",
+      "type": "fill",
+      "prompt": "Объяви одиночку: единственный экземпляр, у которого вызывается `Logger.log(\"hi\")`.",
+      "code": "___ Logger {\n    fun log(msg: String) = println(msg)\n}\nfun main() {\n    Logger.log(\"hi\")\n}",
+      "answers": [
+        "object"
+      ],
+      "explanation": "`object` объявляет класс с единственным экземпляром, который доступен по имени без `()`."
+    },
+    {
+      "id": "classes-f10",
+      "type": "fill",
+      "prompt": "Допиши модификатор, чтобы `Device.create(\"1.2.3.4\")` вызывалась без создания экземпляра класса.",
+      "code": "class Device private constructor(val ip: String) {\n    ___ object {\n        fun create(ip: String) = Device(ip)\n    }\n}\nfun main() {\n    val d = Device.create(\"1.2.3.4\")\n    println(d.ip)\n}",
+      "answers": [
+        "companion"
+      ],
+      "explanation": "Функции внутри `companion object` вызывают через имя класса, как статику. Это обычный приём для фабрики при приватном конструкторе."
+    },
+    {
+      "id": "classes-f11",
+      "type": "fill",
+      "prompt": "Допиши модификатор, чтобы `Shape` нельзя было создать напрямую, а метод `area` без тела обязаны были реализовать потомки.",
+      "code": "___ class Shape {\n    abstract fun area(): Int\n}\nclass Square(val side: Int) : Shape() {\n    override fun area() = side * side\n}\nfun main() {\n    println(Square(2).area())\n}",
+      "answers": [
+        "abstract",
+        "sealed"
+      ],
+      "explanation": "Метод без тела допустим только в `abstract` классе. Потомок обязан его реализовать, а сам Shape создать нельзя."
+    },
+    {
+      "id": "classes-f12",
+      "type": "fill",
+      "prompt": "Допиши ограничение типа: функция должна принимать любые числа (Int, Double и т.п.) и складывать их как Double.",
+      "code": "fun <T : ___> sum(a: T, b: T): Double = a.toDouble() + b.toDouble()\nprintln(sum(1, 2))",
+      "answers": [
+        "Number"
+      ],
+      "explanation": "`Number` — общий предок числовых типов, у него есть `toDouble()`. Ограничение `T : Number` разрешает вызывать эти методы."
+    },
+    {
+      "id": "classes-f14",
+      "type": "fill",
+      "prompt": "Допиши слово блока, который выполнится в любом случае, даже при исключении (например, чтобы закрыть ресурс).",
+      "code": "try {\n    println(\"работа\")\n} ___ {\n    println(\"закрыть\")\n}",
+      "answers": [
+        "finally"
+      ],
+      "explanation": "Блок `finally` выполняется и при успехе, и при ошибке. В нём обычно освобождают ресурсы."
+    },
+    {
+      "id": "classes-f15",
+      "type": "fill",
+      "prompt": "Допиши слово, чтобы при отрицательном возрасте код бросал исключение IllegalArgumentException.",
+      "code": "fun setAge(age: Int) {\n    if (age < 0) ___ IllegalArgumentException(\"возраст < 0\")\n}\nsetAge(5)",
+      "answers": [
+        "throw"
+      ],
+      "explanation": "`throw` бросает исключение. Без него объект исключения был бы просто создан и никуда не передан."
+    },
+    {
+      "id": "classes-f16",
+      "type": "fill",
+      "prompt": "Допиши функцию, которая оборачивает возможное исключение в Result (объект с успехом или ошибкой); код должен напечатать true.",
+      "code": "val r = ___ { \"x\".toInt() }\nprintln(r.isFailure)",
+      "answers": [
+        "runCatching"
+      ],
+      "explanation": "`runCatching` выполняет блок и возвращает `Result`: успех со значением или ошибку с исключением. `isFailure` здесь true."
+    },
+    {
+      "id": "classes-f17",
+      "type": "fill",
+      "prompt": "Допиши функцию проверки аргумента: при `percent` вне диапазона 0..100 она должна бросить IllegalArgumentException с этим сообщением.",
+      "code": "fun setVolume(percent: Int) {\n    ___(percent in 0..100) { \"громкость 0..100\" }\n}\nsetVolume(50)",
+      "answers": [
+        "require"
+      ],
+      "explanation": "`require` проверяет аргументы функции и бросает IllegalArgumentException. Для проверки состояния объекта есть `check`."
+    },
+    {
+      "id": "classes-c26",
+      "type": "choice",
+      "prompt": "Что напечатает код (свойство с геттером — собственной функцией чтения значения)?\n\nclass Counter {\n    var n = 0\n    val doubled: Int get() = n * 2\n}\nfun main() {\n    val c = Counter()\n    c.n = 5\n    println(c.doubled)\n}",
+      "options": [
+        "0",
+        "5",
+        "10",
+        "Ошибка компиляции: val нельзя вычислять"
+      ],
+      "correctIndex": 2,
+      "explanation": "Геттер вычисляется при каждом обращении к свойству, а не один раз при создании. На момент вызова `n` равно 5, поэтому `doubled` даёт 10."
+    },
+    {
+      "id": "classes-c27",
+      "type": "choice",
+      "prompt": "Как объявить свойство `count`, чтобы его можно было читать снаружи класса, а менять только внутри него?",
+      "options": [
+        "`protected var count = 0`",
+        "`val count = 0`, тогда внутри класса его всё равно можно менять",
+        "`var count = 0` и ниже строка `private set`",
+        "`private var count = 0`"
+      ],
+      "correctIndex": 2,
+      "explanation": "Приватный сеттер (функция записи значения) оставляет чтение открытым, а запись разрешает только внутри класса. `private var` скрыл бы и чтение, а `val` вообще нельзя изменить."
+    },
+    {
+      "id": "classes-c28",
+      "type": "choice",
+      "prompt": "Что напечатает код (`error(...)` бросает исключение с сообщением, а `exceptionOrNull()` достаёт его из `Result`)?\n\nfun main() {\n    val r = runCatching { error(\"boom\") }\n    println(r.exceptionOrNull()?.message)\n}",
+      "options": [
+        "null",
+        "boom",
+        "Программа упадёт с IllegalStateException",
+        "kotlin.Unit"
+      ],
+      "correctIndex": 1,
+      "explanation": "`error(\"boom\")` бросает IllegalStateException, `runCatching` его перехватывает. `message` исключения — переданный текст `boom`."
+    },
+    {
+      "id": "classes-f18",
+      "type": "fill",
+      "prompt": "Допиши ключевое слово, чтобы у `Point` появился второй конструктор без параметров, создающий точку (0, 0).",
+      "code": "class Point(val x: Int, val y: Int) {\n    ___() : this(0, 0)\n}\nprintln(Point().x)",
+      "answers": [
+        "constructor"
+      ],
+      "explanation": "Дополнительный (вторичный) конструктор объявляется словом `constructor` и должен вызывать основной через `this(...)`. `Point().x` равно 0."
+    },
+    {
+      "id": "classes-f19",
+      "type": "fill",
+      "prompt": "Допиши свойство enum-класса (перечисления) со списком всех его значений, чтобы вывелось 2.",
+      "code": "enum class Dir { Up, Down }\nfun main() {\n    println(Dir.___.size)\n}",
+      "answers": [
+        "entries",
+        "values()"
+      ],
+      "explanation": "`entries` возвращает список всех значений перечисления: `Up` и `Down`, их 2. Старый вариант `values()` возвращает массив и тоже подходит."
+    },
+    {
+      "id": "classes-f20",
+      "type": "fill",
+      "prompt": "Допиши имя метода, который нужно переопределить, чтобы `println(User(\"Аня\"))` печатал «User Аня», а не адрес объекта.",
+      "code": "class User(val name: String) {\n    override fun ___() = \"User $name\"\n}\nprintln(User(\"Аня\"))",
+      "answers": [
+        "toString"
+      ],
+      "explanation": "`println` вызывает `toString()` объекта. У обычного класса он по умолчанию печатает имя и адрес, а переопределение (`override`) задаёт нужный текст."
+    }
+  ]
+}

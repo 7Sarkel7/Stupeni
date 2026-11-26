@@ -4,6 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stupeni/src/app.dart';
 import 'package:stupeni/src/models.dart';
+import 'package:stupeni/src/practice_history.dart';
 import 'package:stupeni/src/progress_store.dart';
 
 void main() {
@@ -23,6 +24,7 @@ void main() {
       StupeniApp(
         catalog: catalog,
         progress: progress,
+        history: PracticeHistory(await SharedPreferences.getInstance()),
         load: (path) => rootBundle.loadString('assets/content/$path'),
       ),
     );

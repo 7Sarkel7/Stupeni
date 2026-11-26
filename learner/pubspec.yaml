@@ -74,6 +74,7 @@ flutter:
     - assets/content/android-cis/
     - assets/content/kotlin-core/
     - assets/content/android-core/
+    - assets/content/practice/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

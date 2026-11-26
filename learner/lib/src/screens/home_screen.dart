@@ -93,7 +93,7 @@ class HomeScreen extends StatelessWidget {
                   Text('Тренировка', style: theme.textTheme.titleMedium),
                   const SizedBox(height: 4),
                   Text(
-                    'Короткие вопросы вне маршрута. Прогресс уроков не меняется.',
+                    'Короткие задания вне маршрута. Прогресс уроков не меняется.',
                     style: theme.textTheme.bodyMedium,
                   ),
                   const SizedBox(height: 12),

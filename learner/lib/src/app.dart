@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 
 import 'models.dart';
 import 'practice.dart';
+import 'practice_history.dart';
+import 'practice_select.dart';
 import 'progress_store.dart';
 import 'screens/home_screen.dart';
 import 'screens/lesson_screen.dart';
@@ -15,11 +17,13 @@ class StupeniApp extends StatefulWidget {
     super.key,
     required this.catalog,
     required this.progress,
+    required this.history,
     required this.load,
   });
 
   final Catalog catalog;
   final ProgressStore progress;
+  final PracticeHistory history;
   final LoadText load;
 
   @override
@@ -49,7 +53,7 @@ class _StupeniAppState extends State<StupeniApp> {
       builder: (context) => AlertDialog(
         title: const Text('Сбросить прогресс?'),
         content: const Text(
-          'Отметки «изучил», проценты проверок и серия дней сотрутся с этого устройства.',
+          'Отметки «изучил», проценты проверок, серия дней и история тренировки сотрутся с этого устройства.',
         ),
         actions: [
           TextButton(
@@ -63,7 +67,10 @@ class _StupeniAppState extends State<StupeniApp> {
         ],
       ),
     );
-    if (yes == true) await widget.progress.reset();
+    if (yes == true) {
+      await widget.history.reset();
+      await widget.progress.reset();
+    }
   }
 
   void _openLesson(BuildContext context, LessonRef lesson) {
@@ -92,6 +99,10 @@ class _StupeniAppState extends State<StupeniApp> {
     );
   }
 
+  void _recordAnswer(PracticeItem item, bool correct) {
+    widget.history.record(item.id, correct: correct);
+  }
+
   void _openPracticeTopics(BuildContext context) {
     Navigator.of(context).push(
       MaterialPageRoute<void>(
@@ -108,8 +119,10 @@ class _StupeniAppState extends State<StupeniApp> {
       MaterialPageRoute<void>(
         builder: (context) => PracticeSessionScreen(
           title: topic.title,
-          buildSession: () async => buildTopicSession(
-            await loadTopicItems(widget.catalog, topic, widget.load),
+          onAnswered: _recordAnswer,
+          buildSession: () async => buildSession(
+            {topic: await loadTopicItems(widget.catalog, topic, widget.load)},
+            widget.history.stats,
             Random(),
           ),
         ),
@@ -123,8 +136,10 @@ class _StupeniAppState extends State<StupeniApp> {
         builder: (context) => PracticeSessionScreen(
           title: 'Микс',
           showTopic: true,
-          buildSession: () async => buildMixSession(
+          onAnswered: _recordAnswer,
+          buildSession: () async => buildSession(
             await loadAllTopicItems(widget.catalog, widget.load),
+            widget.history.stats,
             Random(),
           ),
         ),

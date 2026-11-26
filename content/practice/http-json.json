@@ -1,0 +1,442 @@
+{
+  "topicId": "http-json",
+  "tasks": [
+    {
+      "id": "http-json-c01",
+      "type": "choice",
+      "prompt": "Какой HTTP-метод по смыслу только читает данные и ничего не меняет на сервере?",
+      "options": [
+        "POST",
+        "PUT",
+        "GET",
+        "DELETE"
+      ],
+      "correctIndex": 2,
+      "explanation": "GET запрашивает данные и не меняет состояние сервера. POST, PUT и DELETE создают, заменяют или удаляют."
+    },
+    {
+      "id": "http-json-c02",
+      "type": "choice",
+      "prompt": "Сервер успешно создал новую запись после POST и хочет сообщить об этом точным кодом. Какой код подходит?",
+      "options": [
+        "201 Created",
+        "200 OK без тела",
+        "301 Moved Permanently",
+        "404 Not Found"
+      ],
+      "correctIndex": 0,
+      "explanation": "201 говорит, что ресурс создан. 200 тоже успех, но 201 точнее; 301 — это перенаправление, 404 — ресурса нет."
+    },
+    {
+      "id": "http-json-c03",
+      "type": "choice",
+      "prompt": "Какой код ответа означает «успешно, но тела в ответе нет», например после DELETE?",
+      "options": [
+        "200 OK с текстом OK",
+        "400 Bad Request",
+        "500 Internal Server Error",
+        "204 No Content"
+      ],
+      "correctIndex": 3,
+      "explanation": "204 — успех без тела. 200 тоже успех, но обычно с содержимым; 400 и 500 — ошибки."
+    },
+    {
+      "id": "http-json-c04",
+      "type": "choice",
+      "prompt": "Что означает код 404 Not Found?",
+      "options": [
+        "Нужно войти в аккаунт",
+        "Сервер на связи, но ресурса по этому адресу нет",
+        "Сервер упал при обработке запроса",
+        "Метод не подходит для этого адреса"
+      ],
+      "correctIndex": 1,
+      "explanation": "404 — «по такому пути ничего нет». Вход в аккаунт — это 401, сбой сервера — 5xx, неподходящий метод — 405."
+    },
+    {
+      "id": "http-json-c05",
+      "type": "choice",
+      "prompt": "Чем код 401 отличается от 403?",
+      "options": [
+        "401 — клиент не подтвердил, кто он; 403 — личность известна, но доступ запрещён",
+        "401 — ресурса нет, 403 — ресурс удалён",
+        "401 — сбой сервера, 403 — плохой запрос",
+        "Ничем: это два названия одной и той же ошибки"
+      ],
+      "correctIndex": 0,
+      "explanation": "401 лечится входом или новым токеном, 403 — только другими правами. Повторять запрос без изменений бесполезно в обоих случаях."
+    },
+    {
+      "id": "http-json-c06",
+      "type": "choice",
+      "prompt": "Дан URL `https://api.example.com:8080/v1/items?limit=5`. Какая его часть — хост?",
+      "options": [
+        "https",
+        "/v1/items",
+        "limit=5",
+        "api.example.com"
+      ],
+      "correctIndex": 3,
+      "explanation": "Хост — это имя сервера. `https` — схема, `8080` — порт, `/v1/items` — путь, `limit=5` — query."
+    },
+    {
+      "id": "http-json-c07",
+      "type": "choice",
+      "prompt": "Как в URL записать два параметра query: limit равен 5 и page равен 2?",
+      "options": [
+        "?limit=5,page=2",
+        "?limit=5&page=2",
+        "?limit=5?page=2",
+        "?limit=5/page=2"
+      ],
+      "correctIndex": 1,
+      "explanation": "Query начинается с `?`, а параметры разделяются знаком `&`. Запятая, второй `?` или слэш дадут другой смысл."
+    },
+    {
+      "id": "http-json-c08",
+      "type": "choice",
+      "prompt": "Какой заголовок сообщает серверу, что в теле запроса лежит JSON?",
+      "options": [
+        "Accept: text/plain",
+        "Authorization: application/json",
+        "Content-Type: application/json",
+        "Content-Length: json"
+      ],
+      "correctIndex": 2,
+      "explanation": "Content-Type описывает формат тела, которое вы отправляете. Accept, наоборот, говорит, какой формат ответа вы готовы принять."
+    },
+    {
+      "id": "http-json-c09",
+      "type": "choice",
+      "prompt": "Как обычно передают токен доступа (строку-пропуск, выданную сервером) в запросе к API?",
+      "options": [
+        "Bearer-Auth: Authorization abc123",
+        "Content-Type: Bearer abc123",
+        "Accept: Bearer abc123",
+        "Authorization: Bearer abc123"
+      ],
+      "correctIndex": 3,
+      "explanation": "Токен кладут в заголовок Authorization со словом Bearer. В Content-Type и Accept пишут форматы данных, а не токены."
+    },
+    {
+      "id": "http-json-c10",
+      "type": "choice",
+      "prompt": "Какая запись — корректный JSON?",
+      "options": [
+        "{name: \"Ann\"}",
+        "{\"name\": \"Ann\"}",
+        "{'name': 'Ann'}",
+        "{\"name\": \"Ann\",}"
+      ],
+      "correctIndex": 1,
+      "explanation": "Ключи и строки в JSON берут в двойные кавычки, а запятая после последнего элемента запрещена."
+    },
+    {
+      "id": "http-json-c11",
+      "type": "choice",
+      "prompt": "Чем в JSON запись `\"age\": \"30\"` отличается от `\"age\": 30`?",
+      "options": [
+        "Ничем: кавычки вокруг чисел необязательны",
+        "Первое значение — число, второе — строка",
+        "Первое значение — строка, второе — число",
+        "Первая запись допустима, вторая — синтаксическая ошибка"
+      ],
+      "correctIndex": 2,
+      "explanation": "Кавычки превращают значение в строку. Строгий парсер (программа-разборщик) не станет считать `\"30\"` числом."
+    },
+    {
+      "id": "http-json-c12",
+      "type": "choice",
+      "prompt": "Дан JSON `{\"user\": {\"name\": \"Ann\", \"tags\": [\"a\", \"b\"]}}`. Какое значение у `user.tags[1]`?",
+      "options": [
+        "a",
+        "Ann",
+        "[\"a\", \"b\"]",
+        "b"
+      ],
+      "correctIndex": 3,
+      "explanation": "Индексы массива начинаются с нуля, поэтому `tags[0]` — это `a`, а `tags[1]` — `b`."
+    },
+    {
+      "id": "http-json-c13",
+      "type": "choice",
+      "prompt": "Что означает `{\"nick\": null}` в JSON?",
+      "options": [
+        "Ключа nick в объекте нет",
+        "Ключ nick есть, но значения у него нет",
+        "Значение — строка из четырёх букв null",
+        "Объект невалиден: null в JSON писать нельзя"
+      ],
+      "correctIndex": 1,
+      "explanation": "`null` — явное «значения нет». Это не то же самое, что отсутствие ключа, и не строка: кавычек у него нет."
+    },
+    {
+      "id": "http-json-c14",
+      "type": "choice",
+      "prompt": "Программа превращает объект `User` в строку JSON, чтобы отправить её на сервер. Как называется это действие?",
+      "options": [
+        "Сериализация",
+        "Парсинг (разбор текста в объект)",
+        "Авторизация",
+        "Кэширование"
+      ],
+      "correctIndex": 0,
+      "explanation": "Объект в текст — сериализация. Обратное действие, текст в объект, называют парсингом или десериализацией."
+    },
+    {
+      "id": "http-json-c15",
+      "type": "choice",
+      "prompt": "Чем в OkHttp (библиотеке для HTTP-запросов в Android) отличаются `execute()` и `enqueue()`? Callback — это функция, которую вызовут позже, когда придёт ответ.",
+      "options": [
+        "execute() не ждёт ответа и использует callback, enqueue() ждёт на месте",
+        "execute() только для GET, enqueue() только для POST",
+        "execute() ждёт ответа на месте, enqueue() не ждёт и сообщает о результате через callback",
+        "Разницы нет: это два имени одного вызова"
+      ],
+      "correctIndex": 2,
+      "explanation": "execute() синхронный и блокирует код, который его вызвал, поэтому из кода, который рисует экран Android, его не вызывают. enqueue() работает в фоне."
+    },
+    {
+      "id": "http-json-c16",
+      "type": "choice",
+      "prompt": "Когда `response.isSuccessful` в OkHttp (библиотеке для HTTP-запросов в Android) вернёт true?",
+      "options": [
+        "Только если код равен 200",
+        "Если тело ответа не пустое",
+        "Если соединение установилось, каким бы ни был код",
+        "Если код ответа в диапазоне 200–299"
+      ],
+      "correctIndex": 3,
+      "explanation": "isSuccessful проверяет весь диапазон 2xx, включая 201 и 204. Код 404 или 503 с текстом в теле успехом не считается."
+    },
+    {
+      "id": "http-json-c17",
+      "type": "choice",
+      "prompt": "Запрос завис и оборвался по таймауту, ответа нет. Какой из этих запросов безопаснее всего автоматически повторить?",
+      "options": [
+        "GET /orders",
+        "POST /orders",
+        "POST /payments",
+        "POST /messages/send"
+      ],
+      "correctIndex": 0,
+      "explanation": "GET идемпотентен (повтор не меняет итог): ещё один запрос ничего не испортит. Повтор POST может создать второй заказ, платёж или сообщение, если первый запрос дошёл."
+    },
+    {
+      "id": "http-json-c18",
+      "type": "choice",
+      "prompt": "Сервер без предупреждения переименовал в ответе поле `name` в `title`, и приложение перестало показывать имена. Что нарушено?",
+      "options": [
+        "Идемпотентность метода",
+        "Контракт API (договорённость о путях, полях и кодах)",
+        "Сертификат TLS",
+        "Таймаут чтения"
+      ],
+      "correctIndex": 1,
+      "explanation": "Контракт фиксирует, как выглядят запросы и ответы. Менять его в одиночку нельзя: клиент рассчитывает на старые имена полей."
+    },
+    {
+      "id": "http-json-c19",
+      "type": "choice",
+      "prompt": "Сервер вернул 500 на запрос, который выглядит правильно. Что это значит?",
+      "options": [
+        "Клиент прислал неверный JSON",
+        "Клиенту нужно войти в аккаунт",
+        "Сбой на стороне сервера; сам запрос не обязательно плохой",
+        "Такого адреса не существует"
+      ],
+      "correctIndex": 2,
+      "explanation": "5xx — ошибки сервера. Плохой запрос — это 4xx: 400 для неверного JSON, 401 для входа, 404 для несуществующего адреса."
+    },
+    {
+      "id": "http-json-f01",
+      "type": "fill",
+      "prompt": "Допиши значение ключа `name`: строка Ann (в двойных кавычках).",
+      "code": "{\"name\": ___, \"age\": 30}",
+      "answers": [
+        "\"Ann\""
+      ],
+      "explanation": "Строки в JSON пишут в двойных кавычках, поэтому значение — `\"Ann\"`. Без кавычек парсер не примет запись.",
+      "lang": "json"
+    },
+    {
+      "id": "http-json-f02",
+      "type": "fill",
+      "prompt": "Допиши логическое значение «истина» для ключа `active`.",
+      "code": "{\"active\": ___}",
+      "answers": [
+        "true"
+      ],
+      "explanation": "Логические значения JSON — `true` и `false` строчными буквами и без кавычек. В кавычках это была бы строка.",
+      "lang": "json"
+    },
+    {
+      "id": "http-json-f03",
+      "type": "fill",
+      "prompt": "Допиши значение ключа `tags`: массив из двух строк, `a` и `b`.",
+      "code": "{\"tags\": ___}",
+      "answers": [
+        "[\"a\", \"b\"]"
+      ],
+      "explanation": "Массив пишут в квадратных скобках, элементы разделяют запятыми. Строки внутри — в двойных кавычках.",
+      "lang": "json"
+    },
+    {
+      "id": "http-json-f04",
+      "type": "fill",
+      "prompt": "Закрой массив, чтобы JSON стал корректным.",
+      "code": "{\"items\": [1, 2, 3___}",
+      "answers": [
+        "]"
+      ],
+      "explanation": "Каждой открывающей `[` нужна закрывающая `]`. После неё объект закрывается фигурной скобкой.",
+      "lang": "json"
+    },
+    {
+      "id": "http-json-f05",
+      "type": "fill",
+      "prompt": "Между полями пропущен разделитель. Впиши его.",
+      "code": "{\"id\": 1___ \"title\": \"Buy milk\"}",
+      "answers": [
+        ","
+      ],
+      "explanation": "Пары «ключ: значение» в объекте разделяют запятой. Запятая после последней пары, наоборот, запрещена.",
+      "lang": "json"
+    },
+    {
+      "id": "http-json-f06",
+      "type": "fill",
+      "prompt": "У пользователя нет ника. Впиши значение JSON, которое означает «значения нет».",
+      "code": "{\"nick\": ___}",
+      "answers": [
+        "null"
+      ],
+      "explanation": "`null` пишут строчными буквами без кавычек. Это явное «пусто», а не строка и не отсутствие ключа.",
+      "lang": "json"
+    },
+    {
+      "id": "http-json-f07",
+      "type": "fill",
+      "prompt": "Впиши метод запроса, которым удаляют запись с id 15.",
+      "code": "___ /v1/items/15 HTTP/1.1\nHost: api.example.com",
+      "answers": [
+        "DELETE"
+      ],
+      "explanation": "DELETE удаляет ресурс, адрес которого указан в запросе. Метод пишут заглавными буквами в начале первой строки.",
+      "lang": "http"
+    },
+    {
+      "id": "http-json-f08",
+      "type": "fill",
+      "prompt": "Клиент хочет получить ответ в формате JSON. Впиши значение заголовка Accept.",
+      "code": "GET /v1/items HTTP/1.1\nHost: api.example.com\nAccept: ___",
+      "answers": [
+        "application/json"
+      ],
+      "explanation": "Accept сообщает серверу, в каком формате клиент хочет получить ответ. Для JSON это `application/json`.",
+      "lang": "http"
+    },
+    {
+      "id": "http-json-f09",
+      "type": "fill",
+      "prompt": "Впиши слово (схему), которое ставят перед токеном доступа (строкой-пропуском от сервера) в заголовке Authorization.",
+      "code": "GET /v1/me HTTP/1.1\nHost: api.example.com\nAuthorization: ___ abc123",
+      "answers": [
+        "Bearer",
+        "bearer"
+      ],
+      "explanation": "Схема Bearer означает «предъявитель токена»: у кого токен, тот и получает доступ. Заголовок выглядит так: `Authorization: Bearer <токен>`.",
+      "lang": "http"
+    },
+    {
+      "id": "http-json-f10",
+      "type": "fill",
+      "prompt": "Клиент прислал JSON с синтаксической ошибкой, и сервер отвечает, что запрос некорректен. Впиши код статуса, подходящий к тексту Bad Request.",
+      "code": "HTTP/1.1 ___ Bad Request\nContent-Type: application/json\n\n{\"error\": \"invalid json\"}",
+      "answers": [
+        "400"
+      ],
+      "explanation": "400 Bad Request: сервер не может принять запрос из-за ошибки клиента. Повторять такой запрос без исправления бесполезно.",
+      "lang": "http"
+    },
+    {
+      "id": "http-json-f11",
+      "type": "fill",
+      "prompt": "Сервер перегружен и временно не может обработать запрос. Впиши код статуса, подходящий к тексту Service Unavailable.",
+      "code": "HTTP/1.1 ___ Service Unavailable\nRetry-After: 30",
+      "answers": [
+        "503"
+      ],
+      "explanation": "503 — сервер временно недоступен. Заголовок Retry-After подсказывает, через сколько секунд можно повторить запрос.",
+      "lang": "http"
+    },
+    {
+      "id": "http-json-f12",
+      "type": "fill",
+      "prompt": "Впиши схему URL для защищённого соединения.",
+      "code": "___://api.example.com/v1/items",
+      "answers": [
+        "https"
+      ],
+      "explanation": "Схема https — это HTTP поверх шифрования TLS. Схема `http` отправляет данные открытым текстом.",
+      "lang": "http"
+    },
+    {
+      "id": "http-json-f13",
+      "type": "fill",
+      "prompt": "Допиши имя настройки OkHttp (библиотеки для HTTP-запросов в Android): максимальное ожидание очередных данных ответа от сервера.",
+      "code": "val client = OkHttpClient.Builder()\n    .connectTimeout(5, TimeUnit.SECONDS)\n    .___(10, TimeUnit.SECONDS)\n    .build()",
+      "answers": [
+        "readTimeout"
+      ],
+      "explanation": "readTimeout ограничивает паузу при чтении ответа. connectTimeout, в отличие от него, относится только к установке соединения.",
+      "lang": "kotlin"
+    },
+    {
+      "id": "http-json-f14",
+      "type": "fill",
+      "prompt": "Допиши метод Builder (конструктора запроса), который добавляет заголовок Authorization с токеном.",
+      "code": "val request = Request.Builder()\n    .url(\"https://api.example.com/v1/me\")\n    .___(\"Authorization\", \"Bearer abc123\")\n    .build()",
+      "answers": [
+        "header",
+        "addHeader"
+      ],
+      "explanation": "`header` ставит заголовок, заменяя прежний с тем же именем; `addHeader` добавляет ещё одно значение. Для Authorization нужен один.",
+      "lang": "kotlin"
+    },
+    {
+      "id": "http-json-f15",
+      "type": "fill",
+      "prompt": "Допиши свойство ответа, которое возвращает числовой код статуса (например, 200 или 404).",
+      "code": "client.newCall(request).execute().use { response ->\n    println(response.___)\n}",
+      "answers": [
+        "code"
+      ],
+      "explanation": "code хранит числовой код статуса ответа. Блок use закрывает ответ после чтения.",
+      "lang": "kotlin"
+    },
+    {
+      "id": "http-json-f16",
+      "type": "fill",
+      "prompt": "Допиши метод, который читает всё тело ответа как строку.",
+      "code": "client.newCall(request).execute().use { response ->\n    val text = response.body?.___()\n    println(text)\n}",
+      "answers": [
+        "string"
+      ],
+      "explanation": "string() читает тело целиком и закрывает его, поэтому второй раз его вызвать нельзя.",
+      "lang": "kotlin"
+    },
+    {
+      "id": "http-json-f17",
+      "type": "fill",
+      "prompt": "Допиши функцию-расширение, которая превращает строку `application/json` в тип содержимого (MediaType) для тела запроса.",
+      "code": "val url = \"https://api.example.com/v1/items\"\nval body = \"{\\\"title\\\":\\\"Milk\\\"}\".toRequestBody(\"application/json\".___())\nval request = Request.Builder().url(url).post(body).build()",
+      "answers": [
+        "toMediaType",
+        "toMediaTypeOrNull"
+      ],
+      "explanation": "toMediaType() превращает строку в MediaType, а toRequestBody создаёт из JSON-строки тело запроса. Метод POST передаёт это тело на сервер.",
+      "lang": "kotlin"
+    }
+  ]
+}

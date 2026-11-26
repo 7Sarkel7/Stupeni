@@ -1,11 +1,10 @@
-import 'dart:math';
+import 'dart:convert';
 
 import 'models.dart';
 
-// Тренировка вне маршрута: вопросы берутся из готовых проверок уроков.
-// Прогресс уроков (лучший процент, «изучил») здесь не меняется.
-
-const practiceSessionLength = 10;
+// Тренировка вне маршрута. Банк темы — вопросы проверок её уроков плюс
+// отдельные задания из content/practice/<тема>.json. Прогресс уроков
+// (лучший процент, «изучил») здесь не меняется.
 
 class PracticeTopic {
   const PracticeTopic({
@@ -139,17 +138,148 @@ const practiceTopics = <PracticeTopic>[
   ),
 ];
 
-/// Один вопрос тренировки вместе с темой, из которой он взят.
-class PracticeItem {
-  const PracticeItem({
-    required this.topic,
-    required this.lessonId,
-    required this.question,
+/// Задание тренировки: вопрос с выбором или «допиши код».
+sealed class PracticeTask {
+  const PracticeTask();
+
+  String get id;
+  String get prompt;
+  String get explanation;
+}
+
+class ChoiceTask extends PracticeTask {
+  const ChoiceTask(this.question);
+
+  final Question question;
+
+  @override
+  String get id => question.id;
+
+  @override
+  String get prompt => question.prompt;
+
+  @override
+  String get explanation => question.explanation;
+}
+
+const fillBlank = '___';
+
+/// Фрагмент кода с одним пропуском. Ответ проверяется по списку допустимых.
+class FillTask extends PracticeTask {
+  const FillTask({
+    required this.id,
+    required this.prompt,
+    required this.code,
+    required this.answers,
+    required this.explanation,
+    this.lang = 'kotlin',
   });
 
+  @override
+  final String id;
+  @override
+  final String prompt;
+  @override
+  final String explanation;
+  final String code;
+  final List<String> answers;
+  final String lang;
+
+  /// Ответ, который показывают пользователю.
+  String get shownAnswer => answers.first;
+
+  bool accepts(String input) {
+    final value = normalizeAnswer(input);
+    if (value.isEmpty) return false;
+    return answers.any((answer) => normalizeAnswer(answer) == value);
+  }
+
+  static FillTask fromJson(Map<String, dynamic> json) {
+    final id = _text(json, 'id');
+    final code = _text(json, 'code');
+    if (RegExp(fillBlank).allMatches(code).length != 1) {
+      throw FormatException('задание $id: в code нужен ровно один $fillBlank');
+    }
+    final raw = json['answers'];
+    if (raw is! List || raw.isEmpty) {
+      throw FormatException('задание $id: нет answers');
+    }
+    final answers = raw.map((e) => e.toString()).toList();
+    if (answers.any((a) => normalizeAnswer(a).isEmpty)) {
+      throw FormatException('задание $id: пустой ответ');
+    }
+    return FillTask(
+      id: id,
+      prompt: _text(json, 'prompt'),
+      code: code,
+      answers: answers,
+      explanation: _text(json, 'explanation'),
+      lang: json['lang'] is String ? json['lang'] as String : 'kotlin',
+    );
+  }
+}
+
+/// Пробелы вокруг знаков препинания и операторов не важны, повторные пробелы
+/// схлопываются, регистр сохраняется: `it*2` и `it  *  2` совпадают, а
+/// `val x` и `valx` нет.
+String normalizeAnswer(String input) {
+  final collapsed = input.trim().replaceAll(RegExp(r'\s+'), ' ');
+  return collapsed.replaceAllMapped(
+    RegExp(r'\s*([^\p{L}\p{N}_\s])\s*', unicode: true),
+    (match) => match.group(1)!,
+  );
+}
+
+/// Разбор файла content/practice/<тема>.json.
+List<PracticeTask> parsePracticeBank(String raw, String topicId) {
+  final decoded = jsonDecode(raw);
+  if (decoded is! Map<String, dynamic>) {
+    throw FormatException('practice/$topicId: корень должен быть объектом');
+  }
+  if (decoded['topicId'] != topicId) {
+    throw FormatException('practice/$topicId: другой topicId');
+  }
+  final list = decoded['tasks'];
+  if (list is! List) throw FormatException('practice/$topicId: нет tasks');
+  final seen = <String>{};
+  final tasks = <PracticeTask>[];
+  for (final item in list) {
+    if (item is! Map<String, dynamic>) {
+      throw FormatException('practice/$topicId: задание не объект');
+    }
+    final type = item['type'];
+    final PracticeTask task;
+    if (type == 'choice') {
+      task = ChoiceTask(Question.fromJson(item));
+    } else if (type == 'fill') {
+      task = FillTask.fromJson(item);
+    } else {
+      throw FormatException('practice/$topicId: тип $type');
+    }
+    if (!seen.add(task.id)) {
+      throw FormatException('practice/$topicId: повтор ${task.id}');
+    }
+    tasks.add(task);
+  }
+  return tasks;
+}
+
+String _text(Map<String, dynamic> json, String key) {
+  final value = json[key];
+  if (value is! String || value.trim().isEmpty) {
+    throw FormatException('поле $key пустое');
+  }
+  return value;
+}
+
+/// Одно задание вместе с темой, из которой оно взято.
+class PracticeItem {
+  const PracticeItem({required this.topic, required this.task});
+
   final PracticeTopic topic;
-  final String lessonId;
-  final Question question;
+  final PracticeTask task;
+
+  String get id => task.id;
 }
 
 /// Готовые уроки темы, у которых есть файл проверки.
@@ -170,28 +300,34 @@ List<PracticeTopic> availableTopics(Catalog catalog) => [
     if (topicLessons(catalog, topic).isNotEmpty) topic,
 ];
 
+/// Весь банк темы: вопросы проверок уроков и задания из practice/.
 Future<List<PracticeItem>> loadTopicItems(
   Catalog catalog,
   PracticeTopic topic,
   Future<String> Function(String relativePath) load,
 ) async {
   final lessons = topicLessons(catalog, topic);
-  final quizzes = await Future.wait([
+  final results = await Future.wait([
     for (final lesson in lessons) load(lesson.quiz!),
+    load('practice/${topic.id}.json'),
   ]);
-  final items = <PracticeItem>[];
+  final tasks = <PracticeTask>[];
   for (var i = 0; i < lessons.length; i++) {
-    final quiz = Quiz.parse(quizzes[i]);
-    for (final question in quiz.questions) {
-      items.add(
-        PracticeItem(topic: topic, lessonId: lessons[i].id, question: question),
-      );
+    for (final question in Quiz.parse(results[i]).questions) {
+      tasks.add(ChoiceTask(question));
     }
   }
-  return items;
+  tasks.addAll(parsePracticeBank(results.last, topic.id));
+  final seen = <String>{};
+  for (final task in tasks) {
+    if (!seen.add(task.id)) {
+      throw FormatException('тема ${topic.id}: повтор id ${task.id}');
+    }
+  }
+  return [for (final task in tasks) PracticeItem(topic: topic, task: task)];
 }
 
-/// Вопросы всех доступных тем, сгруппированные по теме.
+/// Банки всех доступных тем.
 Future<Map<PracticeTopic, List<PracticeItem>>> loadAllTopicItems(
   Catalog catalog,
   Future<String> Function(String relativePath) load,
@@ -201,69 +337,4 @@ Future<Map<PracticeTopic, List<PracticeItem>>> loadAllTopicItems(
     for (final topic in topics) loadTopicItems(catalog, topic, load),
   ]);
   return {for (var i = 0; i < topics.length; i++) topics[i]: loaded[i]};
-}
-
-/// Тренировка по теме: случайные вопросы одной темы без повторов.
-List<PracticeItem> buildTopicSession(
-  List<PracticeItem> items,
-  Random random, {
-  int length = practiceSessionLength,
-}) {
-  final shuffled = [...items]..shuffle(random);
-  return [
-    for (final item in shuffled.take(length)) _shuffleOptions(item, random),
-  ];
-}
-
-/// Микс: каждый следующий вопрос из другой темы, чем предыдущий.
-/// Сначала берётся тема, из которой вопросов задано меньше всего, поэтому
-/// при достаточном числе тем подряд идущие вопросы не повторяют тему
-/// и вся сессия обходит разные темы. Вопросы не повторяются.
-List<PracticeItem> buildMixSession(
-  Map<PracticeTopic, List<PracticeItem>> byTopic,
-  Random random, {
-  int length = practiceSessionLength,
-}) {
-  final pools = <PracticeTopic, List<PracticeItem>>{
-    for (final entry in byTopic.entries)
-      if (entry.value.isNotEmpty)
-        entry.key: ([...entry.value]..shuffle(random)),
-  };
-  final used = <PracticeTopic, int>{for (final topic in pools.keys) topic: 0};
-  final session = <PracticeItem>[];
-  PracticeTopic? previous;
-  while (session.length < length) {
-    var candidates = [
-      for (final entry in pools.entries)
-        if (entry.value.isNotEmpty) entry.key,
-    ];
-    if (candidates.isEmpty) break;
-    if (candidates.length > 1 && previous != null) {
-      candidates = candidates.where((topic) => topic != previous).toList();
-    }
-    final least = candidates.map((topic) => used[topic]!).reduce(min);
-    final fewest = candidates.where((topic) => used[topic] == least).toList();
-    final topic = fewest[random.nextInt(fewest.length)];
-    session.add(_shuffleOptions(pools[topic]!.removeLast(), random));
-    used[topic] = used[topic]! + 1;
-    previous = topic;
-  }
-  return session;
-}
-
-PracticeItem _shuffleOptions(PracticeItem item, Random random) {
-  final question = item.question;
-  final order = List<int>.generate(question.options.length, (i) => i)
-    ..shuffle(random);
-  return PracticeItem(
-    topic: item.topic,
-    lessonId: item.lessonId,
-    question: Question(
-      id: question.id,
-      prompt: question.prompt,
-      options: [for (final i in order) question.options[i]],
-      correctIndex: order.indexOf(question.correctIndex),
-      explanation: question.explanation,
-    ),
-  );
 }
